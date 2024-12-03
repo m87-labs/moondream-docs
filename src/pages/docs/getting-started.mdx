@@ -1,0 +1,753 @@
+# Getting Started with Moondream
+
+Moondream is a powerful vision-language model that enables you to analyze images, generate captions, and answer questions about visual content.
+
+## Prerequisites
+
+- Python 3.8+
+- NVIDIA GPU with CUDA support (recommended)
+- Microsoft Visual C++ Redistributable 2019 ([Download here](https://aka.ms/vs/16/release/vc_redist.x64.exe))
+- ~2GB disk space for model weights
+
+## Installation & Setup
+
+import { Tabs } from 'nextra/components'
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ### 1. Install Moondream
+    ```bash
+    pip install moondream
+    ```
+
+    ### 2. Install PyTorch with CUDA Support
+    ```bash
+    pip3 install torch==2.5.1+cu121 torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+    ```
+
+    ### 3. Basic Usage
+    ```python
+    from moondream import VL
+    from PIL import Image
+
+    # Initialize model
+    model = VL()  # Downloads model on first use
+
+    # Load and process image
+    image = Image.open("image.jpg")
+    encoded_image = model.encode_image(image)
+
+    # Get image description
+    caption = model.caption(encoded_image)
+    print(caption["caption"])
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ### 1. Install Dependencies
+    ```bash
+    # Create a new Next.js project
+    npx create-next-app@latest moondream-web --typescript --tailwind --app
+    cd moondream-web
+
+    # Install additional dependencies
+    npm install axios framer-motion next-themes @radix-ui/react-slot
+    ```
+
+    ### 2. Setup Backend Connection
+    ```javascript
+    // src/utils/api.js
+    import axios from 'axios';
+
+    const API_BASE_URL = 'http://127.0.0.1:8000';
+
+    export async function describeImage(imageFile) {
+      const formData = new FormData();
+      formData.append('file', imageFile);
+
+      const response = await axios.post(`${API_BASE_URL}/describe`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      return response.data;
+    }
+
+    export async function askQuestion(question, imageKey) {
+      const formData = new FormData();
+      formData.append('question', question);
+      formData.append('image_key', imageKey);
+
+      const response = await axios.post(`${API_BASE_URL}/ask`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      return response.data;
+    }
+    ```
+
+    ### 3. Basic Usage
+    ```javascript
+    import { describeImage, askQuestion } from '../utils/api';
+
+    // Upload and describe image
+    const handleImageUpload = async (file) => {
+      try {
+        const { description, image_key } = await describeImage(file);
+        console.log('Description:', description);
+        
+        // Ask follow-up questions
+        const answer = await askQuestion('What colors do you see?', image_key);
+        console.log('Answer:', answer.answer);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ### 1. Install Dependencies
+    ```bash
+    # Create a new Next.js project
+    npx create-next-app@latest moondream-web --typescript --tailwind --app
+    cd moondream-web
+
+    # Install additional dependencies
+    npm install axios framer-motion next-themes @radix-ui/react-slot
+    ```
+
+    ### 2. Setup Backend Connection
+    ```typescript
+    // src/utils/api.ts
+    import axios from 'axios';
+
+    const API_BASE_URL = 'http://127.0.0.1:8000';
+
+    interface DescribeResponse {
+      description: string;
+      image_key: string;
+    }
+
+    interface AskResponse {
+      answer: string;
+    }
+
+    export async function describeImage(imageFile: File): Promise<DescribeResponse> {
+      const formData = new FormData();
+      formData.append('file', imageFile);
+
+      const response = await axios.post<DescribeResponse>(`${API_BASE_URL}/describe`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      return response.data;
+    }
+
+    export async function askQuestion(question: string, imageKey: string): Promise<AskResponse> {
+      const formData = new FormData();
+      formData.append('question', question);
+      formData.append('image_key', imageKey);
+
+      const response = await axios.post<AskResponse>(`${API_BASE_URL}/ask`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      return response.data;
+    }
+    ```
+
+    ### 3. Basic Usage
+    ```typescript
+    import { describeImage, askQuestion } from '../utils/api';
+
+    const handleImageUpload = async (file: File) => {
+      try {
+        const { description, image_key } = await describeImage(file);
+        console.log('Description:', description);
+        
+        // Ask follow-up questions
+        const { answer } = await askQuestion('What colors do you see?', image_key);
+        console.log('Answer:', answer);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Model Setup
+
+### Automatic Download
+
+The simplest way to get started is to let Moondream download the model automatically:
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    from moondream import VL
+    
+    # Model will be downloaded automatically on first use
+    model = VL()
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Initialize client
+    const client = new MoondreamClient({
+      apiUrl: 'http://127.0.0.1:8000'
+    });
+
+    // Upload and process image
+    const response = await client.describeImage(imageFile);
+    console.log(response.description);
+
+    // Ask questions about the image
+    const answer = await client.askQuestion(response.image_key, 'What colors do you see?');
+    console.log(answer.answer);
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    interface MoondreamResponse {
+      description: string;
+      image_key: string;
+    }
+
+    interface QuestionResponse {
+      answer: string;
+    }
+
+    // Initialize client
+    const client = new MoondreamClient({
+      apiUrl: 'http://127.0.0.1:8000'
+    });
+
+    // Upload and process image
+    const response: MoondreamResponse = await client.describeImage(imageFile);
+    console.log(response.description);
+
+    // Ask questions about the image
+    const answer: QuestionResponse = await client.askQuestion(response.image_key, 'What colors do you see?');
+    console.log(answer.answer);
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Manual Download
+
+For more control over the download process, you can download the model manually:
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    import requests
+    from tqdm import tqdm
+    import gzip
+    import shutil
+
+    def download_model(model_url=None, output_path="moondream-latest-int8.bin"):
+        if model_url is None:
+            model_url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin.gz"
+        
+        gz_path = f"{output_path}.gz"
+        
+        # Download
+        response = requests.get(model_url, stream=True)
+        total_size = int(response.headers.get('content-length', 0))
+        
+        with open(gz_path, 'wb') as f:
+            with tqdm(total=total_size, unit='iB', unit_scale=True) as pbar:
+                for data in response.iter_content(chunk_size=1024*1024):
+                    size = f.write(data)
+                    pbar.update(size)
+        
+        # Extract
+        with gzip.open(gz_path, 'rb') as f_in:
+            with open(output_path, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Placeholder for JS implementation
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Placeholder for TS implementation
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Model Formats
+
+Moondream supports multiple model formats:
+
+1. **Gzipped Binary** (.bin.gz)
+   - Downloaded directly from HuggingFace
+   - Needs to be extracted before use
+
+2. **Binary** (.bin)
+   - Extracted form of the gzipped file
+   - Automatically converted to TAR format
+
+3. **TAR Archive** (.tar)
+   - Final format used by the model
+   - Contains all necessary model components:
+     - vision_encoder.onnx
+     - vision_projection.onnx
+     - text_encoder.onnx
+     - text_decoder files
+     - tokenizer.json
+     - config.json
+
+## Core Features
+
+### Image Analysis
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Generate image caption
+    caption = model.caption(encoded_image)
+    print(caption["caption"])
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Placeholder for JS implementation
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Placeholder for TS implementation
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Visual Q&A
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Ask questions about the image
+    question = "What colors do you see?"
+    answer = model.query(encoded_image, question)
+    print(answer["answer"])
+
+    # Ask multiple questions
+    questions = [
+        "What is in the background?",
+        "What is the main subject?",
+        "Describe the lighting"
+    ]
+
+    for question in questions:
+        answer = model.query(encoded_image, question)
+        print(f"Q: {question}")
+        print(f"A: {answer['answer']}\n")
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Placeholder for JS implementation
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Placeholder for TS implementation
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Streaming Responses
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Stream responses for longer outputs
+    for token in model.caption(encoded_image, stream=True)["caption"]:
+        print(token, end="", flush=True)
+    
+    # Stream question answers
+    question = "Give a detailed description of the scene"
+    for token in model.query(encoded_image, question, stream=True)["answer"]:
+        print(token, end="", flush=True)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Placeholder for JS implementation
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Placeholder for TS implementation
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Error Handling
+
+It's recommended to implement proper error handling:
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    try:
+        model = VL("path/to/model")
+        result = model.caption(encoded_image)
+    except FileNotFoundError:
+        print("Model file not found")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Placeholder for JS implementation
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Placeholder for TS implementation
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## System Requirements
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    - Python 3.8+
+    - NVIDIA GPU with CUDA support (recommended)
+    - ~2GB disk space for model weights
+    - Microsoft Visual C++ Redistributable 2019 (Windows only)
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - Node.js 18+
+    - NPM or Yarn
+    - ~2GB disk space for model weights
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - Node.js 18+
+    - NPM or Yarn
+    - TypeScript 4.5+
+    - ~2GB disk space for model weights
+  </Tabs.Tab>
+</Tabs>
+
+## Next Steps
+
+- Check out the [Examples](/docs/examples) for more usage patterns
+- Learn about [Advanced Configuration](/docs/advanced/configuration)
+- See [Troubleshooting](/docs/advanced/troubleshooting) for common issues 
+
+## Native Python API 🚧
+
+> **Note:** These endpoints are under active development and will be available soon.
+
+### Request Models
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    from pydantic import BaseModel
+    from typing import Optional, List, Dict
+
+    class VqaRequest(BaseModel):
+        image_url: str
+        question: str
+        stream: Optional[bool] = False
+
+    class CaptionRequest(BaseModel):
+        image_url: str
+        length: Optional[str] = "long"
+        stream: Optional[bool] = False
+
+    class DetectRequest(BaseModel):
+        image_url: str
+        object: str
+
+    class PointRequest(BaseModel):
+        image_url: str
+        object: str
+
+    # Example Usage
+    request = VqaRequest(
+        image_url="https://example.com/image.jpg",
+        question="What color is the sky?",
+        stream=True
+    )
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Request interfaces will be available via SDK
+    const request = {
+      image_url: "https://example.com/image.jpg",
+      question: "What color is the sky?",
+      stream: true
+    };
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    interface VqaRequest {
+      image_url: string;
+      question: string;
+      stream?: boolean;
+    }
+
+    interface CaptionRequest {
+      image_url: string;
+      length?: "short" | "long";
+      stream?: boolean;
+    }
+
+    interface DetectRequest {
+      image_url: string;
+      object: string;
+    }
+
+    interface PointRequest {
+      image_url: string;
+      object: string;
+    }
+
+    // Example Usage
+    const request: VqaRequest = {
+      image_url: "https://example.com/image.jpg",
+      question: "What color is the sky?",
+      stream: true
+    };
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Response Models
+
+#### Non-Streaming Responses
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    class DetectResponse(BaseModel):
+        result: List[Dict[str, float]]
+
+    class PointResponse(BaseModel):
+        result: List[Dict[str, float]]
+
+    class CaptionResponse(BaseModel):
+        result: str
+
+    class VqaResponse(BaseModel):
+        result: str
+
+    # Example Response
+    response = CaptionResponse(
+        result="A beautiful sunset over the mountains"
+    )
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Example Response
+    const response = {
+      result: "A beautiful sunset over the mountains"
+    };
+
+    // For detection/pointing
+    const detectResponse = {
+      result: [
+        { confidence: 0.95, bbox: [10, 20, 100, 200] }
+      ]
+    };
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    interface DetectResponse {
+      result: Array<Record<string, number>>;
+    }
+
+    interface PointResponse {
+      result: Array<Record<string, number>>;
+    }
+
+    interface CaptionResponse {
+      result: string;
+    }
+
+    interface VqaResponse {
+      result: string;
+    }
+
+    // Example Response
+    const response: CaptionResponse = {
+      result: "A beautiful sunset over the mountains"
+    };
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+#### Streaming Responses
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Intermediate chunks
+    {
+        'chunk': 'token_text',  # Current token
+        'completed': False
+    }
+
+    # Final chunk
+    {
+        'chunk': 'final_token',
+        'completed': True
+    }
+
+    # Example Usage
+    async for chunk in model.stream_caption(image_url):
+        if chunk['completed']:
+            print("\nGeneration completed!")
+        else:
+            print(chunk['chunk'], end='')
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Using async iterator
+    for await (const chunk of streamResponse) {
+      if (chunk.completed) {
+        console.log("\nGeneration completed!");
+      } else {
+        process.stdout.write(chunk.chunk);
+      }
+    }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    interface StreamChunk {
+      chunk: string;
+      completed: boolean;
+    }
+
+    // Using async iterator
+    for await (const chunk of streamResponse) {
+      if (chunk.completed) {
+        console.log("\nGeneration completed!");
+      } else {
+        process.stdout.write(chunk.chunk);
+      }
+    }
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### Example API Usage 🚧
+
+Here's how you'll be able to use these endpoints once they're available:
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    from moondream import MoondreamAPI
+
+    # Initialize API client
+    api = MoondreamAPI()
+
+    # Visual Question Answering
+    response = await api.ask_question(
+        image_url="https://example.com/image.jpg",
+        question="What's in the image?",
+        stream=True
+    )
+
+    # Image Captioning
+    caption = await api.generate_caption(
+        image_url="https://example.com/image.jpg",
+        length="long"
+    )
+
+    # Object Detection
+    detections = await api.detect_object(
+        image_url="https://example.com/image.jpg",
+        object="person"
+    )
+
+    # Point at Object
+    points = await api.point_at_object(
+        image_url="https://example.com/image.jpg",
+        object="dog"
+    )
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    import { MoondreamAPI } from 'moondream';
+
+    // Initialize API client
+    const api = new MoondreamAPI();
+
+    // Visual Question Answering
+    const response = await api.askQuestion({
+      imageUrl: "https://example.com/image.jpg",
+      question: "What's in the image?",
+      stream: true
+    });
+
+    // Image Captioning
+    const caption = await api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long"
+    });
+
+    // Object Detection
+    const detections = await api.detectObject({
+      imageUrl: "https://example.com/image.jpg",
+      object: "person"
+    });
+
+    // Point at Object
+    const points = await api.pointAtObject({
+      imageUrl: "https://example.com/image.jpg",
+      object: "dog"
+    });
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    import { MoondreamAPI } from 'moondream';
+
+    // Initialize API client
+    const api = new MoondreamAPI();
+
+    // Visual Question Answering
+    const response = await api.askQuestion({
+      imageUrl: "https://example.com/image.jpg",
+      question: "What's in the image?",
+      stream: true
+    });
+
+    // Image Captioning
+    const caption = await api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long"
+    });
+
+    // Object Detection
+    const detections = await api.detectObject({
+      imageUrl: "https://example.com/image.jpg",
+      object: "person"
+    });
+
+    // Point at Object
+    const points = await api.pointAtObject({
+      imageUrl: "https://example.com/image.jpg",
+      object: "dog"
+    });
+    ```
+  </Tabs.Tab>
+</Tabs> 

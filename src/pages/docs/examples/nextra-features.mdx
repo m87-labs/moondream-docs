@@ -1,0 +1,269 @@
+# Nextra Features Showcase
+
+## Callouts
+
+Various types of callouts to highlight important information:
+
+import { Callout } from 'nextra/components'
+
+<Callout type="info">
+  Moondream works best with CUDA-enabled GPUs for faster inference.
+</Callout>
+
+<Callout type="warning">
+  Make sure to clear CUDA cache when processing large batches of images to prevent memory issues.
+</Callout>
+
+<Callout type="error">
+  Never expose your API keys in your code. Use environment variables instead.
+</Callout>
+
+## Tabs
+
+Different installation methods:
+
+import { Tabs } from 'nextra/components'
+
+<Tabs items={['pip', 'conda', 'source']}>
+  <Tabs.Tab>
+    ```bash
+    pip install moondream
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    conda install -c conda-forge moondream
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    git clone https://github.com/vikhyat/moondream.git
+    cd moondream
+    pip install -e .
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Steps
+
+Guide users through complex processes:
+
+import { Steps } from 'nextra/components'
+
+<Steps>
+### Install Dependencies
+First, install Moondream and its dependencies:
+```bash
+pip install moondream torch pillow
+```
+
+### Download Model
+The model will be downloaded automatically on first use, or you can pre-download it:
+```python
+from moondream import VL
+model = VL()  # Downloads model on first initialization
+```
+
+### Process Images
+Load and process your images:
+```python
+from PIL import Image
+image = Image.open("image.jpg")
+encoded = model.encode_image(image)
+```
+
+### Generate Results
+Get captions or ask questions:
+```python
+caption = model.caption(encoded)
+print(caption["caption"])
+```
+</Steps>
+
+## File Tree
+
+Show project structure:
+
+import { FileTree } from 'nextra/components'
+
+<FileTree>
+  <FileTree.Folder name="moondream-project" defaultOpen>
+    <FileTree.Folder name="images">
+      <FileTree.Folder name="input">
+        <FileTree.File name="sample.jpg" />
+      </FileTree.Folder>
+      <FileTree.Folder name="output" />
+    </FileTree.Folder>
+    <FileTree.Folder name="src">
+      <FileTree.File name="main.py" />
+      <FileTree.File name="utils.py" />
+    </FileTree.Folder>
+    <FileTree.File name="requirements.txt" />
+    <FileTree.File name="README.md" />
+  </FileTree.Folder>
+</FileTree>
+
+## Cards
+
+Showcase different features:
+
+import { Cards } from 'nextra/components'
+
+<Cards>
+  <Cards.Card
+    icon="🖼️"
+    title="Image Captioning"
+    href="/docs/examples/basic-usage#image-captioning"
+  />
+  <Cards.Card
+    icon="💬"
+    title="Visual Q&A"
+    href="/docs/examples/basic-usage#visual-question-answering"
+  />
+  <Cards.Card
+    icon="🚀"
+    title="Batch Processing"
+    href="/docs/examples/batch-processing"
+  />
+  <Cards.Card
+    icon="📱"
+    title="Streamlit Interface"
+    href="/docs/examples/streamlit-chat"
+  />
+</Cards>
+
+## Code Blocks with Highlighting
+
+Highlight specific lines and show filename:
+
+```python filename="example.py" {3,7-8} showLineNumbers
+from moondream import VL
+from PIL import Image
+model = VL()  # Initialize model
+
+# Process image
+image = Image.open("image.jpg")
+encoded = model.encode_image(image)  # Encode image
+result = model.caption(encoded)      # Generate caption
+
+print(result["caption"])
+```
+
+## Interactive Components
+
+Toggle to show different configurations:
+
+import { useState } from 'react'
+
+export function ModelConfig() {
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  return (
+    <div className="nextra-button-group">
+      <button
+        onClick={() => setShowAdvanced(!showAdvanced)}
+        className="nx-bg-primary-100 dark:nx-bg-primary-800 nx-rounded-lg nx-p-2"
+      >
+        {showAdvanced ? 'Show Basic' : 'Show Advanced'} Configuration
+      </button>
+      {showAdvanced ? (
+        <div className="mt-4">
+          ```python
+          model = VL(
+              model_path="custom/path/model.tar",
+              device="cuda",
+              precision="float16"
+          )
+          ```
+        </div>
+      ) : (
+        <div className="mt-4">
+          ```python
+          model = VL()  # Default configuration
+          ```
+        </div>
+      )}
+    </div>
+  )
+}
+
+<ModelConfig />
+
+## Tables
+
+Compare different usage scenarios:
+
+| Feature | Basic Usage | Advanced Usage | Notes |
+| --- | --- | --- | --- |
+| Image Captioning | ✅ Simple caption | ✅ Streaming output | Streaming better for long descriptions |
+| Visual Q&A | ✅ Single question | ✅ Multiple questions | Can batch questions |
+| Memory Usage | 🟡 Standard | 🟢 Optimized | Use batch processing for large datasets |
+| CUDA Support | ✅ Basic | ✅ Advanced control | Configure precision and device |
+
+## Expandable Details
+
+<details>
+  <summary>**Why use streaming responses?**</summary>
+  Streaming responses are useful when:
+  - Generating long descriptions
+  - Creating real-time interfaces
+  - Providing immediate feedback to users
+  
+  ```python
+  # Example of streaming
+  for token in model.caption(encoded_image, stream=True)["caption"]:
+      print(token, end="", flush=True)
+  ```
+</details>
+
+## Link References
+
+Reference other sections using [Next.js Link](/docs/advanced/configuration) or regular [Markdown links](https://github.com/vikhyat/moondream).
+
+## LaTeX Support
+
+When discussing model architecture or mathematical concepts:
+
+The model uses a vision encoder $E_v$ and a text decoder $D_t$ where:
+
+```math
+P(y|x) = D_t(E_v(x))
+```
+
+## Custom Components
+
+Create reusable components for common patterns:
+
+export function ImageExample({ src, caption }) {
+  return (
+    <div className="nx-my-4">
+      <img src={src} alt={caption} className="nx-rounded-lg" />
+      <p className="nx-text-sm nx-text-gray-500 nx-mt-2">{caption}</p>
+    </div>
+  )
+}
+
+<ImageExample 
+  src="/examples/sample.jpg"
+  caption="Example of Moondream analyzing an image"
+/>
+
+## API Reference Style
+
+```typescript filename="types.ts"
+interface CaptionResult {
+  caption: string;
+  confidence?: number;
+}
+
+interface QueryResult {
+  answer: string;
+  confidence?: number;
+}
+
+class VL {
+  constructor(config?: ModelConfig);
+  encode_image(image: PIL.Image): Tensor;
+  caption(encoded_image: Tensor, stream?: boolean): CaptionResult;
+  query(encoded_image: Tensor, question: string, stream?: boolean): QueryResult;
+}
+``` 

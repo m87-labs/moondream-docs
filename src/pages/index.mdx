@@ -1,0 +1,71 @@
+# Welcome to Moondream Documentation
+
+Welcome to the official documentation for Moondream, a powerful vision-language model that enables you to analyze images, generate captions, and answer questions about visual content.
+
+## What is Moondream?
+
+Moondream is a lightweight yet powerful vision-language model that allows you to:
+- 🖼️ Generate detailed image descriptions
+- 💬 Answer questions about images
+- 🚀 Run locally for privacy
+- 🎯 Support for CUDA acceleration
+- 🔄 Stream responses for longer queries
+
+## Quick Start
+
+Get started by installing Moondream:
+
+```bash
+pip install moondream
+```
+
+Then use it in your Python code:
+
+```python
+from moondream import VL
+from PIL import Image
+
+# Initialize model
+model = VL()  # Downloads model on first use
+
+# Load and analyze an image
+image = Image.open("image.jpg")
+encoded_image = model.encode_image(image)
+
+# Get image description
+caption = model.caption(encoded_image)
+print(caption["caption"])
+
+# Ask questions about the image
+answer = model.query(encoded_image, "What colors do you see?")
+print(answer["answer"])
+```
+
+## Documentation Structure
+
+- **[Getting Started](/docs/getting-started)**
+  - Installation and setup
+  - Basic usage examples
+  - Core concepts
+
+- **[Advanced Topics](/docs/advanced)**
+  - Configuration options
+  - Performance optimization
+  - Troubleshooting guide
+
+- **[Examples](/docs/examples)**
+  - Basic usage examples
+  - Streamlit chat interface
+  - Batch processing
+
+## System Requirements
+
+- Python 3.8+
+- NVIDIA GPU with CUDA support (recommended)
+- ~2GB disk space for model weights
+
+## Community and Support
+
+- [GitHub Repository](https://github.com/vikhyat/moondream)
+- [Report Issues](https://github.com/vikhyat/moondream/issues)
+- [Contributing Guide](CONTRIBUTING.md) 

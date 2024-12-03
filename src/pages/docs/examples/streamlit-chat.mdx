@@ -1,0 +1,198 @@
+# Building a Streamlit Chat Interface
+
+Learn how to create an interactive chat interface for Moondream using Streamlit.
+
+## Prerequisites
+
+Install the required packages:
+
+```bash
+pip install streamlit pillow moondream
+```
+
+## Basic Chat Interface
+
+Here's a simple Streamlit app that allows users to upload images and chat about them:
+
+```python
+import streamlit as st
+from PIL import Image
+from moondream import VL
+
+# Initialize Moondream model
+@st.cache_resource
+def load_model():
+    return VL()
+
+model = load_model()
+
+# Set up the page
+st.title("Moondream Vision Chat")
+
+# Image upload
+uploaded_file = st.file_uploader("Choose an image...", type=['png', 'jpg', 'jpeg'])
+
+if uploaded_file is not None:
+    # Display the image
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image', use_column_width=True)
+    
+    # Process image
+    with st.spinner('Analyzing image...'):
+        encoded_image = model.encode_image(image)
+        caption = model.caption(encoded_image)
+        st.write("**Initial Description:**", caption["caption"])
+    
+    # Chat interface
+    user_question = st.text_input("Ask a question about the image:")
+    if user_question:
+        with st.spinner('Thinking...'):
+            answer = model.query(encoded_image, user_question)
+            st.write(f"**Answer:** {answer['answer']}")
+```
+
+## Advanced Chat Interface
+
+A more sophisticated version with chat history and streaming responses:
+
+```python
+import streamlit as st
+from PIL import Image
+import os
+from moondream import VL
+
+class ChatInterface:
+    def __init__(self):
+        self.model = self.initialize_model()
+        self.setup_session_state()
+        
+    @st.cache_resource
+    def initialize_model(self):
+        return VL()
+    
+    def setup_session_state(self):
+        if 'chat_history' not in st.session_state:
+            st.session_state.chat_history = []
+        if 'encoded_image' not in st.session_state:
+            st.session_state.encoded_image = None
+    
+    def process_image(self, image):
+        st.session_state.encoded_image = self.model.encode_image(image)
+        caption = self.model.caption(st.session_state.encoded_image)
+        return caption["caption"]
+    
+    def ask_question(self, question, stream=False):
+        if st.session_state.encoded_image is None:
+            st.error("Please upload an image first!")
+            return
+        
+        if stream:
+            return self.model.query(st.session_state.encoded_image, question, stream=True)
+        return self.model.query(st.session_state.encoded_image, question)
+    
+    def run(self):
+        st.title("Moondream Vision Chat")
+        
+        # Image upload
+        uploaded_file = st.file_uploader("Choose an image...", type=['png', 'jpg', 'jpeg'])
+        
+        if uploaded_file is not None:
+            # Display image
+            image = Image.open(uploaded_file)
+            st.image(image, caption='Uploaded Image', use_column_width=True)
+            
+            # Process image
+            with st.spinner('Analyzing image...'):
+                caption = self.process_image(image)
+                st.write("**Initial Description:**", caption)
+            
+            # Chat interface
+            user_question = st.text_input("Ask a question about the image:")
+            if user_question:
+                with st.spinner('Thinking...'):
+                    if len(user_question) > 50:  # Stream longer responses
+                        answer_placeholder = st.empty()
+                        answer = ""
+                        for token in self.ask_question(user_question, stream=True)["answer"]:
+                            answer += token
+                            answer_placeholder.write(answer)
+                        final_answer = answer
+                    else:
+                        final_answer = self.ask_question(user_question)["answer"]
+                    
+                    # Add to chat history
+                    st.session_state.chat_history.append({
+                        "question": user_question,
+                        "answer": final_answer
+                    })
+            
+            # Display chat history
+            if st.session_state.chat_history:
+                st.write("**Chat History:**")
+                for chat in st.session_state.chat_history:
+                    st.write(f"Q: {chat['question']}")
+                    st.write(f"A: {chat['answer']}")
+                    st.write("---")
+
+if __name__ == "__main__":
+    chat_interface = ChatInterface()
+    chat_interface.run()
+```
+
+## Deployment
+
+1. Save the code in a file (e.g., `app.py`)
+2. Run the Streamlit app:
+```bash
+streamlit run app.py
+```
+
+The app will be available at `http://localhost:8501`
+
+## Additional Features
+
+### Add Image Preprocessing
+
+```python
+def preprocess_image(image, max_size=1024):
+    """Resize image if too large"""
+    if max(image.size) > max_size:
+        ratio = max_size / max(image.size)
+        new_size = tuple(int(dim * ratio) for dim in image.size)
+        image = image.resize(new_size, Image.LANCZOS)
+    return image
+```
+
+### Add Error Handling
+
+```python
+@st.cache_resource
+def initialize_model():
+    try:
+        return VL()
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        st.stop()
+```
+
+### Add Download Chat History
+
+```python
+def download_chat_history():
+    if st.session_state.chat_history:
+        import json
+        from datetime import datetime
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"chat_history_{timestamp}.json"
+        
+        with open(filename, "w") as f:
+            json.dump(st.session_state.chat_history, f, indent=2)
+        
+        st.download_button(
+            "Download Chat History",
+            data=json.dumps(st.session_state.chat_history, indent=2),
+            file_name=filename,
+            mime="application/json"
+        )
+``` 

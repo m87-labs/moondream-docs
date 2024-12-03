@@ -1,0 +1,104 @@
+# Basic Usage Examples
+
+Here are some common usage patterns for Moondream.
+
+## Image Captioning
+
+Generate descriptive captions for images:
+
+```python
+from moondream import VL
+from PIL import Image
+
+# Initialize model
+model = VL()
+
+# Load and process image
+image = Image.open("image.jpg")
+encoded_image = model.encode_image(image)
+
+# Generate caption
+result = model.caption(encoded_image)
+print(result["caption"])
+```
+
+## Visual Question Answering
+
+Ask specific questions about an image:
+
+```python
+# Using the same encoded image from above
+question = "What colors are present in the image?"
+answer = model.query(encoded_image, question)
+print(answer["answer"])
+
+# Ask multiple questions
+questions = [
+    "What is in the background?",
+    "What is the main subject?",
+    "Describe the lighting"
+]
+
+for question in questions:
+    answer = model.query(encoded_image, question)
+    print(f"Q: {question}")
+    print(f"A: {answer['answer']}\n")
+```
+
+## Streaming Responses
+
+For longer responses, use streaming to get tokens in real-time:
+
+```python
+# Streaming caption generation
+print("Generating caption: ", end="", flush=True)
+for token in model.caption(encoded_image, stream=True)["caption"]:
+    print(token, end="", flush=True)
+print()
+
+# Streaming question answering
+question = "Give a detailed description of the scene"
+print(f"Q: {question}")
+print("A: ", end="", flush=True)
+for token in model.query(encoded_image, question, stream=True)["answer"]:
+    print(token, end="", flush=True)
+print()
+```
+
+## Error Handling
+
+Implement proper error handling:
+
+```python
+try:
+    # Initialize model
+    model = VL()
+    
+    # Process image
+    image = Image.open("image.jpg")
+    encoded_image = model.encode_image(image)
+    
+    # Generate caption
+    result = model.caption(encoded_image)
+    print(result["caption"])
+    
+except FileNotFoundError:
+    print("Image file not found")
+except Exception as e:
+    print(f"An error occurred: {str(e)}")
+```
+
+## Memory Management
+
+Clean up resources when done:
+
+```python
+# Clear encoded image when no longer needed
+encoded_image = None
+import gc
+gc.collect()
+
+# If using CUDA
+import torch
+torch.cuda.empty_cache()
+``` 

@@ -1,0 +1,157 @@
+# Troubleshooting Guide
+
+## Common Issues
+
+### CUDA and GPU Issues
+
+1. **CUDA Not Available**
+   ```python
+   import torch
+   
+   if not torch.cuda.is_available():
+       print("CUDA is not available. Check your PyTorch installation.")
+   ```
+
+   **Solution:**
+   - Install PyTorch with CUDA support:
+     ```bash
+     pip3 install torch==2.5.1+cu121 torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+     ```
+   - Ensure NVIDIA drivers are installed
+   - Verify CUDA toolkit installation
+
+2. **Out of Memory Errors**
+   ```python
+   # Use smaller batch sizes
+   batch_size = 2  # Reduce if needed
+   
+   # Clear CUDA cache if needed
+   import torch
+   torch.cuda.empty_cache()
+   ```
+
+### Model Loading Issues
+
+1. **Model File Not Found**
+   ```python
+   import os
+   
+   model_path = "moondream-latest-mtb.tar"
+   if not os.path.exists(model_path):
+       print("Model file not found. Downloading...")
+       # Implement download logic
+   ```
+
+2. **Incorrect Model Format**
+   - Ensure you have the correct model format
+   - Convert between formats if needed:
+   ```python
+   import gzip
+   import shutil
+   
+   # Convert .gz to .bin
+   with gzip.open("model.bin.gz", 'rb') as f_in:
+       with open("model.bin", 'wb') as f_out:
+           shutil.copyfileobj(f_in, f_out)
+   ```
+
+### Windows-Specific Issues
+
+1. **ONNX Runtime DLL Error**
+   - Install Visual C++ Redistributable 2019
+   - Add to system PATH:
+   ```batch
+   set PATH=%PATH%;C:\\Program Files\\Microsoft Visual Studio\\2019\\VC\\Redist
+   ```
+
+2. **Path Length Issues**
+   - Use shorter paths
+   - Enable long paths in Windows:
+   ```batch
+   reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
+   ```
+
+### Image Processing Issues
+
+1. **Image Format Errors**
+   ```python
+   from PIL import Image
+   
+   # Convert to RGB if needed
+   image = Image.open("image.jpg").convert("RGB")
+   
+   # Check image mode
+   if image.mode != "RGB":
+       print(f"Warning: Image mode is {image.mode}, converting to RGB")
+       image = image.convert("RGB")
+   ```
+
+2. **Image Size Issues**
+   ```python
+   # Resize large images
+   from PIL import Image
+   
+   def preprocess_image(image_path, max_size=1024):
+       image = Image.open(image_path)
+       if max(image.size) > max_size:
+           ratio = max_size / max(image.size)
+           new_size = tuple(int(dim * ratio) for dim in image.size)
+           image = image.resize(new_size, Image.LANCZOS)
+       return image
+   ```
+
+## Logging and Debugging
+
+Enable detailed logging for troubleshooting:
+
+```python
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename='moondream_debug.log'
+)
+
+logger = logging.getLogger('moondream')
+```
+
+## Performance Optimization
+
+1. **Memory Usage**
+   ```python
+   # Clear encoded images when done
+   encoded_image = None
+   import gc
+   gc.collect()
+   torch.cuda.empty_cache()
+   ```
+
+2. **Batch Processing**
+   ```python
+   # Process multiple images efficiently
+   images = [preprocess_image(path) for path in image_paths]
+   batch_size = 4
+   
+   for i in range(0, len(images), batch_size):
+       batch = images[i:i+batch_size]
+       # Process batch
+   ```
+
+## Getting Help
+
+If you're still experiencing issues:
+
+1. Check the [GitHub Issues](https://github.com/vikhyat/moondream/issues)
+2. Enable debug logging and share the logs
+3. Provide system information:
+   ```python
+   import sys
+   import torch
+   
+   print(f"Python version: {sys.version}")
+   print(f"PyTorch version: {torch.__version__}")
+   print(f"CUDA available: {torch.cuda.is_available()}")
+   if torch.cuda.is_available():
+       print(f"CUDA version: {torch.version.cuda}")
+   ``` 

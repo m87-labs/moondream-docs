@@ -1,0 +1,168 @@
+# Batch Processing
+
+Learn how to efficiently process multiple images with Moondream.
+
+## Basic Batch Processing
+
+Process multiple images in a batch:
+
+```python
+from moondream import VL
+from PIL import Image
+import os
+
+def process_image_batch(model, image_paths, batch_size=4):
+    results = []
+    
+    # Process images in batches
+    for i in range(0, len(image_paths), batch_size):
+        batch = image_paths[i:i+batch_size]
+        batch_results = []
+        
+        for path in batch:
+            image = Image.open(path)
+            encoded = model.encode_image(image)
+            caption = model.caption(encoded)
+            batch_results.append({
+                'path': path,
+                'caption': caption["caption"]
+            })
+            
+        results.extend(batch_results)
+        
+    return results
+
+# Example usage
+model = VL()
+image_paths = ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"]
+results = process_image_batch(model, image_paths)
+
+for result in results:
+    print(f"Image: {result['path']}")
+    print(f"Caption: {result['caption']}\n")
+```
+
+## Memory-Efficient Processing
+
+Handle large numbers of images efficiently:
+
+```python
+import torch
+import gc
+
+def process_large_dataset(model, image_dir, batch_size=4):
+    image_paths = [os.path.join(image_dir, f) for f in os.listdir(image_dir)
+                  if f.endswith(('.jpg', '.png', '.jpeg'))]
+    
+    results = []
+    
+    for i in range(0, len(image_paths), batch_size):
+        # Process batch
+        batch = image_paths[i:i+batch_size]
+        batch_results = []
+        
+        for path in batch:
+            try:
+                image = Image.open(path).convert('RGB')
+                encoded = model.encode_image(image)
+                caption = model.caption(encoded)
+                batch_results.append({
+                    'path': path,
+                    'caption': caption["caption"],
+                    'success': True
+                })
+            except Exception as e:
+                batch_results.append({
+                    'path': path,
+                    'error': str(e),
+                    'success': False
+                })
+            
+            # Clear memory
+            del encoded
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        
+        results.extend(batch_results)
+        
+        # Print progress
+        print(f"Processed {min(i + batch_size, len(image_paths))}/{len(image_paths)} images")
+    
+    return results
+```
+
+## Parallel Processing
+
+Use multiple processes for CPU-bound tasks:
+
+```python
+from concurrent.futures import ProcessPoolExecutor
+import functools
+
+def process_single_image(model, image_path):
+    try:
+        image = Image.open(image_path).convert('RGB')
+        encoded = model.encode_image(image)
+        caption = model.caption(encoded)
+        return {
+            'path': image_path,
+            'caption': caption["caption"],
+            'success': True
+        }
+    except Exception as e:
+        return {
+            'path': image_path,
+            'error': str(e),
+            'success': False
+        }
+
+def process_parallel(image_dir, num_workers=4):
+    model = VL()  # Each process gets its own model instance
+    
+    image_paths = [os.path.join(image_dir, f) for f in os.listdir(image_dir)
+                  if f.endswith(('.jpg', '.png', '.jpeg'))]
+    
+    # Create a partial function with the model
+    process_func = functools.partial(process_single_image, model)
+    
+    with ProcessPoolExecutor(max_workers=num_workers) as executor:
+        results = list(executor.map(process_func, image_paths))
+    
+    return results
+```
+
+## Save Results
+
+Save processing results to a file:
+
+```python
+import json
+from datetime import datetime
+
+def save_results(results, output_file=None):
+    if output_file is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_file = f"moondream_results_{timestamp}.json"
+    
+    # Calculate statistics
+    total = len(results)
+    successful = sum(1 for r in results if r.get('success', False))
+    failed = total - successful
+    
+    output = {
+        'timestamp': datetime.now().isoformat(),
+        'statistics': {
+            'total_images': total,
+            'successful': successful,
+            'failed': failed
+        },
+        'results': results
+    }
+    
+    with open(output_file, 'w') as f:
+        json.dump(output, f, indent=2)
+    
+    print(f"Results saved to {output_file}")
+    print(f"Processed {total} images: {successful} successful, {failed} failed")
+``` 
