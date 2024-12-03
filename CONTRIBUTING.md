@@ -1,193 +1,177 @@
 # Contributing to Moondream Documentation
 
-Thank you for your interest in contributing to the Moondream documentation! This guide will help you understand how our documentation is structured and how to make contributions.
+Thank you for your interest in contributing to the Moondream documentation! This guide will help you get started with making contributions.
 
-## Documentation Stack
+## 📚 Documentation Structure
 
-Our documentation is built with:
-- [Next.js](https://nextjs.org/) - React framework
-- [Nextra](https://nextra.site/) - Documentation generator
-- [MDX](https://mdxjs.com/) - Markdown + React components
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-
-## Getting Started
-
-1. Fork and clone the repository:
-```bash
-git clone https://github.com/YOUR_USERNAME/moondream-docs.git
-cd moondream-docs
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-4. Visit `http://localhost:3000` to see your changes in real-time.
-
-## Repository Structure
+The documentation is organized as follows:
 
 ```
-moondream-docs/
-├── src/
-│   ├── pages/              # All documentation pages
-│   │   ├── index.mdx      # Homepage
-│   │   ├── _app.tsx       # Next.js app component
-│   │   └── docs/          # Documentation pages
-│   │       ├── _meta.json # Sidebar configuration
-│   │       └── ...        # Documentation files
-│   └── styles/
-│       └── globals.css    # Global styles
-├── public/                # Static assets
-├── theme.config.jsx       # Nextra theme configuration
-├── next.config.ts        # Next.js configuration
-└── tailwind.config.ts    # Tailwind configuration
+docs/
+├── Introduction
+├── Getting Started
+├── Capabilities/
+│   ├── Visual Q&A
+│   ├── Image Captioning
+│   └── Object Detection 🚧
+├── Advanced Topics/
+│   ├── Configuration
+│   └── Troubleshooting
+└── Examples/
+    ├── Basic Usage
+    ├── Batch Processing
+    ├── Streamlit Chat App
+    └── Documentation Features
 ```
 
-## How Nextra Works
+## 🚀 Getting Started
 
-### File-Based Routing
+1. **Fork and Clone**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/moondream-docs.git
+   cd moondream-docs
+   ```
 
-Nextra uses Next.js's file-based routing system:
-- Files in `src/pages` automatically become pages
-- `src/pages/docs/getting-started.mdx` → `/docs/getting-started`
-- `index.mdx` files become the index page of their folder
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-### Sidebar Navigation
+3. **Start Development Server**
+   ```bash
+   npm run dev
+   ```
 
-The sidebar is controlled by `_meta.json` files:
+4. **View Local Documentation**
+   Open [http://localhost:3000](http://localhost:3000) in your browser
 
-```json
-{
-  "getting-started": {
-    "title": "Getting Started",
-    "description": "Learn how to get started"
-  },
-  "advanced": {
-    "title": "Advanced Topics"
-  }
-}
-```
+## 📝 Making Changes
 
-- Files are ordered as they appear in `_meta.json`
-- Missing files are still shown in the sidebar
-- Hidden pages can be marked with `"display": "hidden"`
+### File Structure
 
-### MDX Features
+- All documentation pages are in `src/pages/docs/`
+- Use `.mdx` files for documentation pages
+- Navigation is controlled by `_meta.tsx` files
 
-Our documentation uses MDX, which allows:
-- All standard Markdown syntax
-- React components in Markdown
-- Code blocks with syntax highlighting
-- Automatic table of contents
-- Internal linking between pages
+### Adding New Pages
 
-Example:
-\`\`\`mdx
-# Page Title
+1. Create a new `.mdx` file in the appropriate directory
+2. Update the corresponding `_meta.tsx` file to include your page
+3. Follow the existing structure and formatting
 
-## Section
+### Writing Guidelines
 
-Regular markdown **works** as _expected_.
-
-import { MyComponent } from '../components/MyComponent'
-
-<MyComponent>
-  This is a React component in Markdown!
-</MyComponent>
-
-\`\`\`
-
-## Making Contributions
-
-### 1. Create a New Branch
-
-```bash
-git checkout -b docs/your-feature-name
-```
-
-### 2. Writing Documentation
-
-- Place new pages in appropriate directories under `src/pages/docs/`
 - Use clear, concise language
-- Include code examples where relevant
-- Add entries to `_meta.json` for sidebar organization
-- Preview your changes locally
+- Include code examples where appropriate
+- Add proper headings and sections
+- Use Nextra components for enhanced formatting
 
-### 3. Documentation Style Guide
+### Nextra Components
 
-#### Headers
-- Use Title Case for H1 (`# Title`)
-- Use Sentence case for other headers
-- Nest headers properly (H1 → H2 → H3)
+```mdx
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
 
-#### Code Blocks
-- Specify language for syntax highlighting
-- Use meaningful examples
-- Add comments for complex code
+<Callout type="info">
+  Important information here
+</Callout>
 
-#### Links
-- Use relative links for internal pages
-- Use absolute links for external resources
-- Check all links work
+<Steps>
+### Step 1
+Content for step 1
 
-### 4. Submit Your Changes
+### Step 2
+Content for step 2
+</Steps>
 
-1. Commit your changes:
-```bash
-git add .
-git commit -m "docs: add guide for feature X"
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>Python content</Tabs.Tab>
+  <Tabs.Tab>JavaScript content</Tabs.Tab>
+  <Tabs.Tab>TypeScript content</Tabs.Tab>
+</Tabs>
 ```
 
-2. Push to your fork:
-```bash
-git push origin docs/your-feature-name
-```
+## 🔍 Review Process
 
-3. Create a Pull Request:
-   - Use a clear title and description
-   - Reference related issues
-   - Add screenshots if relevant
-   - Request review from maintainers
+1. **Create a Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-## Local Development Tips
+2. **Make Changes**
+   - Follow the writing guidelines
+   - Test your changes locally
+   - Ensure all links work
 
-### Live Preview
-- Changes are reflected immediately in development
-- Use the sidebar search to find content
-- Test on different screen sizes
-- Check dark/light mode appearance
+3. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "Description of changes"
+   ```
 
-### Common Issues
+4. **Submit Pull Request**
+   - Push to your fork
+   - Create a pull request
+   - Fill out the PR template
+   - Wait for review
 
-1. Missing Sidebar Items
-   - Check `_meta.json` files
-   - Verify file names match entries
+## 🎨 Style Guide
 
-2. Broken Links
-   - Use relative paths from current file
-   - Start internal links with `/`
+### Markdown
 
-3. Styling Issues
-   - Use Tailwind classes for styling
-   - Check both dark and light modes
+- Use ATX-style headers (`#` for h1, `##` for h2, etc.)
+- Include blank lines between sections
+- Use backticks for inline code
+- Use fenced code blocks with language specification
 
-## Need Help?
+### Code Examples
 
+- Include examples for Python, JavaScript, and TypeScript where applicable
+- Use proper syntax highlighting
+- Include comments for complex code
+- Show both basic and advanced usage
+
+### Components
+
+- Use Callouts for important information
+- Use Steps for sequential instructions
+- Use Tabs for language-specific content
+- Use proper spacing and indentation
+
+## 🧪 Testing
+
+1. **Local Testing**
+   ```bash
+   npm run dev
+   ```
+
+2. **Check Links**
+   ```bash
+   npm run check-links
+   ```
+
+3. **Build Test**
+   ```bash
+   npm run build
+   ```
+
+## 📋 Checklist Before Submitting
+
+- [ ] Tested changes locally
+- [ ] Updated relevant `_meta.tsx` files
+- [ ] Added/updated code examples
+- [ ] Checked spelling and grammar
+- [ ] Verified all links work
+- [ ] Followed style guide
+- [ ] Added appropriate comments
+
+## 🤝 Getting Help
+
+- Join our [Discord community](https://discord.gg/moondream)
 - Open an issue for questions
-- Join our Discord community
-- Check existing documentation
-- Contact maintainers
+- Tag maintainers in comments
 
-## Code of Conduct
+## 📄 License
 
-Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same [MIT License](LICENSE) that covers this project. 
+By contributing, you agree that your contributions will be licensed under the MIT License. 

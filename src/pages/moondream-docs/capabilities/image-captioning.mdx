@@ -1,0 +1,248 @@
+# Image Captioning
+
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+<Callout type="info">
+  Generate natural, detailed descriptions of images using Moondream's advanced captioning capabilities.
+</Callout>
+
+## Overview
+
+Moondream's image captioning feature provides:
+- Detailed, context-aware image descriptions
+- Support for both short and long-form captions
+- Streaming response capability
+- High accuracy and natural language output
+
+## Interactive Demo
+
+<iframe 
+  src="https://moondream.ai/playground?feature=caption" 
+  width="100%" 
+  height="600px" 
+  frameBorder="0"
+  style={{ borderRadius: '8px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+/>
+
+## Implementation Guide
+
+<Steps>
+### 1. Initialize the API Client
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    from moondream import MoondreamAPI
+    
+    api = MoondreamAPI()
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    import { MoondreamAPI } from 'moondream';
+    
+    const api = new MoondreamAPI();
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    import { MoondreamAPI } from 'moondream';
+    
+    const api = new MoondreamAPI();
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### 2. Prepare Your Request
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    request = CaptionRequest(
+        image_url="https://example.com/image.jpg",
+        length="long",  # "short" or "long"
+        stream=True  # Optional streaming
+    )
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    const request = {
+      imageUrl: "https://example.com/image.jpg",
+      length: "long",  // "short" or "long"
+      stream: true  // Optional streaming
+    };
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    const request: CaptionRequest = {
+      imageUrl: "https://example.com/image.jpg",
+      length: "long" as const,  // "short" | "long"
+      stream: true  // Optional streaming
+    };
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### 3. Generate Caption
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Single response
+    response = await api.generate_caption(
+        image_url="https://example.com/image.jpg",
+        length="long"
+    )
+    print(response.result)
+
+    # Streaming response
+    async for chunk in api.generate_caption(
+        image_url="https://example.com/image.jpg",
+        length="long",
+        stream=True
+    ):
+        if chunk['completed']:
+            print("\nDone!")
+        else:
+            print(chunk['chunk'], end='')
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Single response
+    const response = await api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long"
+    });
+    console.log(response.result);
+
+    // Streaming response
+    for await (const chunk of api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long",
+      stream: true
+    })) {
+      if (chunk.completed) {
+        console.log("\nDone!");
+      } else {
+        process.stdout.write(chunk.chunk);
+      }
+    }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Single response
+    const response = await api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long" as const
+    });
+    console.log(response.result);
+
+    // Streaming response
+    for await (const chunk of api.generateCaption({
+      imageUrl: "https://example.com/image.jpg",
+      length: "long" as const,
+      stream: true
+    })) {
+      if (chunk.completed) {
+        console.log("\nDone!");
+      } else {
+        process.stdout.write(chunk.chunk);
+      }
+    }
+    ```
+  </Tabs.Tab>
+</Tabs>
+</Steps>
+
+## Best Practices
+
+<Callout type="warning">
+  Choose the appropriate caption length based on your use case. Long captions provide more detail but take longer to generate.
+</Callout>
+
+- Use short captions for quick descriptions
+- Use long captions for detailed analysis
+- Consider streaming for long captions
+- Cache results when possible
+
+## Example Use Cases
+
+1. **Content Management**
+   - Automated image tagging
+   - Content categorization
+   - SEO optimization
+
+2. **Accessibility**
+   - Screen reader support
+   - Alt text generation
+   - Content accessibility compliance
+
+3. **Social Media**
+   - Automated post descriptions
+   - Content moderation
+   - Engagement analysis
+
+## Error Handling
+
+<Tabs items={['Python', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    try:
+        response = await api.generate_caption(
+            image_url="https://example.com/image.jpg",
+            length="long"
+        )
+    except InvalidImageError:
+        print("Invalid image URL or format")
+    except APIError as e:
+        print(f"API error: {str(e)}")
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    try {
+      const response = await api.generateCaption({
+        imageUrl: "https://example.com/image.jpg",
+        length: "long"
+      });
+    } catch (error) {
+      if (error instanceof InvalidImageError) {
+        console.error("Invalid image URL or format");
+      } else if (error instanceof APIError) {
+        console.error(`API error: ${error.message}`);
+      } else {
+        console.error(`Unexpected error: ${error.message}`);
+      }
+    }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    try {
+      const response = await api.generateCaption({
+        imageUrl: "https://example.com/image.jpg",
+        length: "long" as const
+      });
+    } catch (error) {
+      if (error instanceof InvalidImageError) {
+        console.error("Invalid image URL or format");
+      } else if (error instanceof APIError) {
+        console.error(`API error: ${error.message}`);
+      } else {
+        console.error(`Unexpected error: ${error.message}`);
+      }
+    }
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Related Resources
+
+- [Getting Started Guide](/docs/getting-started)
+- [API Reference](/docs/api-reference)
+- [Example Projects](/docs/examples) 

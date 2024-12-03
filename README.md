@@ -1,6 +1,39 @@
-# Moondream Documentation
+# 🌙 Moondream Documentation
 
-This is the official documentation for Moondream, built with [Next.js](https://nextjs.org/), [Nextra](https://nextra.site/), and [Tailwind CSS](https://tailwindcss.com/).
+> This is the community-driven documentation for Moondream, an open-source vision-language model. We welcome contributions from the community to help make this documentation more comprehensive and useful for everyone.
+
+Official documentation for Moondream - a lightweight yet powerful vision-language model that enables you to analyze images, generate captions, and answer questions about visual content.
+
+## 🌟 Key Features
+
+- 🖼️ **Image Analysis**: Generate detailed descriptions of any image
+- 💬 **Visual Q&A**: Ask natural language questions about images
+- 🚀 **Local Processing**: Run entirely on your machine for privacy
+- 🎯 **CUDA Support**: GPU acceleration for faster processing
+- ⚡ **Streaming**: Real-time response streaming for longer outputs
+- 🔒 **Privacy-First**: All processing happens locally
+- 📱 **Multi-Platform**: Supports Python, JavaScript, and TypeScript
+- 🎨 **Modern Stack**: Built with Next.js, Nextra, and Tailwind CSS
+
+## 📚 Documentation Structure
+
+```
+docs/
+├── Introduction
+├── Getting Started
+├── Capabilities/
+│   ├── Visual Q&A
+│   ├── Image Captioning
+│   └── Object Detection 🚧
+├── Advanced Topics/
+│   ├── Configuration
+│   └── Troubleshooting
+└── Examples/
+    ├── Basic Usage
+    ├── Batch Processing
+    ├── Streamlit Chat App
+    └── Documentation Features
+```
 
 ## Contributing
 
@@ -18,7 +51,7 @@ src/
 ├── pages/
 │   ├── _app.tsx         # Custom Next.js App component
 │   ├── index.mdx        # Home page
-│   └── docs/            # Documentation pages
+│   └── moondream-docs/  # Documentation pages
 │       ├── _meta.json   # Sidebar structure for docs
 │       ├── getting-started.mdx
 │       └── advanced/
