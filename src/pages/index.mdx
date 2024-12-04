@@ -1,74 +1,88 @@
-# Welcome to Moondream Documentation
+import { Callout } from 'nextra/components'
 
-Moondream is an open-source vision-language model optimized for CPU and edge devices, available in 2B and 0.5B parameter versions.
+<Callout type="warning" emoji="🚧">
+  **Alpha Documentation**: This documentation is under active development and some features may be incomplete or subject to change.
+</Callout>
 
-## What is Moondream?
+# Build with Moondream
 
-Core capabilities:
-- 🖼️ Image Captioning
-- 💬 Visual Question Answering 
-- 🎯 Object Detection
+Learn how to get started with Moondream, an open-source vision-language model optimized for CPU and edge devices, with optional CUDA acceleration.
 
-Key features:
-- 🚀 Open-source SOTA model for all devices
-- 💻 Fast inference on laptops without GPU
-- 🔒 Local execution for privacy
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">▶️</div>
+    <h3 className="text-xl font-semibold mb-2">Quick Start</h3>
+    <p className="text-gray-600 mb-4">Get up and running with Moondream in minutes.</p>
+    <a href="/moondream-docs/quick-start" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
 
-## Quick Start
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">🔍</div>
+    <h3 className="text-xl font-semibold mb-2">Capabilities</h3>
+    <p className="text-gray-600 mb-4">Explore image captioning, visual Q&A, and more.</p>
+    <a href="/moondream-docs/capabilities/image-captioning" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
 
-Get started by installing Moondream:
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">💻</div>
+    <h3 className="text-xl font-semibold mb-2">Examples</h3>
+    <p className="text-gray-600 mb-4">See code samples and implementations.</p>
+    <a href="/moondream-docs/examples/jupyter-notebook" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
 
-```bash
-pip install moondream
-```
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">⚡</div>
+    <h3 className="text-xl font-semibold mb-2">Advanced Usage</h3>
+    <p className="text-gray-600 mb-4">Configure GPU acceleration, optimize performance and customize settings.</p>
+    <a href="/moondream-docs/advanced/configuration" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
 
-Then use it in your Python code:
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">📱</div>
+    <h3 className="text-xl font-semibold mb-2">Technical Specifications</h3>
+    <p className="text-gray-600 mb-4">Explore model variants and technical details.</p>
+    <a href="/moondream-docs/technical-specifications" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
 
-```python
-from moondream import VL
-from PIL import Image
+  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+    <div className="text-2xl mb-2">🤗</div>
+    <h3 className="text-xl font-semibold mb-2">Transformers</h3>
+    <p className="text-gray-600 mb-4">Use Moondream with Hugging Face Transformers.</p>
+    <a href="/moondream-docs/transformers" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+  </div>
+</div>
 
-# Initialize model
-model = VL()  # Downloads model on first use
+## Model Overview
 
-# Load and analyze an image
-image = Image.open("image.jpg")
-encoded_image = model.encode_image(image)
+### Available Models
 
-# Get image description
-caption = model.caption(encoded_image)
-print(caption["caption"])
+<div className="overflow-x-auto">
+  <div className="grid grid-cols-1 gap-4 mt-4">
+    <div className="bg-white p-4 rounded-lg shadow">
+      <h4 className="font-semibold text-lg mb-2">Moondream on Hugging Face Hub</h4>
+      <div className="space-y-2">
+        <div className="flex text-sm">
+          <span className="text-gray-600">Model ID: <span className="font-mono">vikhyatk/moondream2</span></span>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="text-gray-600 text-sm">Available Variants:</div>
+          <div className="pl-4 space-y-1 font-mono text-sm">
+            <div>• Base Model (2B parameters)</div>
+            <div>• Quantized Models (INT8, INT4)</div>
+            <div>• Small Model (0.5B parameters)</div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="text-gray-600 text-sm">Integration Features:</div>
+          <div className="pl-4 space-y-1 font-mono text-sm">
+            <div>• Full Transformers pipeline support</div>
+            <div>• Custom model configurations</div>
+            <div>• Optimized for research & production</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-# Ask questions about the image
-answer = model.query(encoded_image, "What colors do you see?")
-print(answer["answer"])
-```
-
-## Documentation Structure
-
-- **[Getting Started](/docs/getting-started)**
-  - Installation and setup
-  - Basic usage examples
-  - Core concepts
-
-- **[Advanced Topics](/docs/advanced)**
-  - Configuration options
-  - Performance optimization
-  - Troubleshooting guide
-
-- **[Examples](/docs/examples)**
-  - Basic usage examples
-  - Streamlit chat interface
-  - Batch processing
-
-## System Requirements
-
-- Python 3.8+
-- NVIDIA GPU with CUDA support (recommended)
-- ~2GB disk space for model weights
-
-## Community and Support
-
-- [GitHub Repository](https://github.com/vikhyat/moondream)
-- [Report Issues](https://github.com/vikhyat/moondream/issues)
-- [Contributing Guide](CONTRIBUTING.md) 
+For detailed information about using Moondream with Transformers, including advanced configurations and deployment options, see our [Transformers Integration Guide](/moondream-docs/transformers).

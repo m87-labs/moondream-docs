@@ -1,0 +1,91 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# Using the Transformers Library
+
+<div className='text-lg text-white dark:text-gray-400 mb-8'>
+  Learn how to use Moondream with the Transformers library for advanced use cases.
+</div>
+
+## Getting Started
+
+<Steps>
+### 1. Install Dependencies
+```bash
+pip install transformers einops
+```
+
+### 2. Choose Model Variant
+<Callout type="info">
+Select a model variant based on your needs:
+- **Latest Models (2B)**: Available on `client` branch
+  - `latest-f16`: Full precision (3.74 GB)
+  - `latest-int8`: Balanced performance (2.09 GB)
+  - `latest-int4`: Resource efficient (1.52 GB)
+- **Lightweight Models (0.5B)**: Available on `onnx` branch
+  - `0_5b-int8`: Balanced (613 MB)
+  - `0_5b-int4`: Minimum size (479 MB)
+</Callout>
+
+### 3. Load Model
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from PIL import Image
+
+# Choose model configuration
+model_id = "vikhyatk/moondream2"
+model_variant = "latest-int8"  # Choose your variant
+revision = "client"  # Or "onnx" for 0.5B models
+
+# Load model with optimizations
+model = AutoModelForCausalLM.from_pretrained(
+    f"{model_id}/{model_variant}",
+    trust_remote_code=True,
+    revision=revision,
+    torch_dtype=torch.float16,  # Enable mixed precision
+    attn_implementation="flash_attention_2"  # Enable Flash Attention 2.0
+).to("cuda" if torch.cuda.is_available() else "cpu")
+
+tokenizer = AutoTokenizer.from_pretrained(
+    f"{model_id}/{model_variant}", 
+    revision=revision
+)
+
+# Load and process image
+image = Image.open("image.jpg")
+enc_image = model.encode_image(image)
+print(model.answer_question(enc_image, "Describe this image.", tokenizer))
+```
+</Steps>
+
+## Advanced Configuration
+
+### Memory Optimization
+```python
+# Enable gradient checkpointing for memory efficiency
+model.gradient_checkpointing_enable()
+
+# Use mixed precision for faster inference
+with torch.cuda.amp.autocast():
+    result = model.answer_question(enc_image, "What's in this image?", tokenizer)
+```
+
+### Custom Model Configuration
+```python
+# Advanced model configuration options
+model = AutoModelForCausalLM.from_pretrained(
+    f"{model_id}/{model_variant}",
+    trust_remote_code=True,
+    revision=revision,
+    torch_dtype=torch.float16,
+    attn_implementation="flash_attention_2",
+    device_map="auto",  # Automatic device placement
+    max_memory={0: "4GiB"},  # Limit GPU memory usage
+    low_cpu_mem_usage=True,  # Optimize CPU memory
+).to("cuda" if torch.cuda.is_available() else "cpu")
+```
+
+<Callout type="info">
+  For GPU acceleration setup and requirements, please refer to the Configuration guide in the Advanced section.
+</Callout> 

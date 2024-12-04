@@ -1,0 +1,52 @@
+import { Callout } from 'nextra/components'
+
+# Let's Go!
+
+Get started with Moondream in just a few minutes.
+## Installation
+
+~~~bash
+pip install moondream==0.0.2
+~~~
+
+## Download Model
+
+You can download the model directly from this link:
+[Download Moondream 2B INT8 Model (1.7GB)](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int8.bin.gz?download=true)
+
+Place the downloaded model file in a `models` directory in your project folder. The final path should be `models/moondream-2b-int8.bin.gz`.
+
+## Visual Question Answering
+
+~~~python
+from moondream import VL
+model = VL("models/moondream-2b-int8.bin.gz")
+
+answer = model.query(image, "What's in this image?")
+print(answer['answer'])
+~~~
+
+That's it! You've just created your first VQA application with Moondream.
+
+## Next Steps
+
+Now that you've got the basics working, here's what to explore next:
+
+1. **Core Features**
+   - Try [Image Captioning](/moondream-docs/examples/captioning) to generate descriptions
+   - Explore [Visual Analysis](/moondream-docs/examples/analysis) for detailed scene understanding
+   - Build [Multi-turn Conversations](/moondream-docs/examples/conversations) about images
+
+2. **Practical Applications**
+   - Learn [Error Handling](/moondream-docs/advanced/error-handling) for robust applications
+   - Implement [Batch Processing](/moondream-docs/advanced/batch-processing) for multiple images
+   - Add [GPU Acceleration](/moondream-docs/advanced/gpu-and-transformers) for better performance
+
+3. **Advanced Topics**
+   - Explore different [Model Variants](/moondream-docs/advanced/model-variants)
+   - Master [Custom Prompts](/moondream-docs/advanced/prompting)
+   - Build [Web Applications](/moondream-docs/examples/web-apps)
+
+<Callout>
+Need help? Join our [Discord community](https://discord.gg/NxP7TnPKmV) for support and discussions!
+</Callout>

@@ -1,0 +1,636 @@
+import { Tabs } from 'nextra/components';
+import { Callout } from 'nextra/components';
+
+# Technical Specifications
+
+<div className='text-lg text-gray-600 mb-12'>
+	Moondream offers a range of models optimized for different use cases, from edge devices to high-performance servers. All models support the same core capabilities with different
+	performance characteristics.
+</div>
+
+## Model Variants
+
+<Tabs items={['2B Models', '0.5B Models']}>
+  <Tabs.Tab>
+    <div className="mt-6">
+      <div className="flex items-center gap-2 mb-6">
+        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+        <span className="text-gray-600">Recommended for most use cases</span>
+      </div>
+      
+      <div className="space-y-4">
+        <div className="relative bg-white rounded-lg border border-gray-200 overflow-hidden">
+         
+          <div className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-2xl font-semibold">INT8 Model</h3>
+                <div className="text-gray-600 mt-1">Balanced performance and quality</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-mono">2.09 GB</div>
+                <div className="text-sm text-gray-500">Compressed: 1.83 GB</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• ~250ms on V100 GPU</li>
+                  <li>• ~1s on modern CPU</li>
+                  <li>• 2GB VRAM required</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Production APIs</li>
+                  <li>• Cloud deployment</li>
+                  <li>• High-throughput services</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="mb-2">
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
+              </div>
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+                  <Tabs.Tab>
+                    ```bash
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```bash
+                    curl -L -o moondream-latest-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```powershell
+                    curl.exe -L -o moondream-latest-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```python
+                    import requests
+
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin"
+                    response = requests.get(url)
+                    with open("moondream-latest-int8.bin", "wb") as f:
+                        f.write(response.content)
+                    ```
+                  </Tabs.Tab>
+                </Tabs>
+                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
+                  Downloads: moondream-latest-int8.bin (2.09 GB)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200">
+          <div className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-2xl font-semibold">FP16 Model</h3>
+                <div className="text-gray-600 mt-1">Maximum accuracy and quality</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-mono">3.74 GB</div>
+                <div className="text-sm text-gray-500">Compressed: 2.88 GB</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• ~200ms on V100 GPU</li>
+                  <li>• 4GB VRAM required</li>
+                  <li>• GPU recommended</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Research projects</li>
+                  <li>• Quality benchmarking</li>
+                  <li>• High-end servers</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="mb-2">
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
+              </div>
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+                  <Tabs.Tab>
+                    ```bash
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```bash
+                    curl -L -o moondream-latest-f16.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```powershell
+                    curl.exe -L -o moondream-latest-f16.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```python
+                    import requests
+
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin"
+                    response = requests.get(url)
+                    with open("moondream-latest-f16.bin", "wb") as f:
+                        f.write(response.content)
+                    ```
+                  </Tabs.Tab>
+                </Tabs>
+                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
+                  Downloads: moondream-latest-f16.bin (3.74 GB)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200">
+          <div className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-2xl font-semibold">INT4 Model</h3>
+                <div className="text-gray-600 mt-1">Maximum compression</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-mono">1.52 GB</div>
+                <div className="text-sm text-gray-500">Compressed: 1.31 GB</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• ~300ms on V100 GPU</li>
+                  <li>• 1GB VRAM required</li>
+                  <li>• 8GB RAM recommended</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Memory constraints</li>
+                  <li>• Local development</li>
+                  <li>• Testing environments</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="mb-2">
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
+              </div>
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+                  <Tabs.Tab>
+                    ```bash
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```bash
+                    curl -L -o moondream-latest-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```powershell
+                    curl.exe -L -o moondream-latest-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```python
+                    import requests
+
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin"
+                    response = requests.get(url)
+                    with open("moondream-latest-int4.bin", "wb") as f:
+                        f.write(response.content)
+                    ```
+                  </Tabs.Tab>
+                </Tabs>
+                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
+                  Downloads: moondream-latest-int4.bin (1.52 GB)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </Tabs.Tab>
+  
+  <Tabs.Tab>
+    <div className="mt-6">
+      <div className="flex items-center gap-2 mb-6">
+        <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+        <span className="text-gray-600">Optimized for edge devices</span>
+      </div>
+      
+      <div className="space-y-4">
+        <div className="relative bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-2xl font-semibold">INT8 Model (0.5B)</h3>
+                <div className="text-gray-600 mt-1">Fast CPU inference</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-mono">613 MB</div>
+                <div className="text-sm text-gray-500">Compressed: 479 MB</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• ~500ms on modern CPU</li>
+                  <li>• 2GB RAM required</li>
+                  <li>• CPU optimized</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Raspberry Pi 4</li>
+                  <li>• Edge devices</li>
+                  <li>• Local development</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="mb-2">
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">onnx branch</code>
+              </div>
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+                  <Tabs.Tab>
+                    ```bash
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```bash
+                    curl -L -o moondream-0_5b-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```powershell
+                    curl.exe -L -o moondream-0_5b-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```python
+                    import requests
+
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin"
+                    response = requests.get(url)
+                    with open("moondream-0_5b-int8.bin", "wb") as f:
+                        f.write(response.content)
+                    ```
+                  </Tabs.Tab>
+                </Tabs>
+                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
+                  Downloads: moondream-0_5b-int8.bin (613 MB)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200">
+          <div className="p-6">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-2xl font-semibold">INT4 Model (0.5B)</h3>
+                <div className="text-gray-600 mt-1">Ultra-lightweight deployment</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xl font-mono">479 MB</div>
+                <div className="text-sm text-gray-500">Compressed: 375 MB</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• ~600ms on modern CPU</li>
+                  <li>• 1GB RAM required</li>
+                  <li>• Mobile optimized</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• Mobile devices</li>
+                  <li>• IoT deployment</li>
+                  <li>• Embedded systems</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="mb-2">
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">onnx branch</code>
+              </div>
+              <div className="rounded-md border border-gray-200 overflow-hidden">
+                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+                  <Tabs.Tab>
+                    ```bash
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```bash
+                    curl -L -o moondream-0_5b-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```powershell
+                    curl.exe -L -o moondream-0_5b-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    ```
+                  </Tabs.Tab>
+                  <Tabs.Tab>
+                    ```python
+                    import requests
+
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin"
+                    response = requests.get(url)
+                    with open("moondream-0_5b-int4.bin", "wb") as f:
+                        f.write(response.content)
+                    ```
+                  </Tabs.Tab>
+                </Tabs>
+                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
+                  Downloads: moondream-0_5b-int4.bin (479 MB)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </Tabs.Tab>
+</Tabs>
+
+## Performance Metrics (Benchmarks)
+
+<Tabs items={['2B Models', '0.5B Models']}>
+	<Tabs.Tab>
+		<div className='bg-white rounded-lg border border-gray-200 p-6 mt-6'>
+			<div className='overflow-x-auto'>
+				<table className='min-w-full'>
+					<thead>
+						<tr className='border-b border-gray-200'>
+							<th className='text-left py-3 px-4 font-semibold text-gray-700'>Release</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>VQAv2</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>GQA</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>TextVQA</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>DocVQA</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
+								TallyQA
+								<br />
+								<span className='text-xs'>(simple/full)</span>
+							</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
+								POPE
+								<br />
+								<span className='text-xs'>(rand/pop/adv)</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr className='border-b border-gray-200 bg-green-50'>
+							<td className='py-3 px-4'>
+								<div className='font-medium'>2024-08-26</div>
+								<div className='text-xs text-gray-500'>latest</div>
+							</td>
+							<td className='text-right py-3 px-4 font-mono'>80.3</td>
+							<td className='text-right py-3 px-4 font-mono'>64.3</td>
+							<td className='text-right py-3 px-4 font-mono'>65.2</td>
+							<td className='text-right py-3 px-4 font-mono'>70.5</td>
+							<td className='text-right py-3 px-4 font-mono'>82.6 / 77.6</td>
+							<td className='text-right py-3 px-4 font-mono'>89.6 / 88.8 / 87.2</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-07-23</td>
+							<td className='text-right py-3 px-4 font-mono'>79.4</td>
+							<td className='text-right py-3 px-4 font-mono'>64.9</td>
+							<td className='text-right py-3 px-4 font-mono'>60.2</td>
+							<td className='text-right py-3 px-4 font-mono'>61.9</td>
+							<td className='text-right py-3 px-4 font-mono'>82.0 / 76.8</td>
+							<td className='text-right py-3 px-4 font-mono'>91.3 / 89.7 / 86.9</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-05-20</td>
+							<td className='text-right py-3 px-4 font-mono'>79.4</td>
+							<td className='text-right py-3 px-4 font-mono'>63.1</td>
+							<td className='text-right py-3 px-4 font-mono'>57.2</td>
+							<td className='text-right py-3 px-4 font-mono'>30.5</td>
+							<td className='text-right py-3 px-4 font-mono'>82.1 / 76.6</td>
+							<td className='text-right py-3 px-4 font-mono'>91.5 / 89.6 / 86.2</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-05-08</td>
+							<td className='text-right py-3 px-4 font-mono'>79.0</td>
+							<td className='text-right py-3 px-4 font-mono'>62.7</td>
+							<td className='text-right py-3 px-4 font-mono'>53.1</td>
+							<td className='text-right py-3 px-4 font-mono'>30.5</td>
+							<td className='text-right py-3 px-4 font-mono'>81.6 / 76.1</td>
+							<td className='text-right py-3 px-4 font-mono'>90.6 / 88.3 / 85.0</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-04-02</td>
+							<td className='text-right py-3 px-4 font-mono'>77.7</td>
+							<td className='text-right py-3 px-4 font-mono'>61.7</td>
+							<td className='text-right py-3 px-4 font-mono'>49.7</td>
+							<td className='text-right py-3 px-4 font-mono'>24.3</td>
+							<td className='text-right py-3 px-4 font-mono'>80.1 / 74.2</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-03-13</td>
+							<td className='text-right py-3 px-4 font-mono'>76.8</td>
+							<td className='text-right py-3 px-4 font-mono'>60.6</td>
+							<td className='text-right py-3 px-4 font-mono'>46.4</td>
+							<td className='text-right py-3 px-4 font-mono'>22.2</td>
+							<td className='text-right py-3 px-4 font-mono'>79.6 / 73.3</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-03-06</td>
+							<td className='text-right py-3 px-4 font-mono'>75.4</td>
+							<td className='text-right py-3 px-4 font-mono'>59.8</td>
+							<td className='text-right py-3 px-4 font-mono'>43.1</td>
+							<td className='text-right py-3 px-4 font-mono'>20.9</td>
+							<td className='text-right py-3 px-4 font-mono'>79.5 / 73.2</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>2024-03-04</td>
+							<td className='text-right py-3 px-4 font-mono'>74.2</td>
+							<td className='text-right py-3 px-4 font-mono'>58.5</td>
+							<td className='text-right py-3 px-4 font-mono'>36.4</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+							<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div className='mt-4 text-sm text-gray-600'>
+				<h4 className='font-medium mb-2'>Benchmark Details:</h4>
+				<ul className='space-y-1 list-disc pl-4'>
+					<li>
+						<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
+					</li>
+					<li>
+						<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
+					</li>
+					<li>
+						<span className='font-medium'>TextVQA</span>: Text Visual Question Answering - Reading text in images
+					</li>
+					<li>
+						<span className='font-medium'>DocVQA</span>: Document Visual Question Answering - Understanding documents
+					</li>
+					<li>
+						<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
+					</li>
+					<li>
+						<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
+					</li>
+				</ul>
+			</div>
+		</div>
+	</Tabs.Tab>
+
+	<Tabs.Tab>
+		<div className='bg-white rounded-lg border border-gray-200 p-6 mt-6'>
+			<div className='flex items-center gap-2 mb-4'>
+				<span className='w-2 h-2 rounded-full bg-yellow-500'></span>
+				<span className='text-gray-600'>Benchmarking in progress</span>
+			</div>
+
+			<div className='prose dark:prose-dark max-w-none'>
+				<Callout type='info'>
+					We are currently conducting comprehensive benchmarking of the 0.5B models across all standard vision-language tasks. Results will be published here once available.
+					Initial testing shows promising performance for edge deployment scenarios while maintaining good accuracy on core tasks.
+				</Callout>
+
+				<div className='mt-4 text-sm text-gray-600'>
+					<h4 className='font-medium mb-2'>Preliminary Findings:</h4>
+					<ul className='space-y-2'>
+						<li>• Maintains strong performance on basic image captioning and visual Q&A</li>
+						<li>• Optimized for CPU inference with minimal accuracy trade-off</li>
+						<li>• Particularly effective for edge and mobile deployment scenarios</li>
+						<li>• Full benchmark results expected to be published soon</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</Tabs.Tab>
+</Tabs>
+
+## Technical Details
+
+<div className="grid grid-cols-1 gap-6 mt-6">
+  <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <h3 className="text-xl font-semibold mb-4">Architecture</h3>
+    <div className="space-y-3 font-mono text-sm">
+      <div>
+        Vision backbone inspired by CLIP's ViT-L/14 architecture, enhanced with custom modifications for improved visual understanding. Language processing powered by an optimized GPT-style decoder, trained on a carefully curated subset of LAION to ensure high-quality outputs.
+      </div>
+    </div>
+  </div>
+
+{' '}
+<div className='bg-white rounded-lg border border-gray-200 p-6'>
+	<h3 className='text-xl font-semibold mb-4'>Input/Output</h3>
+	<div className='space-y-3 font-mono text-sm'>
+		<div>Works with any input resolution, optimal results at 224x224 pixels Maximum context length: 512 tokens Supports RGB images in JPEG, PNG formats</div>
+	</div>
+</div>
+
+  <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <h3 className="text-xl font-semibold mb-4">Capabilities</h3>
+    <div className="space-y-3 font-mono text-sm">
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+        <span>Image Captioning</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+        <span>Visual Question Answering</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+        <span>Object Detection (coming soon)</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+        <span>Visual Pointing (coming soon)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+## Usage Examples
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+  <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <h3 className="text-lg font-semibold mb-4">Cloud Deployment</h3>
+    ```python
+    from moondream import VL
+
+    # High-performance cloud setup
+    model = VL("moondream-latest-int8.bin")  # 2B model
+
+    # Batch processing for efficiency
+    results = model.batch_answer(
+        images=batch_images,
+        prompts=batch_prompts
+    )
+    ```
+
+  </div>
+
+  <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <h3 className="text-lg font-semibold mb-4">Edge Deployment</h3>
+    ```python
+    from moondream import VL
+
+    # Lightweight edge setup
+    model = VL("moondream-0_5b-int4.bin")  # 0.5B model
+
+    # Single image processing
+    result = model.caption(
+        model.encode_image(image)
+    )
+    ```
+
+  </div>
+</div>

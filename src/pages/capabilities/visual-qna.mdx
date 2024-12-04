@@ -1,0 +1,230 @@
+# Visual Question Answering
+
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+<Callout type="info">
+  Ask questions about images and get natural language answers using Moondream's visual Q&A capabilities.
+</Callout>
+
+## Overview
+
+Moondream can answer questions about any image. This capability allows you to:
+- Ask natural language questions about images
+- Get detailed, contextual answers
+- Analyze specific aspects of images
+- Combine visual and textual understanding
+
+## Implementation Guide
+
+<Steps>
+### 1. Download Model
+<Tabs items={['Python (pip)', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    import os
+    import requests
+    import gzip
+    from tqdm import tqdm
+
+    # Model URLs dictionary
+    MODEL_URLS = {
+        'int8': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin.gz?download=true",
+        'fp16': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz?download=true",
+        'int4': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin.gz?download=true",
+        '0.5b-int8': "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin.gz?download=true",
+        '0.5b-int4': "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin.gz?download=true"
+    }
+
+    def download_model(variant='0.5b-int8', save_dir="models"):
+        """Download and extract model weights using wget-style direct extraction.
+        
+        Args:
+            variant (str): Model variant to download. Options:
+                - 'int8': Latest INT8 model (2.09 GB)
+                - 'fp16': Latest FP16 model (3.74 GB)
+                - 'int4': Latest INT4 model (1.52 GB)
+                - '0.5b-int8': Lightweight INT8 model (613 MB)
+                - '0.5b-int4': Lightweight INT4 model (479 MB)
+            save_dir (str): Directory to save the model
+        """
+        if variant not in MODEL_URLS:
+            raise ValueError(f"Invalid variant. Choose from: {list(MODEL_URLS.keys())}")
+        
+        os.makedirs(save_dir, exist_ok=True)
+        output_path = os.path.join(save_dir, f"moondream-{variant.replace('0.5b-', '0_5b-')}.bin")
+        
+        # Check if model already exists
+        if os.path.exists(output_path):
+            print(f"✅ Model already exists at: {output_path}")
+            return output_path
+        
+        # Download and extract in one step
+        print(f"📥 Downloading and extracting {variant} model...")
+        print("⚠️ Download time varies by model size and connection speed...")
+        response = requests.get(MODEL_URLS[variant], stream=True)
+        total_size = int(response.headers.get('content-length', 0))
+        
+        with open(output_path, 'wb') as f_out:
+            with gzip.GzipFile(fileobj=response.raw, mode='rb') as f_gz:
+                with tqdm(total=total_size, unit='iB', unit_scale=True) as pbar:
+                    while True:
+                        chunk = f_gz.read(1024*1024)
+                        if not chunk:
+                            break
+                        f_out.write(chunk)
+                        pbar.update(len(chunk))
+        
+        print(f"✅ Model ready at: {output_path}")
+        return output_path
+
+    # Choose and download model variant
+    variant = '0.5b-int8'  # Lightweight model for basic usage
+    model_path = download_model(variant=variant)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Coming soon
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Coming soon
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### 2. Initialize Model
+<Tabs items={['Python (pip)', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    import moondream as md
+    from PIL import Image
+
+    # Initialize model with path to weights
+    model = md.VL(model_path)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Coming soon
+    import { MoondreamAPI } from 'moondream';
+    
+    const model = new MoondreamAPI();
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Coming soon
+    import { MoondreamAPI } from 'moondream';
+    
+    const model = new MoondreamAPI();
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### 3. Load Image
+<Tabs items={['Python (pip)', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Load and encode image
+    image = Image.open("image.jpg")
+    encoded_image = model.encode_image(image)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Coming soon
+    const image = await loadImage("image.jpg");
+    const encodedImage = await model.encodeImage(image);
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Coming soon
+    const image = await loadImage("image.jpg");
+    const encodedImage = await model.encodeImage(image);
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### 4. Ask Questions
+<Tabs items={['Python (pip)', 'JavaScript', 'TypeScript']}>
+  <Tabs.Tab>
+    ```python
+    # Standard query
+    answer = model.query(encoded_image, "What color is the cat?")
+    print(answer["answer"])
+
+    # Streaming query
+    for token in model.query(encoded_image, "What color is the cat?", stream=True)["answer"]:
+        print(token, end="", flush=True)
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```javascript
+    // Coming soon
+    // Standard query
+    const answer = await model.query(encodedImage, "What color is the cat?");
+    console.log(answer);
+
+    // Streaming query
+    for await (const token of model.queryStream(encodedImage, "What color is the cat?")) {
+        process.stdout.write(token);
+    }
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript
+    // Coming soon
+    // Standard query
+    const answer = await model.query(encodedImage, "What color is the cat?");
+    console.log(answer);
+
+    // Streaming query
+    for await (const token of model.queryStream(encodedImage, "What color is the cat?")) {
+        process.stdout.write(token);
+    }
+    ```
+  </Tabs.Tab>
+</Tabs>
+</Steps>
+
+## Features
+
+<Callout type="info">
+The visual Q&A API provides several key capabilities:
+</Callout>
+
+- **Natural Language**: Ask questions in plain English
+- **Streaming Output**: Get answers as they're generated
+- **Contextual Understanding**: Answers consider full image context
+- **Simple Integration**: Works with standard image formats
+
+## Best Practices
+
+<Tabs items={['Question Formulation', 'Image Preparation', 'Output Handling']}>
+  <Tabs.Tab>
+    - Be specific in your questions
+    - Use clear, unambiguous language
+    - Consider context and scope
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - Use clear, well-lit images
+    - Ensure subjects are visible
+    - Consider image resolution
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - Handle streaming appropriately
+    - Consider answer formatting
+    - Cache results when possible
+  </Tabs.Tab>
+</Tabs>
+
+## Try It Now
+
+<Callout type="info">
+Experiment with visual Q&A capabilities at [moondream.ai/playground](https://moondream.ai/playground). The playground provides an interactive environment to test different questions and see the results in real-time.
+</Callout>

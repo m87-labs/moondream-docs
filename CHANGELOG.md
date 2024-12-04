@@ -9,6 +9,13 @@ All notable changes to the Moondream documentation will be documented in this fi
   - Visual Q&A documentation and examples
   - Image Captioning documentation and examples
   - Object Detection documentation (coming soon) 🚧
+  - Visual Pointing documentation (coming soon) 🚧
+- New Examples section with:
+  - Sample CLI interface
+  - Gradio webcam demo
+  - Basic usage patterns
+  - Batch processing examples
+  - Streamlit chat interface
 - Interactive playground iframes for each capability
 - Multi-language support (Python/JavaScript/TypeScript) across all examples
 - Improved navigation structure with better organization
@@ -19,11 +26,13 @@ All notable changes to the Moondream documentation will be documented in this fi
 - Improved README with clearer feature overview
 - Enhanced contributing guidelines
 - Restructured navigation using Nextra's recommended approach
+- Added comprehensive meta file documentation and structure
 
 ### Fixed
 - Navigation issues in sidebar
 - Meta file structure for proper page organization
 - Documentation hierarchy for better user experience
+- File structure consistency across sections
 
 ## [0.1.0] - 2024-03-03
 

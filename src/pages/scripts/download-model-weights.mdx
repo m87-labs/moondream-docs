@@ -1,0 +1,272 @@
+import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# Download Model Weights
+
+<div className='text-lg text-white dark:text-gray-400 mb-8'>
+  Scripts and utilities for downloading Moondream model weights.
+</div>
+
+## Model URLs
+
+| Model | Size | Branch | URL |
+|-------|------|--------|-----|
+| 2B FP16 | 3.74 GB | client | `moondream-latest-f16.bin` |
+| 2B INT8 | 2.09 GB | client | `moondream-latest-int8.bin` |
+| 2B INT4 | 1.52 GB | client | `moondream-latest-int4.bin` |
+| 0.5B INT8 | 613 MB | onnx | `moondream-0_5b-int8.bin` |
+| 0.5B INT4 | 479 MB | onnx | `moondream-0_5b-int4.bin` |
+
+## Download Scripts
+
+<Tabs items={['Python', 'Bash (Linux/Mac)', 'PowerShell (Windows)']}>
+  <Tabs.Tab>
+```python
+import os
+import requests
+import gzip
+from tqdm import tqdm
+
+# Model URLs dictionary
+MODEL_URLS = {
+    'int8': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin.gz?download=true",
+    'fp16': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz?download=true",
+    'int4': "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin.gz?download=true",
+    '0.5b-int8': "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin.gz?download=true",
+    '0.5b-int4': "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin.gz?download=true"
+}
+
+def download_model(variant='0.5b-int8', save_dir="models"):
+    """Download and extract model weights.
+    
+    Args:
+        variant (str): Model variant to download. Options:
+            - 'int8': Latest 2B INT8 model (2.09 GB)
+            - 'fp16': Latest 2B FP16 model (3.74 GB)
+            - 'int4': Latest 2B INT4 model (1.52 GB)
+            - '0.5b-int8': Lightweight INT8 model (613 MB)
+            - '0.5b-int4': Lightweight INT4 model (479 MB)
+        save_dir (str): Directory to save the model
+    """
+    if variant not in MODEL_URLS:
+        raise ValueError(f"Invalid variant. Choose from: {list(MODEL_URLS.keys())}")
+    
+    os.makedirs(save_dir, exist_ok=True)
+    output_path = os.path.join(save_dir, f"moondream-{variant.replace('0.5b-', '0_5b-')}.bin")
+    
+    # Check if model already exists
+    if os.path.exists(output_path):
+        print(f"✅ Model already exists at: {output_path}")
+        return output_path
+    
+    # Download and extract in one step
+    print(f"📥 Downloading and extracting {variant} model...")
+    print("⚠️ Download time varies by model size and connection speed...")
+    response = requests.get(MODEL_URLS[variant], stream=True)
+    total_size = int(response.headers.get('content-length', 0))
+    
+    with open(output_path, 'wb') as f_out:
+        with gzip.GzipFile(fileobj=response.raw, mode='rb') as f_gz:
+            with tqdm(total=total_size, unit='iB', unit_scale=True) as pbar:
+                while True:
+                    chunk = f_gz.read(1024*1024)
+                    if not chunk:
+                        break
+                    f_out.write(chunk)
+                    pbar.update(len(chunk))
+    
+    print(f"✅ Model ready at: {output_path}")
+    return output_path
+
+# Example usage
+if __name__ == "__main__":
+    # Choose model variant
+    variant = '0.5b-int8'  # Lightweight model for basic usage
+    model_path = download_model(variant=variant)
+    print(f"Downloaded model to: {model_path}")
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash
+#!/bin/bash
+
+# Available models
+declare -A models
+models=(
+  ["2b-fp16"]="client/moondream-latest-f16.bin.gz"
+  ["2b-int8"]="client/moondream-latest-int8.bin.gz"
+  ["2b-int4"]="client/moondream-latest-int4.bin.gz"
+  ["0.5b-int8"]="onnx/moondream-0_5b-int8.bin.gz"
+  ["0.5b-int4"]="onnx/moondream-0_5b-int4.bin.gz"
+)
+
+# Function to download and extract model
+download_model() {
+  local model=$1
+  local save_dir=${2:-"models"}
+  local base_url="https://huggingface.co/vikhyatk/moondream2/resolve"
+  
+  # Create save directory
+  mkdir -p "$save_dir"
+  
+  # Get model path
+  local model_path=${models[$model]}
+  if [ -z "$model_path" ]; then
+    echo "Error: Invalid model. Choose from: ${!models[@]}"
+    exit 1
+  fi
+  
+  # Set output filename
+  local output_file="$save_dir/${model_path##*/}"
+  output_file=${output_file%.gz}
+  
+  # Check if model already exists
+  if [ -f "$output_file" ]; then
+    echo "✅ Model already exists at: $output_file"
+    return
+  fi
+  
+  echo "📥 Downloading $model model..."
+  curl -L "$base_url/$model_path" | gunzip > "$output_file"
+  
+  if [ $? -eq 0 ]; then
+    echo "✅ Model ready at: $output_file"
+  else
+    echo "❌ Download failed"
+    rm -f "$output_file"
+    exit 1
+  fi
+}
+
+# Example usage
+# ./download_model.sh 0.5b-int8 ./models
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <model> [save_dir]"
+  echo "Available models: ${!models[@]}"
+  exit 1
+fi
+
+download_model "$1" "${2:-models}"
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```powershell
+# Available models
+$models = @{
+    "2b-fp16" = "client/moondream-latest-f16.bin.gz"
+    "2b-int8" = "client/moondream-latest-int8.bin.gz"
+    "2b-int4" = "client/moondream-latest-int4.bin.gz"
+    "0.5b-int8" = "onnx/moondream-0_5b-int8.bin.gz"
+    "0.5b-int4" = "onnx/moondream-0_5b-int4.bin.gz"
+}
+
+function Download-Model {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Model,
+        
+        [Parameter(Mandatory=$false)]
+        [string]$SaveDir = "models"
+    )
+    
+    # Create save directory
+    New-Item -ItemType Directory -Force -Path $SaveDir | Out-Null
+    
+    # Check model validity
+    if (-not $models.ContainsKey($Model)) {
+        Write-Host "Error: Invalid model. Choose from: $($models.Keys -join ', ')"
+        return
+    }
+    
+    # Set paths
+    $baseUrl = "https://huggingface.co/vikhyatk/moondream2/resolve"
+    $modelPath = $models[$Model]
+    $outputFile = Join-Path $SaveDir ($modelPath -replace '.gz$','')
+    
+    # Check if model exists
+    if (Test-Path $outputFile) {
+        Write-Host "✅ Model already exists at: $outputFile"
+        return
+    }
+    
+    Write-Host "📥 Downloading $Model model..."
+    
+    try {
+        # Download and extract
+        $tempFile = Join-Path $env:TEMP "model.gz"
+        Invoke-WebRequest -Uri "$baseUrl/$modelPath" -OutFile $tempFile
+        
+        # Extract using .NET compression
+        $input = New-Object System.IO.FileStream($tempFile, [System.IO.FileMode]::Open)
+        $output = New-Object System.IO.FileStream($outputFile, [System.IO.FileMode]::Create)
+        $gzip = New-Object System.IO.Compression.GZipStream($input, [System.IO.Compression.CompressionMode]::Decompress)
+        $gzip.CopyTo($output)
+        
+        # Cleanup
+        $gzip.Close()
+        $output.Close()
+        $input.Close()
+        Remove-Item $tempFile
+        
+        Write-Host "✅ Model ready at: $outputFile"
+    }
+    catch {
+        Write-Host "❌ Download failed: $_"
+        if (Test-Path $outputFile) { Remove-Item $outputFile }
+        if (Test-Path $tempFile) { Remove-Item $tempFile }
+    }
+}
+
+# Example usage:
+# .\download_model.ps1 0.5b-int8 .\models
+if ($args.Count -eq 0) {
+    Write-Host "Usage: .\download_model.ps1 <model> [save_dir]"
+    Write-Host "Available models: $($models.Keys -join ', ')"
+    return
+}
+
+Download-Model -Model $args[0] -SaveDir $(if ($args.Count -gt 1) { $args[1] } else { "models" })
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Usage Examples
+
+### Basic Download
+```bash
+# Python
+python download_model.py
+
+# Bash
+./download_model.sh 0.5b-int8 ./models
+
+# PowerShell
+.\download_model.ps1 0.5b-int8 .\models
+```
+
+### Custom Save Location
+```python
+model_path = download_model(variant='int8', save_dir='custom/path/models')
+```
+
+<Callout type="info">
+  The download scripts automatically handle:
+  - Checking if model already exists
+  - Creating save directories
+  - Extracting compressed files
+  - Progress tracking (Python version)
+  - Error handling
+</Callout>
+
+## Troubleshooting
+
+### Common Issues
+1. **Insufficient Disk Space**: Ensure you have enough free space for both download and extraction
+2. **Network Timeout**: For large models, consider using a download manager or retry mechanism
+3. **Extraction Errors**: Make sure you have write permissions in the save directory
+
+### Error Messages
+- `FileNotFoundError`: Save directory cannot be created
+- `PermissionError`: Insufficient permissions
+- `ValueError`: Invalid model variant specified
+- `requests.exceptions.RequestException`: Network or download error

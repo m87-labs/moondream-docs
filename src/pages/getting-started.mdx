@@ -1,0 +1,322 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+<Callout type="warning" emoji="🚧">
+  **Alpha Documentation**: This documentation is under active development and some features may be incomplete or subject to change.
+</Callout>
+
+# Quick Start
+
+Choose how you want to try Moondream based on your needs:
+
+## Try Moondream On...
+
+### Locally
+Run Moondream on your own machine:
+
+<Steps>
+### 1. Install Dependencies
+~~~bash
+pip install moondream
+~~~
+
+### 2. Download Model
+<Callout type="info">
+Choose a model variant based on your needs:
+- **2B Models**: Best quality, higher resource usage
+- **0.5B Models**: Faster, lower resource usage
+- **INT4**: Reduced precision = smallest size with moderate quality impact
+- **INT8**: Balanced precision = medium size with good quality
+- **FP16**: Full precision = largest size with best quality
+</Callout>
+
+<Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+  <Tabs.Tab>
+    <div className="grid grid-cols-1 gap-4">
+      {/* Header */}
+      <div className="grid grid-cols-4 gap-4 bg-gray-100 p-4 rounded-t-lg font-semibold">
+        <div>Model</div>
+        <div>Size</div>
+        <div>Branch</div>
+        <div>Action</div>
+      </div>
+      
+      {/* Table Body */}
+      {[
+        { name: '2B FP16', size: '3.74 GB', branch: 'client', filename: 'moondream-latest-f16.bin' },
+        { name: '2B INT8', size: '2.09 GB', branch: 'client', filename: 'moondream-latest-int8.bin' },
+        { name: '2B INT4', size: '1.52 GB', branch: 'client', filename: 'moondream-latest-int4.bin' },
+        { name: '0.5B INT8', size: '613 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin' },
+        { name: '0.5B INT4', size: '479 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin' }
+      ].map((model) => {
+        const cmd = `wget https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
+        return (
+          <div 
+            key={model.filename}
+            className="grid grid-cols-4 gap-4 p-4 hover:bg-gray-50 cursor-pointer border-b"
+            onClick={() => navigator.clipboard.writeText(cmd)}
+          >
+            <div>{model.name}</div>
+            <div>{model.size}</div>
+            <div>{model.branch}</div>
+            <div className="flex items-center gap-2">
+              <code className="text-sm text-gray-600 flex-1 truncate" title={cmd}>
+                wget https://huggingface.co/...
+              </code>
+              <button className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors">
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                  </svg>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Tabs.Tab>
+  <Tabs.Tab>
+    <div className="grid grid-cols-1 gap-4">
+      {/* Header */}
+      <div className="grid grid-cols-4 gap-4 bg-gray-100 p-4 rounded-t-lg font-semibold">
+        <div>Model</div>
+        <div>Size</div>
+        <div>Branch</div>
+        <div>Action</div>
+      </div>
+      
+      {/* Table Body */}
+      {[
+        { name: '2B FP16', size: '3.74 GB', branch: 'client', filename: 'moondream-latest-f16.bin' },
+        { name: '2B INT8', size: '2.09 GB', branch: 'client', filename: 'moondream-latest-int8.bin' },
+        { name: '2B INT4', size: '1.52 GB', branch: 'client', filename: 'moondream-latest-int4.bin' },
+        { name: '0.5B INT8', size: '613 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin' },
+        { name: '0.5B INT4', size: '479 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin' }
+      ].map((model) => {
+        const cmd = `curl -L -o ${model.filename} https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
+        return (
+          <div 
+            key={model.filename}
+            className="grid grid-cols-4 gap-4 p-4 hover:bg-gray-50 cursor-pointer border-b"
+            onClick={() => navigator.clipboard.writeText(cmd)}
+          >
+            <div>{model.name}</div>
+            <div>{model.size}</div>
+            <div>{model.branch}</div>
+            <div className="flex items-center gap-2">
+              <code className="text-sm text-gray-600 flex-1 truncate" title={cmd}>
+                curl -L -o {model.filename} https://huggingface.co/...
+              </code>
+              <button className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors">
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                  </svg>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Tabs.Tab>
+  <Tabs.Tab>
+    <div className="grid grid-cols-1 gap-4">
+      {/* Header */}
+      <div className="grid grid-cols-4 gap-4 bg-gray-100 p-4 rounded-t-lg font-semibold">
+        <div>Model</div>
+        <div>Size</div>
+        <div>Branch</div>
+        <div>Action</div>
+      </div>
+      
+      {/* Table Body */}
+      {[
+        { name: '2B FP16', size: '3.74 GB', branch: 'client', filename: 'moondream-latest-f16.bin' },
+        { name: '2B INT8', size: '2.09 GB', branch: 'client', filename: 'moondream-latest-int8.bin' },
+        { name: '2B INT4', size: '1.52 GB', branch: 'client', filename: 'moondream-latest-int4.bin' },
+        { name: '0.5B INT8', size: '613 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin' },
+        { name: '0.5B INT4', size: '479 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin' }
+      ].map((model) => {
+        const cmd = `curl.exe -L -o ${model.filename} https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
+        return (
+          <div 
+            key={model.filename}
+            className="grid grid-cols-4 gap-4 p-4 hover:bg-gray-50 cursor-pointer border-b"
+            onClick={() => navigator.clipboard.writeText(cmd)}
+          >
+            <div>{model.name}</div>
+            <div>{model.size}</div>
+            <div>{model.branch}</div>
+            <div className="flex items-center gap-2">
+              <code className="text-sm text-gray-600 flex-1 truncate" title={cmd}>
+                curl.exe -L -o {model.filename} https://huggingface.co/...
+              </code>
+              <button className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors">
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                  </svg>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Tabs.Tab>
+  <Tabs.Tab>
+    <div className="grid grid-cols-1 gap-4">
+      {/* Header */}
+      <div className="grid grid-cols-4 gap-4 bg-gray-100 p-4 rounded-t-lg font-semibold">
+        <div>Model</div>
+        <div>Size</div>
+        <div>Branch</div>
+        <div>Action</div>
+      </div>
+      
+      {/* Table Body */}
+      {[
+        { name: '2B FP16', size: '3.74 GB', branch: 'client', filename: 'moondream-latest-f16.bin' },
+        { name: '2B INT8', size: '2.09 GB', branch: 'client', filename: 'moondream-latest-int8.bin' },
+        { name: '2B INT4', size: '1.52 GB', branch: 'client', filename: 'moondream-latest-int4.bin' },
+        { name: '0.5B INT8', size: '613 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin' },
+        { name: '0.5B INT4', size: '479 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin' }
+      ].map((model) => {
+        const code = `import requests\n\nurl = "https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}"\nresponse = requests.get(url)\nwith open("${model.filename}", "wb") as f:\n    f.write(response.content)`;
+        return (
+          <div 
+            key={model.filename}
+            className="grid grid-cols-4 gap-4 p-4 hover:bg-gray-50 cursor-pointer border-b"
+            onClick={() => navigator.clipboard.writeText(code)}
+          >
+            <div>{model.name}</div>
+            <div>{model.size}</div>
+            <div>{model.branch}</div>
+            <div className="flex items-center gap-2">
+              <code className="text-sm text-gray-600 flex-1 truncate" title={code}>
+                import requests; response = requests.get("https://huggingface.co/...")
+              </code>
+              <button className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition-colors">
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                  </svg>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </Tabs.Tab>
+</Tabs>
+
+### 3. Basic Setup
+~~~python
+import moondream as md
+from PIL import Image
+
+# Initialize model with downloaded weights
+model = md.VL("moondream-latest-int8.bin")  # Replace with your downloaded model file
+image = Image.open("path/to/image.jpg")
+
+# Encode image (optional but recommended for multiple operations)
+encoded_image = model.encode_image(image)
+~~~
+
+<Callout type="info">
+**Note**: Image encoding is optional but recommended when performing multiple operations on the same image. The model will automatically encode if needed.
+</Callout>
+
+### 4. Generate Captions
+~~~python
+# Without streaming - get complete caption at once
+caption = model.caption(encoded_image)
+print("Caption:", caption["caption"])
+
+# With streaming - get tokens one by one
+print("Streaming caption: ", end="", flush=True)
+for token in model.caption(encoded_image, stream=True)["caption"]:
+    print(token, end="", flush=True)
+print()  # New line after streaming completes
+~~~
+
+<Callout type="info">
+**Streaming Output**: Use `stream=True` for real-time token-by-token output in both caption and query operations. This is useful for interactive applications or progress indication. Without streaming, the complete output is returned at once.
+</Callout>
+
+### 5. Ask Questions
+~~~python
+# Single question
+question = "What colors are prominent in this image?"
+answer = model.query(encoded_image, question)["answer"]
+print(f"Q: {question}")
+print(f"A: {answer}")
+
+# Stream answer tokens (optional)
+for token in model.query(encoded_image, question, stream=True)["answer"]:
+    print(token, end="", flush=True)
+~~~
+
+### 6. Object Detection (Coming Soon)
+~~~python
+# Detect objects
+detections = model.detect(image, "cat eyes")
+print(detections)
+~~~
+
+### 7. Visual Pointing (Coming Soon)
+~~~python
+# Point at objects
+response = model.point(image, "Where is the cat looking?")
+print(response)
+~~~
+
+<Callout type="warning">
+  Object detection and visual pointing are coming soon. Try them now at [moondream.ai/playground](https://moondream.ai/playground).
+</Callout>
+
+</Steps>
+
+---
+
+### Cloud
+For production deployments and high-performance needs:
+
+<Callout type="info">
+  Contact us at [team@moondream.ai](mailto:team@moondream.ai) to learn about:
+  - Managed cloud deployment options
+  - Enterprise support and SLAs
+  - Custom model optimization
+  - High-throughput API access
+</Callout>
+
+---
+
+
+### Jupyter Notebook
+The fastest way to try Moondream with zero setup:
+
+<Callout type="info">
+  [Open Moondream Notebook in Google Colab](https://colab.research.google.com/drive/1g88_P2Is8_dPqu-vX3D9VI80jJMjycUT#scrollTo=0Z3hcFtpGok0)
+
+  - **Free GPU Access**: Run Moondream on Google's cloud GPUs at no cost
+  - **Zero Setup**: Everything runs in your browser
+  - **Interactive Examples**: Try all features with your own images
+  - **Pre-installed Dependencies**: All required packages are handled automatically
+</Callout>
+
+---
+
+## Next Steps
+
+- Read the [Getting Started](/moondream-docs/getting-started) guide for detailed setup
+- Explore [Examples](/moondream-docs/examples) for more use cases
+- Learn about [Capabilities](/moondream-docs/capabilities) in detail

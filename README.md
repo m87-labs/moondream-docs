@@ -8,6 +8,8 @@ Official documentation for Moondream - a lightweight yet powerful vision-languag
 
 - 🖼️ **Image Analysis**: Generate detailed descriptions of any image
 - 💬 **Visual Q&A**: Ask natural language questions about images
+- 🚀 **Visual Pointing**: Get precise coordinates for objects in images 🚧
+- 🔍 **Object Detection**: Locate and identify objects in images 🚧
 - 🚀 **Local Processing**: Run entirely on your machine for privacy
 - 🎯 **CUDA Support**: GPU acceleration for faster processing
 - ⚡ **Streaming**: Real-time response streaming for longer outputs
@@ -24,13 +26,16 @@ docs/
 ├── Capabilities/
 │   ├── Visual Q&A
 │   ├── Image Captioning
-│   └── Object Detection 🚧
+│   ├── Object Detection 🚧
+│   └── Visual Pointing 🚧
 ├── Advanced Topics/
 │   ├── Configuration
 │   └── Troubleshooting
 └── Examples/
     ├── Basic Usage
     ├── Batch Processing
+    ├── Sample CLI
+    ├── Gradio Webcam Demo
     ├── Streamlit Chat App
     └── Documentation Features
 ```
@@ -52,10 +57,21 @@ src/
 │   ├── _app.tsx         # Custom Next.js App component
 │   ├── index.mdx        # Home page
 │   └── moondream-docs/  # Documentation pages
-│       ├── _meta.json   # Sidebar structure for docs
+│       ├── _meta.tsx    # Root navigation structure
 │       ├── getting-started.mdx
+│       ├── capabilities/
+│       │   ├── _meta.tsx
+│       │   ├── visual-qna.mdx
+│       │   ├── image-captioning.mdx
+│       │   ├── object-detection.mdx
+│       │   └── pointing.mdx
+│       ├── examples/
+│       │   ├── _meta.tsx
+│       │   ├── basic-usage.mdx
+│       │   ├── sample-cli.mdx
+│       │   └── gradio-webcam.mdx
 │       └── advanced/
-│           ├── _meta.json
+│           ├── _meta.tsx
 │           └── configuration.mdx
 ├── styles/
 │   └── globals.css      # Global styles and Tailwind directives
@@ -71,19 +87,24 @@ src/
 
 ### Special Files
 
-- `_meta.json`: Controls sidebar structure and metadata
+- `_meta.tsx`: Controls navigation structure and metadata
 - `index.mdx`: Default page for a folder
 - `_app.tsx`: Custom app wrapper
 
-### Sidebar Configuration
+### Meta File Structure
 
-Use `_meta.json` files to control the documentation structure:
+Each section has its own `_meta.tsx` file that:
+- Defines the section's navigation
+- Provides page metadata
+- Must align with actual files
+- Supports nested structures
 
-```json
-{
-  "getting-started": {
-    "title": "Getting Started",
-    "description": "Learn how to get started"
+Example:
+```typescript
+const meta = {
+  "visual-qna": {
+    title: "Visual Q&A",
+    description: "Ask questions about images"
   }
 }
 ```
@@ -118,7 +139,7 @@ npm start
 
 1. Create `.mdx` files in the `pages` directory
 2. Use nested folders for organization
-3. Add entries to `_meta.json` files to control sidebar order
+3. Add entries to `_meta.tsx` files to control navigation
 4. Use standard Markdown syntax with MDX features
 
 ### Example Page Structure
