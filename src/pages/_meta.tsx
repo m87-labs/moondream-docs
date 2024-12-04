@@ -1,65 +1,47 @@
 /**
  * Root documentation navigation structure
  * Purpose: Defines the main navigation sidebar and page hierarchy
- * 
- * Structure:
- * - index: Homepage
- * - quick-start: Simple setup guide
- * - getting-started: Detailed setup guide
- * - capabilities: Core model features
- *   - visual-qna: Question answering
- *   - image-captioning: Image description
- *   - object-detection: Object localization
- *   - pointing: Visual coordinate pointing
- * - advanced: Technical documentation
- *   - configuration: Setup options
- *   - troubleshooting: Common issues
- * - examples: Code samples
- *   - basic-usage: Simple examples
- *   - batch-processing: Batch operations
- *   - streamlit-chat: Chat interface
- *   - sample-cli: Command-line interface
- *   - gradio-webcam: Webcam demo
- *   - jupyter-notebook: Google Colab/Jupyter example
- *   - nextra-features: Docs features
+ * Location: /src/pages/
  */
 
-export default {
-  index: 'Introduction',
-  'quick-start': 'Quick Start', 
-  'getting-started': 'Getting Started',
-  capabilities: {
-    title: 'Capabilities',
-    children: {
-      'visual-qna': 'Visual Q&A',
-      'image-captioning': 'Image Captioning',
-      'object-detection': 'Object Detection 🚧',
-      'pointing': 'Visual Pointing 🚧'
-    }
+interface MetaItem {
+  title: string;
+  description: string;
+}
+
+const meta: Record<string, MetaItem> = {
+  index: {
+    title: 'Introduction',
+    description: 'Get started with Moondream, an efficient vision-language model for image understanding and analysis'
+  },
+  'quick-start': {
+    title: 'Quick Start',
+    description: 'Learn how to set up and run Moondream in under 5 minutes with our step-by-step guide'
+  },
+  'local-deployment': {
+    title: 'Local Deployment',
+    description: 'Deploy and run Moondream locally on your own infrastructure with detailed setup instructions'
+  },
+  cloud: {
+    title: 'Cloud',
+    description: 'Access Moondream\'s capabilities through our cloud API with ready-to-use endpoints'
+  },
+  'technical-specifications': {
+    title: 'Technical Specifications & Benchmarks',
+    description: 'Detailed technical specifications, performance benchmarks, and model architecture information'
+  },
+  'model-downloads': {
+    title: 'Model Downloads',
+    description: 'Download Moondream model variants optimized for different use cases and hardware configurations'
   },
   advanced: {
     title: 'Advanced',
-    children: {
-      configuration: 'Configuration',
-      troubleshooting: 'Troubleshooting'
-    }
+    description: 'Advanced topics including custom configurations, optimizations, and troubleshooting guides'
   },
-  examples: {
-    title: 'Examples',
-    children: {
-      'basic-usage': 'Basic Usage',
-      'batch-processing': 'Batch Processing',
-      'streamlit-chat': 'Streamlit Chat App',
-      'sample-cli': 'Sample CLI',
-      'gradio-webcam': 'Gradio Webcam Demo',
-      'jupyter-notebook': 'Jupyter/Colab Example',
-      'nextra-features': 'Documentation Features'
-    }
-  },
-  scripts: {
-    title: 'Scripts',
-    children: {
-      'download-model-weights': 'Download Model Weights'
-    }
+  cookbook: {
+    title: 'Cookbook',
+    description: 'Practical examples and recipes for common Moondream use cases and integrations'
   }
-}
+} as const;
+
+export default meta;

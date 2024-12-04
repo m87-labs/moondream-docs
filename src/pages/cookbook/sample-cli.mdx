@@ -1,6 +1,14 @@
 # Sample CLI Interface
 
-This example demonstrates how to use Moondream's CLI interface for image analysis and interactive questioning.
+Create a command-line interface for image analysis and interactive questioning.
+
+## Prerequisites
+
+1. Download a model from our [Model Downloads](/moondream-docs/model-downloads) page
+2. Install dependencies:
+```bash
+pip install torch transformers pillow
+```
 
 ## Full Source Code
 
@@ -59,10 +67,8 @@ if __name__ == "__main__":
                 question = input("> ")
 
                 result_queue = Queue()
-
                 streamer = TextIteratorStreamer(tokenizer, skip_special_tokens=True)
 
-                # Separate direct arguments from keyword arguments
                 thread_args = (image_embeds, question, tokenizer, chat_history)
                 thread_kwargs = {"streamer": streamer, "result_queue": result_queue}
 
@@ -91,37 +97,18 @@ if __name__ == "__main__":
             print(answer)
 ```
 
-## Usage
+Save this code as `cli_app.py` and run it using one of these commands:
 
-Save this code as `sample.py` and run it using one of the following commands:
-
-1. Single question mode:
 ```bash
-python sample.py --image [IMAGE_PATH] --prompt "What's in this image?"
+# Single question mode
+python cli_app.py --image [IMAGE_PATH] --prompt "What's in this image?"
+
+# Interactive mode (ask multiple questions)
+python cli_app.py --image [IMAGE_PATH]
+
+# Caption mode
+python cli_app.py --image [IMAGE_PATH] --caption
+
+# CPU mode (if you have GPU issues)
+python cli_app.py --image [IMAGE_PATH] --cpu
 ```
-
-2. Interactive mode (ask multiple questions):
-```bash
-python sample.py --image [IMAGE_PATH]
-```
-
-3. Caption mode (generate image caption):
-```bash
-python sample.py --image [IMAGE_PATH] --caption
-```
-
-4. CPU mode (if you encounter GPU issues):
-```bash
-python sample.py --image [IMAGE_PATH] --cpu
-```
-
-## Features
-
-- Image captioning
-- Interactive question-answering
-- Streaming responses
-- Chat history tracking
-- GPU/CPU device selection
-- Support for both single questions and interactive mode
-
-For basic usage examples, see the [Getting Started](/moondream-docs/getting-started) guide. 

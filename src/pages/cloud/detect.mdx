@@ -1,0 +1,295 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Object Detection API
+
+Detect and locate objects in images.
+
+## API Specification
+
+### Request Model
+~~~python filename="models.py"
+class DetectRequest(BaseModel):
+    image_url: str
+    object: str  # Object to detect in the image
+~~~
+
+### Response Model
+~~~python filename="response.py"
+class DetectResponse(BaseModel):
+    result: List[Dict[str, float]]  # List of bounding boxes with coordinates
+~~~
+
+### Example Response
+```python
+{
+    "result": [
+        {
+            "x_min": 0.2,  # Normalized coordinates (0-1)
+            "y_min": 0.3,  # Top-left corner
+            "x_max": 0.5,  # Bottom-right corner
+            "y_max": 0.7
+        },
+        {
+            "x_min": 0.6,
+            "y_min": 0.4,
+            "x_max": 0.8,
+            "y_max": 0.9
+        }
+    ]
+}
+```
+
+## Example Usage
+
+<Tabs items={['cURL', 'Python', 'Node.js', 'Fetch', 'Axios']}>
+  <Tabs.Tab>
+~~~bash filename="detect.sh"
+# Convert image to base64
+IMAGE_BASE64=$(base64 -i image.jpg)
+
+# Make API request
+curl -X POST https://playground2.servers.moondream.ai/v1/detect \
+  -H "Content-Type: application/json" \
+  -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
+  -d "{
+    \"image_url\": \"data:image/jpeg;base64,$IMAGE_BASE64\",
+    \"object\": \"cat\"
+  }"
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~python filename="detect.py" {3-4,14,33-34} showLineNumbers
+import os
+from urllib.request import Request, urlopen
+import json
+import base64
+
+# Load image file and convert to base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+# Get API key from environment variable
+api_key = os.getenv("MOONDREAM_API_KEY")
+if not api_key:
+    raise ValueError("Please set MOONDREAM_API_KEY environment variable")
+
+# Prepare request
+image_base64 = get_base64_image("image.jpg")
+data = {
+    "image_url": f"data:image/jpeg;base64,{image_base64}",
+    "object": "cat"
+}
+
+# Set up request headers
+headers = {
+    "X-Moondream-Auth": api_key,
+    "Content-Type": "application/json"
+}
+
+# Make request using standard library
+req = Request(
+    "https://playground2.servers.moondream.ai/v1/detect",
+    data=json.dumps(data).encode(),
+    headers=headers,
+    method="POST"
+)
+
+# Send request and handle response
+try:
+    with urlopen(req) as response:
+        result = json.loads(response.read())
+        if not result["result"]:
+            print("No objects detected")
+        else:
+            for i, box in enumerate(result["result"], 1):
+                print(f"Object {i} found at coordinates:")
+                print(f"  Top-left: ({box['x_min']:.2f}, {box['y_min']:.2f})")
+                print(f"  Bottom-right: ({box['x_max']:.2f}, {box['y_max']:.2f})")
+except Exception as e:
+    print(f"Error making request: {str(e)}")
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~typescript filename="detect.ts" {3-4,14,33-34} showLineNumbers
+import { readFileSync } from 'fs';
+import { request } from 'https';
+
+// Load and convert image to base64
+function getBase64Image(imagePath: string): string {
+  const imageBuffer = readFileSync(imagePath);
+  return imageBuffer.toString('base64');
+}
+
+// Get API key from environment
+const apiKey = process.env.MOONDREAM_API_KEY;
+if (!apiKey) {
+  throw new Error('Please set MOONDREAM_API_KEY environment variable');
+}
+
+// Prepare request data
+const imageBase64 = getBase64Image('image.jpg');
+const data = {
+  image_url: `data:image/jpeg;base64,${imageBase64}`,
+  object: 'cat'
+};
+
+// Set up request options
+const options = {
+  hostname: 'playground2.servers.moondream.ai',
+  path: '/v1/detect',
+  method: 'POST',
+  headers: {
+    'X-Moondream-Auth': apiKey,
+    'Content-Type': 'application/json'
+  }
+};
+
+// Make request
+const req = request(options, (res) => {
+  let data = '';
+
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  res.on('end', () => {
+    try {
+      const result = JSON.parse(data);
+      if (!result.result.length) {
+        console.log('No objects detected');
+      } else {
+        result.result.forEach((box, index) => {
+          console.log(`Object ${index + 1} found at coordinates:`);
+          console.log(`  Top-left: (${box.x_min.toFixed(2)}, ${box.y_min.toFixed(2)})`);
+          console.log(`  Bottom-right: (${box.x_max.toFixed(2)}, ${box.y_max.toFixed(2)})`);
+        });
+      }
+    } catch (error) {
+      console.error('Error parsing response:', error);
+    }
+  });
+});
+
+req.on('error', (error) => {
+  console.error('Error making request:', error);
+});
+
+// Send request
+req.write(JSON.stringify(data));
+req.end();
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~javascript filename="detect-fetch.js" {14,33-34} showLineNumbers
+// Load and convert image to base64
+async function getBase64Image(imagePath) {
+  const response = await fetch(imagePath);
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function detectObject() {
+  try {
+    const imageBase64 = await getBase64Image('image.jpg');
+    
+    const response = await fetch('https://playground2.servers.moondream.ai/v1/detect', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
+      },
+      body: JSON.stringify({
+        image_url: `data:image/jpeg;base64,${imageBase64}`,
+        object: 'cat'
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (!data.result.length) {
+      console.log('No objects detected');
+    } else {
+      data.result.forEach((box, index) => {
+        console.log(`Object ${index + 1} found at coordinates:`);
+        console.log(`  Top-left: (${box.x_min.toFixed(2)}, ${box.y_min.toFixed(2)})`);
+        console.log(`  Bottom-right: (${box.x_max.toFixed(2)}, ${box.y_max.toFixed(2)})`);
+      });
+    }
+  } catch (error) {
+    console.error('Error making request:', error);
+  }
+}
+
+detectObject();
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~javascript filename="detect-axios.js" {14,33-34} showLineNumbers
+import axios from 'axios';
+import fs from 'fs';
+
+async function detectObject() {
+  try {
+    // Read and convert image to base64
+    const imageBuffer = fs.readFileSync('image.jpg');
+    const imageBase64 = imageBuffer.toString('base64');
+
+    const response = await axios({
+      method: 'post',
+      url: 'https://playground2.servers.moondream.ai/v1/detect',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
+      },
+      data: {
+        image_url: `data:image/jpeg;base64,${imageBase64}`,
+        object: 'cat'
+      }
+    });
+
+    if (!response.data.result.length) {
+      console.log('No objects detected');
+    } else {
+      response.data.result.forEach((box, index) => {
+        console.log(`Object ${index + 1} found at coordinates:`);
+        console.log(`  Top-left: (${box.x_min.toFixed(2)}, ${box.y_min.toFixed(2)})`);
+        console.log(`  Bottom-right: (${box.x_max.toFixed(2)}, ${box.y_max.toFixed(2)})`);
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('Error from server:', error.response.data);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error making request:', error.message);
+    }
+  }
+}
+
+detectObject();
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+  The examples above demonstrate different ways to interact with the API using popular libraries and tools. Each example includes proper error handling, environment variable usage, and formatted output of the detected object coordinates. The coordinates are normalized between 0 and 1, where (0,0) is the top-left corner and (1,1) is the bottom-right corner of the image.
+</Callout>
+
+---
+
+## Next Steps
+
+- Check out our [Examples](/cookbook/basic-usage) to see object detection in action with sample code and use cases
+- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
+- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)

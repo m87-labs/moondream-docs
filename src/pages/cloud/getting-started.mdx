@@ -1,0 +1,124 @@
+import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# Moondream Cloud Quick Start
+
+<Callout type="warning" emoji="🚧">
+  **Early Access**: Moondream Cloud is currently in early access. Features and APIs may change.
+</Callout>
+
+<Callout type="info">
+  Get your API key from [beta.console.moondream.ai](https://beta.console.moondream.ai)
+</Callout>
+
+## Basic Usage
+
+<Tabs items={['Python', 'cURL', 'Streaming']}>
+  <Tabs.Tab>
+~~~python
+import httpx
+import base64
+
+# Convert your image to base64
+with open("image.jpg", "rb") as image_file:
+    image_base64 = base64.b64encode(image_file.read()).decode()
+
+# Prepare request data
+data = {
+    "image_url": f"data:image/jpeg;base64,{image_base64}",
+    "length": "long",
+    "stream": False
+}
+
+headers = {
+    "X-Moondream-Auth": "your_api_key_here"
+}
+
+# Make request
+with httpx.Client() as client:
+    response = client.post(
+        "https://playground2.servers.moondream.ai/v1/caption",
+        json=data,
+        headers=headers,
+        timeout=120.0
+    )
+
+result = response.json()
+print(result["result"])
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash copy
+curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+  -H "X-Moondream-Auth: your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "data:image/jpeg;base64,your_base64_encoded_image_here",
+    "length": "long",
+    "stream": false
+  }'
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~python
+import httpx
+import json
+import base64
+
+# Convert your image to base64
+with open("image.jpg", "rb") as image_file:
+    image_base64 = base64.b64encode(image_file.read()).decode()
+
+# Prepare request data
+data = {
+    "image_url": f"data:image/jpeg;base64,{image_base64}",
+    "length": "long",
+    "stream": True
+}
+
+headers = {
+    "X-Moondream-Auth": "your_api_key_here"
+}
+
+# Make streaming request
+with httpx.Client() as client:
+    with client.stream(
+        "POST",
+        "https://playground2.servers.moondream.ai/v1/caption",
+        json=data,
+        headers=headers,
+        timeout=60.0
+    ) as response:
+        full_response = ""
+        for line in response.iter_lines():
+            if not line:
+                continue
+
+            if line == "[START]":
+                continue
+            elif line == "[DONE]":
+                break
+
+            if line.startswith("data: "):
+                try:
+                    chunk = json.loads(line[6:])  # Skip "data: " prefix
+                    if chunk["completed"]:
+                        break
+                    chunk_text = chunk["chunk"]
+                    full_response += chunk_text
+                    print(chunk_text, end="", flush=True)
+                except json.JSONDecodeError:
+                    print(f"Failed to parse chunk: {line}")
+
+print("\nFinal response:", full_response)
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+---
+
+## Next Steps
+
+- Check out our [Examples](/cookbook/basic-usage) to see image captioning in action with sample code and use cases
+- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
+- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)

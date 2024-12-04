@@ -1,0 +1,52 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# Moondream Local Deployment
+
+## Prerequisites
+- Python 3.8+
+- For GPU: CUDA 12.x & cuDNN 9.x
+- Download [Moondream 2B INT8 Model (1.7GB)](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int8.bin.gz?download=true) and place in `models/moondream-2b-int8.bin.gz`
+
+<Callout type="info">
+  Other models available at [Model Downloads](/moondream-docs/model-downloads)
+</Callout>
+
+<Steps>
+### Install Package
+<Tabs items={['CPU', 'GPU']}>
+  <Tabs.Tab>
+~~~bash
+pip install moondream==0.0.2
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+pip install moondream-gpu==0.0.2
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+### Try It Out
+~~~python
+from moondream import VL
+model = VL("models/moondream-2b-int8.bin.gz")
+
+answer = model.query(image, "What's in this image?")
+print(answer['answer'])
+~~~
+</Steps>
+
+
+---
+
+## Next Steps
+
+- Check out our [Examples](/cookbook/basic-usage) to see image captioning in action with sample code and use cases
+- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
+- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)
+
+<Callout>
+Need help? Join our [Discord community](https://discord.com/invite/tRUdpjDQfH)!
+</Callout>

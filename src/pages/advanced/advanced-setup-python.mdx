@@ -1,0 +1,131 @@
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+<Callout type='warning' emoji='🚧'>
+	**Alpha Documentation**: This documentation is under active development and some features may be incomplete or subject to change.
+</Callout>
+
+# Getting Started
+
+Choose how you want to try Moondream based on your needs:
+
+## Try Moondream On...
+
+### Locally
+
+Run Moondream on your own machine:
+
+<Steps>
+### 1. Install Dependencies
+~~~bash
+pip install moondream
+~~~
+
+### 3. Basic Setup
+
+~~~python
+import moondream as md
+from PIL import Image
+
+# Initialize model with downloaded weights
+model = md.VL("moondream-latest-int8.bin")  # Replace with your downloaded model file
+image = Image.open("path/to/image.jpg")
+
+# Encode image (optional but recommended for multiple operations)
+encoded_image = model.encode_image(image)
+~~~
+
+<Callout type='info'>
+	**Note**: Image encoding is optional but recommended when performing multiple operations on the same image. The model will automatically encode if needed.
+</Callout>
+
+### 4. Generate Captions
+
+~~~python
+# Without streaming - get complete caption at once
+caption = model.caption(encoded_image)
+print("Caption:", caption["caption"])
+
+# With streaming - get tokens one by one
+print("Streaming caption: ", end="", flush=True)
+for token in model.caption(encoded_image, stream=True)["caption"]:
+    print(token, end="", flush=True)
+print()  # New line after streaming completes
+~~~
+
+<Callout type='info'>
+	**Streaming Output**: Use `stream=True` for real-time token-by-token output in both caption and query operations. This is useful for interactive applications or progress
+	indication. Without streaming, the complete output is returned at once.
+</Callout>
+
+### 5. Ask Questions
+
+~~~python
+# Single question
+question = "What colors are prominent in this image?"
+answer = model.query(encoded_image, question)["answer"]
+print(f"Q: {question}")
+print(f"A: {answer}")
+
+# Stream answer tokens (optional)
+for token in model.query(encoded_image, question, stream=True)["answer"]:
+    print(token, end="", flush=True)
+~~~
+
+### 6. Object Detection (Coming Soon)
+
+~~~python
+# Detect objects
+detections = model.detect(image, "cat eyes")
+print(detections)
+~~~
+
+### 7. Visual Pointing (Coming Soon)
+
+~~~python
+# Point at objects
+response = model.point(image, "Where is the cat looking?")
+print(response)
+~~~
+
+<Callout type='warning'>Object detection and visual pointing are coming soon. Try them now at [moondream.ai/playground](https://moondream.ai/playground).</Callout>
+
+</Steps>
+
+---
+
+### Cloud
+
+For production deployments and high-performance needs:
+
+<Callout type='info'>
+	Contact us at [team@moondream.ai](mailto:team@moondream.ai) to learn about:
+	- Managed cloud deployment options
+	- Enterprise support and SLAs
+	- Custom model optimization
+	- High-throughput API access
+</Callout>
+
+---
+
+### Jupyter Notebook
+
+The fastest way to try Moondream with zero setup:
+
+<Callout type="info">
+  [Open Moondream Notebook in Google Colab](https://colab.research.google.com/drive/1g88_P2Is8_dPqu-vX3D9VI80jJMjycUT#scrollTo=0Z3hcFtpGok0)
+
+- **Free GPU Access**: Run Moondream on Google's cloud GPUs at no cost
+- **Zero Setup**: Everything runs in your browser
+- **Interactive Examples**: Try all features with your own images
+- **Pre-installed Dependencies**: All required packages are handled automatically
+</Callout>
+
+---
+
+## Next Steps
+
+- Read the [Getting Started](/moondream-docs/getting-started) guide for detailed setup
+- Explore [Examples](/moondream-docs/examples) for more use cases
+- Learn about [Capabilities](/moondream-docs/capabilities) in detail

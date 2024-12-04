@@ -1,0 +1,253 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Image Captioning API
+
+Generate natural language descriptions of images.
+
+## API Specification
+
+### Request Model
+~~~python filename="models.py"
+class CaptionRequest(BaseModel):
+    image_url: str
+    length: Optional[str] = "long"
+    stream: Optional[bool] = False
+~~~
+
+### Response Model
+<Tabs items={['Non-Streaming', 'Streaming']}>
+  <Tabs.Tab>
+~~~python
+class CaptionResponse(BaseModel):
+    result: str
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~python
+{
+    'chunk': str,  # token from stream
+    'completed': bool
+}
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+## Example Usage
+
+<Tabs items={['cURL', 'Python', 'Node.js', 'Fetch', 'Axios']}>
+  <Tabs.Tab>
+~~~bash filename="caption.sh"
+# Convert image to base64
+IMAGE_BASE64=$(base64 -i image.jpg)
+
+# Make API request
+curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+  -H "Content-Type: application/json" \
+  -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
+  -d "{
+    \"image_url\": \"data:image/jpeg;base64,$IMAGE_BASE64\",
+    \"length\": \"long\",
+    \"stream\": false
+  }"
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~python filename="caption.py" {3-4} showLineNumbers
+import os
+from urllib.request import Request, urlopen
+import json
+import base64
+
+# Load image file and convert to base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+# Get API key from environment variable
+api_key = os.getenv("MOONDREAM_API_KEY")
+if not api_key:
+    raise ValueError("Please set MOONDREAM_API_KEY environment variable")
+
+# Prepare request
+image_base64 = get_base64_image("image.jpg")
+data = {
+    "image_url": f"data:image/jpeg;base64,{image_base64}",
+    "length": "long",
+    "stream": False
+}
+
+# Set up request headers
+headers = {
+    "X-Moondream-Auth": api_key,
+    "Content-Type": "application/json"
+}
+
+# Make request using standard library
+req = Request(
+    "https://playground2.servers.moondream.ai/v1/caption",
+    data=json.dumps(data).encode(),
+    headers=headers,
+    method="POST"
+)
+
+# Send request and handle response
+try:
+    with urlopen(req) as response:
+        result = json.loads(response.read())
+        print(result["result"])
+except Exception as e:
+    print(f"Error: {e}")
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~typescript filename="caption.ts" {3-4} showLineNumbers
+import { readFileSync } from 'fs';
+import { request } from 'https';
+
+// Load and convert image to base64
+function getBase64Image(imagePath: string): string {
+  const imageBuffer = readFileSync(imagePath);
+  return imageBuffer.toString('base64');
+}
+
+// Get API key from environment
+const apiKey = process.env.MOONDREAM_API_KEY;
+if (!apiKey) {
+  throw new Error('Please set MOONDREAM_API_KEY environment variable');
+}
+
+// Prepare request data
+const imageBase64 = getBase64Image('image.jpg');
+const data = {
+  image_url: `data:image/jpeg;base64,${imageBase64}`,
+  length: 'long',
+  stream: false
+};
+
+// Set up request options
+const options = {
+  hostname: 'playground2.servers.moondream.ai',
+  path: '/v1/caption',
+  method: 'POST',
+  headers: {
+    'X-Moondream-Auth': apiKey,
+    'Content-Type': 'application/json'
+  }
+};
+
+// Make request
+const req = request(options, (res) => {
+  let data = '';
+
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  res.on('end', () => {
+    try {
+      const result = JSON.parse(data);
+      console.log(result.result);
+    } catch (error) {
+      console.error('Error parsing response:', error);
+    }
+  });
+});
+
+req.on('error', (error) => {
+  console.error('Error:', error);
+});
+
+// Send request
+req.write(JSON.stringify(data));
+req.end();
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~javascript filename="caption-fetch.js"
+// Load and convert image to base64
+async function getBase64Image(imagePath) {
+  const response = await fetch(imagePath);
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function captionImage() {
+  try {
+    const imageBase64 = await getBase64Image('image.jpg');
+    
+    const response = await fetch('https://playground2.servers.moondream.ai/v1/caption', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
+      },
+      body: JSON.stringify({
+        image_url: `data:image/jpeg;base64,${imageBase64}`,
+        length: 'long',
+        stream: false
+      })
+    });
+
+    const data = await response.json();
+    console.log(data.result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+captionImage();
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~javascript filename="caption-axios.js"
+import axios from 'axios';
+import fs from 'fs';
+
+async function captionImage() {
+  try {
+    // Read and convert image to base64
+    const imageBuffer = fs.readFileSync('image.jpg');
+    const imageBase64 = imageBuffer.toString('base64');
+
+    const response = await axios({
+      method: 'post',
+      url: 'https://playground2.servers.moondream.ai/v1/caption',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
+      },
+      data: {
+        image_url: `data:image/jpeg;base64,${imageBase64}`,
+        length: 'long',
+        stream: false
+      }
+    });
+
+    console.log(response.data.result);
+  } catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+  }
+}
+
+captionImage();
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+  The examples above demonstrate different ways to interact with the API using popular libraries and tools. Each example includes proper error handling and environment variable usage.
+</Callout>
+
+---
+
+## Next Steps
+
+- Check out our [Examples](/cookbook/basic-usage) to see image captioning in action with sample code and use cases
+- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
+- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)

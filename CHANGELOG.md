@@ -20,6 +20,7 @@ All notable changes to the Moondream documentation will be documented in this fi
 - Multi-language support (Python/JavaScript/TypeScript) across all examples
 - Improved navigation structure with better organization
 - Community-driven documentation approach
+- Code block copy button functionality with preserved Nextra syntax highlighting
 
 ### Changed
 - Updated documentation structure for better organization
@@ -27,6 +28,7 @@ All notable changes to the Moondream documentation will be documented in this fi
 - Enhanced contributing guidelines
 - Restructured navigation using Nextra's recommended approach
 - Added comprehensive meta file documentation and structure
+- Simplified code block implementation to use native Nextra styling
 
 ### Fixed
 - Navigation issues in sidebar

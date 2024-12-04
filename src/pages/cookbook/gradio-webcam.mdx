@@ -1,6 +1,14 @@
 # Gradio Webcam Demo
 
-This example demonstrates how to create a real-time webcam interface for Moondream using Gradio.
+Create a real-time webcam interface for Moondream using Gradio.
+
+## Prerequisites
+
+1. Download a model from our [Model Downloads](/moondream-docs/model-downloads) page
+2. Install dependencies:
+```bash
+pip install gradio torch transformers einops
+```
 
 ## Full Source Code
 
@@ -36,7 +44,6 @@ moondream = AutoModelForCausalLM.from_pretrained(
 ).to(device=device, dtype=dtype)
 moondream.eval()
 
-
 def answer_question(img, prompt):
     image_embeds = moondream.encode_image(img)
     streamer = TextIteratorStreamer(tokenizer, skip_special_tokens=True)
@@ -55,7 +62,6 @@ def answer_question(img, prompt):
     for new_text in streamer:
         buffer += new_text
         yield buffer
-
 
 with gr.Blocks() as demo:
     gr.Markdown("# 🌔 moondream")
@@ -104,38 +110,15 @@ with gr.Blocks() as demo:
                     if len(text) > 0:
                         yield text
 
-
 demo.queue().launch(debug=True)
 ```
 
-## Usage
+Save this code as `webcam_app.py` and run it with:
 
-Save this code as `webcam_gradio_demo.py` and run it using one of the following commands:
-
-1. With GPU (default):
 ```bash
-python webcam_gradio_demo.py
+# With GPU (default)
+python webcam_app.py
+
+# CPU mode (if you have GPU issues)
+python webcam_app.py --cpu
 ```
-
-2. CPU mode (if you encounter GPU issues):
-```bash
-python webcam_gradio_demo.py --cpu
-```
-
-## Features
-
-- Real-time webcam input
-- Streaming responses
-- Interactive prompt editing
-- Automatic image analysis
-- GPU/CPU device selection
-- Clean and modern UI
-
-## Requirements
-
-Make sure to install the required dependencies:
-```bash
-pip install gradio transformers torch einops
-```
-
-For basic usage examples, see the [Getting Started](/moondream-docs/getting-started) guide. 

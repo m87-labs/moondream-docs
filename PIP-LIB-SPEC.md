@@ -304,7 +304,7 @@ Before committing documentation changes:
 - `moondream-pip.md` (this guide)
 - `getting-started.mdx`
 - `quick-start.mdx`
-- Example files in `/examples/`
+- Example files in `/cookbook/`
 
 ### Documentation Update Process
 1. Update this guide first

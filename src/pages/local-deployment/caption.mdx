@@ -1,0 +1,31 @@
+# Image Captioning
+
+Generate natural language descriptions of images with Moondream.
+
+## Installation & Model
+
+~~~bash
+pip install moondream==0.0.2
+~~~
+
+Download the model from our [Model Downloads](/moondream-docs/model-downloads) page.
+
+## Basic Usage
+
+~~~python
+from moondream import VL
+model = VL("models/moondream-2b-int8.bin.gz")
+
+caption = model.caption(image)
+print(caption)
+~~~
+
+That's all you need to start generating image captions!
+
+---
+
+## Next Steps
+
+- Check out our [Examples](/cookbook/basic-usage) to see image captioning in action with sample code and use cases
+- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
+- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)

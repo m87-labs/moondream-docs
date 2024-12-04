@@ -1,0 +1,74 @@
+# Streamlit Chat Interface
+
+Create an interactive chat interface with Moondream using Streamlit.
+
+## Prerequisites
+
+1. Download a model from our [Model Downloads](/moondream-docs/model-downloads) page
+2. Install dependencies:
+
+```bash
+pip install streamlit torch transformers pillow
+```
+
+## Full Source Code
+
+```python
+import streamlit as st
+from PIL import Image
+from moondream import VL
+
+# Initialize Streamlit
+st.title("🌙 Moondream Chat")
+
+# Initialize model (do this only once)
+@st.cache_resource
+def load_model():
+    return VL("models/moondream-2b-int8.bin.gz")  # Adjust path to your downloaded model
+
+model = load_model()
+
+# File uploader
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+
+if uploaded_file is not None:
+    # Display image
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image", use_column_width=True)
+    
+    # Store image encoding
+    if "image_encoding" not in st.session_state:
+        st.session_state.image_encoding = model.encode_image(image)
+    
+    # Chat interface
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # Display chat history
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Chat input
+    if prompt := st.chat_input("Ask about the image..."):
+        # Display user message
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        
+        # Add user message to history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # Get model response
+        with st.chat_message("assistant"):
+            response = model.query(st.session_state.image_encoding, prompt)
+            st.markdown(response["answer"])
+            
+        # Add assistant response to history
+        st.session_state.messages.append({"role": "assistant", "content": response["answer"]})
+```
+
+Save this code as `streamlit_app.py` and run it with:
+
+```bash
+streamlit run streamlit_app.py
+```

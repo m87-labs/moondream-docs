@@ -1,3 +1,8 @@
+---
+title: Quick Start Guide
+description: Get started with Moondream in minutes
+---
+
 import { Callout } from 'nextra/components'
 import { Steps } from 'nextra/components'
 import { Tabs } from 'nextra/components'
@@ -6,235 +11,86 @@ import { Tabs } from 'nextra/components'
   **Alpha Documentation**: This documentation is under active development and some features may be incomplete or subject to change.
 </Callout>
 
-<Callout type="warning" emoji="⚠️">
-  **Alpha Preview Library**: The Moondream Python client library is in an early stage of development. Backward compatibility is not yet guaranteed. If you are using this in production, please pin the specific version you are using.
-</Callout>
-
 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
   <div>
     ## Prerequisites
-
-    <Tabs items={['Windows', 'Linux', 'macOS']}>
-      <Tabs.Tab>
-        - Python 3.8+
-        - Microsoft Visual C++ Redistributable 2019 ([Download here](https://aka.ms/vs/16/release/vc_redist.x64.exe))
-        - For GPU support: [CUDA](https://docs.nvidia.com/cuda/) 12.x and [cuDNN](https://docs.nvidia.com/deeplearning/cudnn/latest/index.html) 9.x
-      </Tabs.Tab>
-      <Tabs.Tab>
-        - Python 3.8+
-        - For GPU support: [CUDA](https://docs.nvidia.com/cuda/) 12.x and [cuDNN](https://docs.nvidia.com/deeplearning/cudnn/latest/index.html) 9.x
-        - Build essentials (for some dependencies):
-          ~~~bash
-          sudo apt-get update
-          sudo apt-get install build-essential
-          ~~~
-      </Tabs.Tab>
-      <Tabs.Tab>
-        - Python 3.8+
-        - Xcode Command Line Tools:
-          ~~~bash
-          xcode-select --install
-          ~~~
-      </Tabs.Tab>
-    </Tabs>
+    - [Python 3.8+](https://www.python.org/downloads/)
+    - [PIP](https://pip.pypa.io/en/stable/installation/)
   </div>
 
   <div>
     ## Sample Image
-    <div className="border rounded-lg overflow-hidden">
+    <br/>
+    <div className="border rounded-lg max-w-[150px] overflow-hidden">
       <img 
-        src="https://cdn.pixabay.com/photo/2023/01/30/11/04/cat-7755394_1280.jpg" 
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/1280px-Cat_November_2010-1a.jpg" 
         alt="Sample cat image used in quick start code"
         className="w-full h-auto"
       />
-      <div className="p-3 bg-gray-50 text-sm text-gray-600">
-        Default image used in the example code below
-      </div>
     </div>
   </div>
 </div>
 
-### Model Variants
+<Steps>
+### Create Project Directory
+Create a new directory for your project
 
-| Model | Precision | Download Size | Memory Usage | Download Link |
-|-------|-----------|---------------|--------------|---------------|
-| Moondream 2B | int8 | 1,746 MiB | 2,587 MiB | [Download](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int8.bin.gz?download=true) |
-| Moondream 2B | int4 | 1,251 MiB | 2,044 MiB | [Download](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int4.bin.gz?download=true) |
-| Moondream 0.5B | int8 | 585 MiB | 1,007 MiB | [Download](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int8.bin.gz?download=true) |
-| Moondream 0.5B | int4 | 457 MiB | 871 MiB | [Download](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int4.bin.gz?download=true) |
+### Download Model
+Download the model by clicking here: [Download Moondream 0.5B INT8](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int8.bin.gz?download=true)
 
 <Callout type="info">
-While the library can load gzipped weights, we recommend decompressing the file before usage to avoid paying the decompression cost every time the model is initialized.
-
-Memory usage indicates the peak memory usage expected during typical usage.
+  Check out other available models at [Model Downloads](/moondream-docs/model-downloads) for different size and performance options.
 </Callout>
 
-## Installation
+### Move Model File
+Move the downloaded file to your project directory
 
-### One-Click Setup
+### Install Package
 <Tabs items={['CPU', 'GPU']}>
   <Tabs.Tab>
-Copy and paste this complete code to get started immediately:
-~~~bash
+```bash
+# Run this in your project directory
 pip install moondream==0.0.2
-~~~
-
-~~~python
-import moondream as md
-from PIL import Image
-import os
-import requests
-import gzip
-from tqdm import tqdm
-from io import BytesIO
-
-# Download model (required for first use)
-def download_model(variant='fp16', save_dir="models"):
-    """Download and extract model weights.
-    Args:
-        variant (str): 'int8' (1,746 MiB) - Standard model
-                      'int4' (1,251 MiB) - Reduced size
-                      '0.5b-int8' (585 MiB) or '0.5b-int4' (457 MiB) for lightweight
-    """
-    model_urls = {
-        'int8': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int8.bin.gz?download=true",
-        'int4': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int4.bin.gz?download=true",
-        '0.5b-int8': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int8.bin.gz?download=true",
-        '0.5b-int4': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int4.bin.gz?download=true"
-    }
-    
-    os.makedirs(save_dir, exist_ok=True)
-    output_path = os.path.join(save_dir, f"moondream-{variant.replace('0.5b-', '0_5b-')}.bin")
-    
-    if os.path.exists(output_path):
-        print(f"✅ Model already exists at: {output_path}")
-        return output_path
-        
-    print(f"📥 Downloading {variant} model...")
-    response = requests.get(model_urls[variant], stream=True)
-    total_size = int(response.headers.get('content-length', 0))
-    
-    with open(output_path, 'wb') as f_out:
-        with gzip.GzipFile(fileobj=response.raw, mode='rb') as f_gz:
-            with tqdm(total=total_size, unit='iB', unit_scale=True) as pbar:
-                while True:
-                    chunk = f_gz.read(1024*1024)
-                    if not chunk:
-                        break
-                    f_out.write(chunk)
-                    pbar.update(len(chunk))
-    
-    print(f"✅ Model ready at: {output_path}")
-    return output_path
-
-# Download lightweight model for CPU inference
-print("🖥️ Running on CPU with 0.5B parameter model")
-model_path = download_model('0.5b-int8')  # 585 MiB, optimized for CPU
-model = md.VL(model_path)
-
-# Use a sample image for testing (comment out these lines to use your own image)
-SAMPLE_IMAGE_URL = "https://cdn.pixabay.com/photo/2023/01/30/11/04/cat-7755394_1280.jpg"
-response = requests.get(SAMPLE_IMAGE_URL)
-image = Image.open(BytesIO(response.content))
-
-# To use your own image, uncomment this line:
-# image = Image.open("image.jpg")
-
-print("🔍 Running image encoding on CPU...")
-encoded_image = model.encode_image(image)
-
-print("📝 Generating caption... (~2-3 tokens/sec on CPU)")
-caption = model.caption(encoded_image)
-print(f"Caption: {caption['caption']}\n")
-
-print("❓ Running visual Q&A... (~2-3 tokens/sec on CPU)")
-answer = model.query(encoded_image, "What colors do you see?")
-print(f"Answer: {answer['answer']}")
-~~~
+```
   </Tabs.Tab>
   <Tabs.Tab>
-Copy and paste this complete code to get started immediately:
-~~~bash
+  <Callout type="info">
+    PIP library for GPU support coming soon!
+  </Callout>
+  - Prerequisites for GPU support
+      - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
+      - [cuDNN 9.x](https://developer.nvidia.com/cudnn)
+```bash
+# Run this in your project directory
 pip install moondream-gpu==0.0.2
-~~~
-
-~~~python
-import moondream as md
-from PIL import Image
-import os
-import requests
-import gzip
-from tqdm import tqdm
-from io import BytesIO
-
-# Download model (required for first use)
-def download_model(variant='fp16', save_dir="models"):
-    """Download and extract model weights.
-    Args:
-        variant (str): 'int8' (1,746 MiB) - Standard model
-                      'int4' (1,251 MiB) - Reduced size
-                      '0.5b-int8' (585 MiB) or '0.5b-int4' (457 MiB) for lightweight
-    """
-    model_urls = {
-        'int8': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int8.bin.gz?download=true",
-        'int4': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-2b-int4.bin.gz?download=true",
-        '0.5b-int8': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int8.bin.gz?download=true",
-        '0.5b-int4': "https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int4.bin.gz?download=true"
-    }
-    
-    os.makedirs(save_dir, exist_ok=True)
-    output_path = os.path.join(save_dir, f"moondream-{variant.replace('0.5b-', '0_5b-')}.bin")
-    
-    if os.path.exists(output_path):
-        print(f"✅ Model already exists at: {output_path}")
-        return output_path
-        
-    print(f"📥 Downloading {variant} model...")
-    response = requests.get(model_urls[variant], stream=True)
-    total_size = int(response.headers.get('content-length', 0))
-    
-    with open(output_path, 'wb') as f_out:
-        with gzip.GzipFile(fileobj=response.raw, mode='rb') as f_gz:
-            with tqdm(total=total_size, unit='iB', unit_scale=True) as pbar:
-                while True:
-                    chunk = f_gz.read(1024*1024)
-                    if not chunk:
-                        break
-                    f_out.write(chunk)
-                    pbar.update(len(chunk))
-    
-    print(f"✅ Model ready at: {output_path}")
-    return output_path
-
-# Download full model for GPU inference
-print("🚀 Running on GPU with 2B parameter model")
-model_path = download_model('int8')  # 1,746 MiB, recommended for GPU
-model = md.VL(model_path)
-
-# Use a sample image for testing (comment out these lines to use your own image)
-SAMPLE_IMAGE_URL = "https://cdn.pixabay.com/photo/2023/01/30/11/04/cat-7755394_1280.jpg"
-response = requests.get(SAMPLE_IMAGE_URL)
-image = Image.open(BytesIO(response.content))
-
-# To use your own image, uncomment this line:
-# image = Image.open("image.jpg")
-
-print("🔍 Running image encoding on GPU...")
-encoded_image = model.encode_image(image)
-
-print("📝 Generating caption... (~10-15 tokens/sec on GPU)")
-caption = model.caption(encoded_image)
-print(f"Caption: {caption['caption']}\n")
-
-print("❓ Running visual Q&A... (~10-15 tokens/sec on GPU)")
-answer = model.query(encoded_image, "What colors do you see?")
-print(f"Answer: {answer['answer']}")
-~~~
+```
   </Tabs.Tab>
 </Tabs>
 
+### Run Sample Code
+```python
+from moondream import VL
+from PIL import Image
+from urllib.request import urlopen
+
+model = VL('moondream-0_5b-int8.bin.gz')
+
+url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/1280px-Cat_November_2010-1a.jpg'
+image = Image.open(urlopen(url))
+
+for t in model.caption(encoded_image, stream=True)['caption']:
+    print(t, end='', flush=True)
+# optionally, you can use the non-streaming version
+# print(model.caption(encoded_image)['caption'])
+```
+</Steps>
+
 ## Next Steps
 
-- Explore [Examples](/moondream-docs/examples) for more use cases
-- Learn about [Capabilities](/moondream-docs/capabilities) in detail
-- Check out [GPU Acceleration & Transformers](/moondream-docs/advanced/gpu-and-transformers) for advanced usage
+- Try our [Cloud API](/cloud/getting-started) for a serverless solution
+- Learn about [Capabilities](/capabilities) in detail
+- Check out [GPU Acceleration & Transformers](/advanced/gpu-and-transformers) for advanced usage
+
+<Callout>
+  Run into any issues getting setup? Join our [Discord](https://discord.com/invite/tRUdpjDQfH) and share your experience or get help!
+</Callout>

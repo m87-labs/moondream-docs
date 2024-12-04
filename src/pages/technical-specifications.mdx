@@ -527,110 +527,61 @@ import { Callout } from 'nextra/components';
 			</div>
 		</div>
 	</Tabs.Tab>
-
 	<Tabs.Tab>
 		<div className='bg-white rounded-lg border border-gray-200 p-6 mt-6'>
-			<div className='flex items-center gap-2 mb-4'>
-				<span className='w-2 h-2 rounded-full bg-yellow-500'></span>
-				<span className='text-gray-600'>Benchmarking in progress</span>
+			<div className='overflow-x-auto'>
+				<table className='min-w-full'>
+					<thead>
+						<tr className='border-b border-gray-200'>
+							<th className='text-left py-3 px-4 font-semibold text-gray-700'>Model</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>VQAv2</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>GQA</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
+								TallyQA
+								<br />
+								<span className='text-xs'>(simple/full)</span>
+							</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
+								POPE
+								<br />
+								<span className='text-xs'>(rand/pop/adv)</span>
+							</th>
+							<th className='text-right py-3 px-4 font-semibold text-gray-700'>Natural Bench</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr className='border-b border-gray-200'>
+							<td className='py-3 px-4'>
+								<div className='font-medium'>Moondream 0.5B</div>
+								<div className='text-xs text-gray-500'>latest (12-04-24)</div>
+							</td>
+							<td className='text-right py-3 px-4 font-mono'>68.92</td>
+							<td className='text-right py-3 px-4 font-mono'>57.24</td>
+							<td className='text-right py-3 px-4 font-mono'>71.82 / 67.91</td>
+							<td className='text-right py-3 px-4 font-mono'>85.1 / 79.43 / 77.53</td>
+							<td className='text-right py-3 px-4 font-mono'>44.9</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
-			<div className='prose dark:prose-dark max-w-none'>
-				<Callout type='info'>
-					We are currently conducting comprehensive benchmarking of the 0.5B models across all standard vision-language tasks. Results will be published here once available.
-					Initial testing shows promising performance for edge deployment scenarios while maintaining good accuracy on core tasks.
-				</Callout>
-
-				<div className='mt-4 text-sm text-gray-600'>
-					<h4 className='font-medium mb-2'>Preliminary Findings:</h4>
-					<ul className='space-y-2'>
-						<li>• Maintains strong performance on basic image captioning and visual Q&A</li>
-						<li>• Optimized for CPU inference with minimal accuracy trade-off</li>
-						<li>• Particularly effective for edge and mobile deployment scenarios</li>
-						<li>• Full benchmark results expected to be published soon</li>
-					</ul>
-				</div>
+			<div className='mt-4 text-sm text-gray-600'>
+			<h4 className='font-medium mb-2'>Benchmark Details:</h4>
+				<ul className='space-y-1 list-disc pl-4'>
+					<li>
+						<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
+					</li>
+					<li>
+						<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
+					</li>
+					<li>
+						<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
+					</li>
+					<li>
+						<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
+					</li>
+				</ul>
 			</div>
 		</div>
 	</Tabs.Tab>
 </Tabs>
-
-## Technical Details
-
-<div className="grid grid-cols-1 gap-6 mt-6">
-  <div className="bg-white rounded-lg border border-gray-200 p-6">
-    <h3 className="text-xl font-semibold mb-4">Architecture</h3>
-    <div className="space-y-3 font-mono text-sm">
-      <div>
-        Vision backbone inspired by CLIP's ViT-L/14 architecture, enhanced with custom modifications for improved visual understanding. Language processing powered by an optimized GPT-style decoder, trained on a carefully curated subset of LAION to ensure high-quality outputs.
-      </div>
-    </div>
-  </div>
-
-{' '}
-<div className='bg-white rounded-lg border border-gray-200 p-6'>
-	<h3 className='text-xl font-semibold mb-4'>Input/Output</h3>
-	<div className='space-y-3 font-mono text-sm'>
-		<div>Works with any input resolution, optimal results at 224x224 pixels Maximum context length: 512 tokens Supports RGB images in JPEG, PNG formats</div>
-	</div>
-</div>
-
-  <div className="bg-white rounded-lg border border-gray-200 p-6">
-    <h3 className="text-xl font-semibold mb-4">Capabilities</h3>
-    <div className="space-y-3 font-mono text-sm">
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-        <span>Image Captioning</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-        <span>Visual Question Answering</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-        <span>Object Detection (coming soon)</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-        <span>Visual Pointing (coming soon)</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-## Usage Examples
-
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-  <div className="bg-white rounded-lg border border-gray-200 p-6">
-    <h3 className="text-lg font-semibold mb-4">Cloud Deployment</h3>
-    ```python
-    from moondream import VL
-
-    # High-performance cloud setup
-    model = VL("moondream-latest-int8.bin")  # 2B model
-
-    # Batch processing for efficiency
-    results = model.batch_answer(
-        images=batch_images,
-        prompts=batch_prompts
-    )
-    ```
-
-  </div>
-
-  <div className="bg-white rounded-lg border border-gray-200 p-6">
-    <h3 className="text-lg font-semibold mb-4">Edge Deployment</h3>
-    ```python
-    from moondream import VL
-
-    # Lightweight edge setup
-    model = VL("moondream-0_5b-int4.bin")  # 0.5B model
-
-    # Single image processing
-    result = model.caption(
-        model.encode_image(image)
-    )
-    ```
-
-  </div>
-</div>
