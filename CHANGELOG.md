@@ -21,6 +21,13 @@ All notable changes to the Moondream documentation will be documented in this fi
   - Updated 2B checkpoints
   - Removed .tar format from checkpoints
 - Updated authentication link to use new domain: https://console.moondream.ai/auth/login
+- Local deployment documentation updates:
+  - Added support for direct gzipped model loading (`model = vl('moondream-0_5b-int8.bin.gz')`)
+  - Added recommendation to unzip models for faster loading times
+  - Updated model paths and examples across all capability pages (caption, detect, point, query)
+  - Updated _meta.tsx with latest endpoint descriptions
+  - Refreshed local LLM reference documentation
+  - Updated model downloads section with new formats and recommendations
 
 ### Added
 - New Capabilities section with dedicated pages for:

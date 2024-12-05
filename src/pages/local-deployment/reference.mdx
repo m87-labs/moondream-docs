@@ -6,11 +6,15 @@ Welcome to the Moondream local deployment documentation. Learn how to run Moondr
 
 ## Installation
 
-```bash filename="terminal"
-pip install moondream==0.0.4
-```
+~~~bash filename="terminal"
+pip install moondream
+~~~
 
-Download the model weights from our [Model Downloads](/model-downloads) page.
+Download the model weights from our [Model Downloads](/model-downloads) page. While compressed models can be loaded directly, we recommend unzipping them first for faster loading times:
+
+~~~bash filename="terminal"
+gzip -d models/moondream-2b-int8.bin.gz
+~~~
 
 ## Available Features
 <Cards>
@@ -50,9 +54,11 @@ Download the model weights from our [Model Downloads](/model-downloads) page.
 
 Initialize the model and use any of the available features:
 
-```python filename="example.py"
+~~~python filename="example.py"
 from moondream import vl
-model = vl("models/moondream-2b-int8.bin.gz")
+
+# Load unzipped model for faster startup
+model = vl("models/moondream-2b-int8.bin")
 
 # Visual Q&A
 answer = model.query(image, "What is in this image?")
@@ -69,7 +75,7 @@ print(objects['answer'])
 # Visual Pointing
 coords = model.point(image, "point to the dog")
 print(f"The dog is at coordinates: {coords}")
-```
+~~~
 
 ## Quick Reference
 
@@ -86,7 +92,7 @@ Here's a quick overview of all available features and their function signatures:
 
 ### Input Types
 
-```python filename="input-types.py"
+~~~python filename="input-types.py"
 # Supported image input formats
 image: Union[
     str,                # Path to image file
@@ -98,11 +104,11 @@ image: Union[
 # Query parameters
 question: str          # Natural language question
 object_description: str # Description of object to locate
-```
+~~~
 
 ### Return Types
 
-```python filename="return-types.py"
+~~~python filename="return-types.py"
 # Visual Q&A and Object Detection
 type QueryResponse = {
     "answer": str  # Natural language response
@@ -113,7 +119,7 @@ type CaptionResponse = str  # Generated caption
 
 # Visual Pointing
 type PointResponse = List[Dict[str, float]]  # Coordinate points
-```
+~~~
 
 ## Performance Tips
 
@@ -121,4 +127,3 @@ type PointResponse = List[Dict[str, float]]  # Coordinate points
 - Keep images at reasonable resolutions (around 224x224 pixels)
 - Batch process images when possible
 - Use GPU acceleration when available
-``` 

@@ -4,17 +4,19 @@ Ask natural language questions about images and get detailed answers with Moondr
 
 ## Installation & Model
 
-```bash filename="terminal"
-pip install moondream==0.0.4
-```
+~~~bash filename="terminal"
+pip install moondream
+~~~
 
-Download the model from our [Model Downloads](/model-downloads) page.
+Download the model from our [Model Downloads](/model-downloads) page. While compressed models can be loaded directly, we recommend unzipping them first for faster loading times.
 
 ## Basic Usage
 
-```python filename="example.py"
+~~~python filename="example.py"
 from moondream import vl
-model = vl("models/moondream-2b-int8.bin.gz")
+
+# Load unzipped model for faster startup
+model = vl("models/moondream-2b-int8.bin")
 
 # Ask a simple question
 answer = model.query(image, "What is the main color in this image?")
@@ -23,7 +25,7 @@ print(answer['answer'])
 # Ask about objects
 answer = model.query(image, "How many people are in this image?")
 print(answer['answer'])
-```
+~~~
 
 That's all you need to start asking questions about images!
 

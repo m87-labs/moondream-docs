@@ -6,7 +6,7 @@
 
 ### Version Specification
 ```bash
-pip install moondream==0.0.4  # Always specify version for reproducibility
+pip install moondream  # Always specify version for reproducibility
 ```
 
 ### Model Downloads

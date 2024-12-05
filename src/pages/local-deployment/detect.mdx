@@ -4,17 +4,17 @@ Detect and locate objects in images with natural language using Moondream.
 
 ## Installation & Model
 
-```bash filename="terminal"
-pip install moondream==0.0.4
-```
+~~~bash filename="terminal"
+pip install moondream
+~~~
 
-Download the model from our [Model Downloads](/model-downloads) page.
+Download the model from our [Model Downloads](/model-downloads) page. While compressed models can be loaded directly, we recommend unzipping them first for faster loading times.
 
 ## Basic Usage
 
-```python filename="example.py"
+~~~python filename="example.py"
 from moondream import vl
-model = vl("models/moondream-2b-int8.bin.gz")
+model = vl("models/moondream-2b-int8.bin") # Load unzipped model for faster startup
 
 # Basic object detection
 objects = model.query(image, "What objects do you see in this image?")
@@ -23,7 +23,7 @@ print(objects['answer'])
 # Location-based detection
 locations = model.query(image, "Where is the cat in this image?")
 print(locations['answer'])
-```
+~~~
 
 That's all you need to start detecting objects in images!
 
