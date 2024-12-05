@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true // mandatory, otherwise won't export
   },
-  basePath: '/moondream-docs',
-  assetPrefix: '/moondream-docs'
+  basePath: '',
+  assetPrefix: ''
 }
 
 const withNextra = nextra({
