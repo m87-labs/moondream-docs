@@ -17,6 +17,10 @@ const meta: Meta = {
     title: 'Getting Started',
     description: 'Complete guide to deploying Moondream locally, from installation to first inference, with performance optimization tips'
   },
+  'reference': {
+    title: 'Reference',
+    description: 'Detailed reference for Moondream local deployment, including API endpoints and request/response formats'
+  },
   '---': {
     type: 'separator'
   },

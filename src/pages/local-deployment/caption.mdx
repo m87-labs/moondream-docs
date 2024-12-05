@@ -4,21 +4,21 @@ Generate natural language descriptions of images with Moondream.
 
 ## Installation & Model
 
-~~~bash
+```bash filename="terminal"
 pip install moondream==0.0.2
-~~~
+```
 
 Download the model from our [Model Downloads](/model-downloads) page.
 
 ## Basic Usage
 
-~~~python
+```python filename="example.py"
 from moondream import VL
 model = VL("models/moondream-2b-int8.bin.gz")
 
 caption = model.caption(image)
 print(caption)
-~~~
+```
 
 That's all you need to start generating image captions!
 

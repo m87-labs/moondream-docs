@@ -1,18 +1,18 @@
 # Visual Pointing
 
-Locate and point to specific objects or regions in images with Moondream.
+Get precise coordinate locations for objects in images using Moondream.
 
 ## Installation & Model
 
-~~~bash
+```bash filename="terminal"
 pip install moondream==0.0.2
-~~~
+```
 
 Download the model from our [Model Downloads](/model-downloads) page.
 
 ## Basic Usage
 
-~~~python
+```python filename="example.py"
 from moondream import VL
 model = VL("models/moondream-2b-int8.bin.gz")
 
@@ -23,7 +23,7 @@ print(f"The dog is at coordinates: {coords}")
 # Multiple points
 coords = model.point(image, "point to all the windows")
 print(f"Window coordinates: {coords}")
-~~~
+```
 
 That's all you need to start using visual pointing!
 
@@ -31,6 +31,6 @@ That's all you need to start using visual pointing!
 
 ## Next Steps
 
-- Check out our [Examples](/cookbook/basic-usage) to see image captioning in action with sample code and use cases
+- Check out our [Examples](/cookbook/basic-usage) to see visual pointing in action with sample code and use cases
 - Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
 - Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)

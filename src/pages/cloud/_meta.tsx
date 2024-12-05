@@ -17,17 +17,22 @@ const meta: Meta = {
     title: 'Getting Started',
     description: 'Quick guide to getting started with Moondream Cloud APIs, including authentication setup and basic usage examples'
   },
+  'api-reference': {
+    title: 'API Reference',
+    description: 'Detailed API reference for Moondream Cloud APIs, including request and response formats'
+  },
   '---': {
     type: 'separator'
-  },
-  'caption': {
-    title: '/caption',
-    description: 'Generate accurate and natural image captions using Moondream\'s cloud API endpoint with examples and best practices'
   },
   'query': {
     title: '/query',
     description: 'Ask natural language questions about images and receive detailed answers through Moondream\'s visual Q&A endpoint'
   },
+  'caption': {
+    title: '/caption',
+    description: 'Generate accurate and natural image captions using Moondream\'s cloud API endpoint with examples and best practices'
+  },
+
   'detect': {
     title: '/detect',
     description: 'Detect and locate objects in images using Moondream\'s object detection API (Coming Soon)'

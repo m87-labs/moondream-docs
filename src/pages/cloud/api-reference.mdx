@@ -1,0 +1,212 @@
+import { Cards } from 'nextra/components'
+
+# Moondream Cloud API Reference
+
+Welcome to the Moondream Cloud API documentation. Our REST API enables you to integrate Moondream's powerful vision-language capabilities into your applications.
+
+## Base URL
+
+~~~bash filename="base-url"
+https://playground2.servers.moondream.ai
+~~~
+
+## Available Endpoints
+
+<Cards>
+  <Cards.Card
+    icon="🚀"
+    title="Getting Started"
+    href="/cloud/getting-started"
+    description="Quick guide to authentication and basic usage of Moondream Cloud APIs"
+  />
+  <Cards.Card
+    icon="💬"
+    title="/query"
+    href="/cloud/query"
+    description="Ask natural language questions about images and receive detailed answers"
+  />
+  <Cards.Card
+    icon="📝"
+    title="/caption"
+    href="/cloud/caption"
+    description="Generate accurate and natural image captions"
+  />
+  <Cards.Card
+    icon="🔍"
+    title="/detect"
+    href="/cloud/detect"
+    description="Detect and locate objects in images"
+  />
+  <Cards.Card
+    icon="📍"
+    title="/point"
+    href="/cloud/point"
+    description="Get precise coordinate locations for objects in images"
+  />
+</Cards>
+
+## Authentication
+
+All API requests require authentication using the X-Moondream-Auth header:
+
+~~~bash filename="auth-header"
+X-Moondream-Auth: your_api_key_here
+~~~
+
+<Cards>
+  <Cards.Card
+    icon="🔑"
+    title="Get Your API Key"
+    href="/cloud/getting-started#authentication"
+    description="Learn how to obtain and use your Moondream API key"
+  />
+</Cards>
+
+## Request Format
+
+All endpoints accept POST requests with JSON payloads. Images can be provided either as:
+- A direct URL to the image
+- A base64-encoded image with appropriate data URI prefix
+
+~~~typescript filename="request-format"
+{
+  "image_url": "https://example.com/image.jpg"
+  // or
+  "image_url": "data:image/jpeg;base64,..."
+}
+~~~
+
+## Response Format
+
+Responses are returned in JSON format. For non-streaming requests:
+
+~~~typescript filename="response-format"
+{
+  "result": string | object // Depends on the endpoint
+}
+~~~
+
+For streaming requests (available on /query and /caption):
+
+~~~typescript filename="streaming-response"
+{
+  "chunk": string,
+  "completed": boolean
+}
+~~~
+
+## Quick Reference
+
+Here's a quick overview of all available endpoints and their request/response models:
+
+### Endpoint Overview
+
+| Endpoint | Description | Request Model |
+| --- | --- | --- |
+| /v1/caption | Generate image captions | image_url, length?, stream? |
+| /v1/query | Visual question answering | image_url, question, stream? |
+| /v1/detect | Object detection | image_url, object |
+| /v1/point | Object pointing | image_url, object |
+
+### Quick Copy Examples
+
+~~~bash filename="query-example.sh"
+curl -X POST https://playground2.servers.moondream.ai/v1/query \
+  -H "X-Moondream-Auth: ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "${IMAGE_URL}",
+    "question": "${QUESTION}",
+    "stream": false
+  }'
+~~~
+
+~~~bash filename="caption-example.sh"
+curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+  -H "X-Moondream-Auth: ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "${IMAGE_URL}",
+    "length": "long",
+    "stream": false
+  }'
+~~~
+
+~~~bash filename="detect-example.sh"
+curl -X POST https://playground2.servers.moondream.ai/v1/detect \
+  -H "X-Moondream-Auth: ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "${IMAGE_URL}",
+    "object": "${OBJECT_TO_DETECT}"
+  }'
+~~~
+
+~~~bash filename="point-example.sh"
+curl -X POST https://playground2.servers.moondream.ai/v1/point \
+  -H "X-Moondream-Auth: ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "${IMAGE_URL}",
+    "object": "${OBJECT_TO_POINT}"
+  }'
+~~~
+
+### Request Models
+
+~~~python filename="request-models.py"
+class VqaRequest(BaseModel):
+    image_url: str
+    question: str
+    stream: Optional[bool] = False
+
+
+class CaptionRequest(BaseModel):
+    image_url: str
+    length: Optional[str] = "long"
+    stream: Optional[bool] = False
+
+
+class DetectRequest(BaseModel):
+    image_url: str
+    object: str
+
+
+class PointRequest(BaseModel):
+    image_url: str
+    object: str
+~~~
+
+### Response Models
+
+~~~python filename="response-models.py"
+# Non-Streaming Responses
+class DetectResponse(BaseModel):
+    result: List[Dict[str, float]]
+
+
+class PointResponse(BaseModel):
+    result: List[Dict[str, float]]
+
+
+class CaptionResponse(BaseModel):
+    result: str
+
+
+class VqaResponse(BaseModel):
+    result: str
+
+
+# Streaming Response (VQA and Captioning)
+# First chunk
+{
+    "chunk": str,     # Token from stream
+    "completed": False
+}
+
+# Final chunk
+{
+    "chunk": str,
+    "completed": True
+}
+~~~
