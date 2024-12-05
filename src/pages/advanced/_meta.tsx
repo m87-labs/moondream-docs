@@ -28,14 +28,7 @@ const meta: Meta = {
     type: 'page',
     description: 'Learn how to integrate Moondream with HuggingFace Transformers for enhanced model capabilities and ecosystem compatibility'
   },
-  '---': {
-    type: 'separator'
-  },
-  huggingface_link: {
-    title: 'HuggingFace Model',
-    href: 'https://huggingface.co/vikhyatk/moondream',
-    newWindow: true
-  }
+
 }
 
 export default meta 

@@ -1,8 +1,9 @@
-// import type { DocsThemeConfig } from 'nextra-theme-docs';
+import type { DocsThemeConfig } from 'nextra-theme-docs';
 import { useRouter } from 'next/router';
 import { CodeBlock } from './src/components/CodeBlock';
 
-const config = {
+
+const config: DocsThemeConfig = {
 	// Basic branding
 	logo: <span style={{ fontWeight: 600 }}>Moondream Documentation</span>,
 
@@ -15,15 +16,10 @@ const config = {
 	// Header navigation
 	navbar: {
 		extraContent: (
-			<a
-				href="https://moondream.ai"
-				target="_blank"
-				rel="noopener noreferrer"
-				className="nx-text-sm nx-font-medium nx-text-gray-600 hover:nx-text-gray-800 dark:nx-text-gray-400 dark:hover:nx-text-gray-200"
-			>
+			<a href='https://moondream.ai' target='_blank' rel='noopener noreferrer' className='nx-text-sm nx-font-medium nx-text-gray-600 hover:nx-text-gray-800'>
 				moondream.ai →
 			</a>
-		)
+		),
 	},
 
 	// Head tags and SEO
@@ -33,6 +29,17 @@ const config = {
 			<meta property='og:title' content='Moondream Documentation' />
 			<meta property='og:description' content='Documentation for the Moondream vision-language model' />
 			<meta name='color-scheme' content='light' />
+			<script
+				dangerouslySetInnerHTML={{
+					__html: `
+						window.localStorage.setItem("theme", "light");
+						window.localStorage.setItem("theme_default", "light");
+						document.documentElement.classList.add("light");
+						document.documentElement.classList.remove("dark");
+					`,
+				}}
+				key='force-light-mode'
+			/>
 		</>
 	),
 	useNextSeoProps() {
@@ -40,19 +47,9 @@ const config = {
 		return {
 			titleTemplate: asPath === '/' ? '%s' : '%s – Moondream',
 			openGraph: {
-				description: 'Documentation for the Moondream vision-language model'
-			}
+				description: 'Documentation for the Moondream vision-language model',
+			},
 		};
-	},
-
-	// Theme customization
-	color: {
-		hue: 270,
-		saturation: 65,
-		lightness: {
-			light: 45,
-			dark: 65,
-		},
 	},
 
 	// Navigation
@@ -61,19 +58,24 @@ const config = {
 		next: true,
 	},
 
-	// // Sidebar configuration
-	// sidebar: {
-	// 	defaultMenuCollapseLevel: 2,
-	// 	autoCollapse: true,
-	// },
+	// Sidebar configuration
+	sidebar: {
+		defaultMenuCollapseLevel: 2,
+		autoCollapse: true,
+	},
 
 	// Footer
 	footer: {
 		content: <span>© {new Date().getFullYear()} M87 Labs. All rights reserved.</span>,
 	},
 
-	// Dark mode
+	// Theme configuration
 	darkMode: false,
+	nextThemes: {
+		defaultTheme: 'light',
+		forcedTheme: 'light',
+		storageKey: 'theme',
+	},
 
 	// Table of contents
 	toc: {
@@ -93,7 +95,11 @@ const config = {
 			};
 
 			const content = extractText(children);
-			return <CodeBlock code={content} className={className} {...props}>{children}</CodeBlock>;
+			return (
+				<CodeBlock code={content} className={className} {...props}>
+					{children}
+				</CodeBlock>
+			);
 		},
 	},
 };

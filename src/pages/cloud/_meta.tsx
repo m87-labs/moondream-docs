@@ -18,6 +18,9 @@ const meta: Meta = {
     type: 'page',
     description: 'Quick guide to getting started with Moondream Cloud APIs, including authentication setup and basic usage examples'
   },
+  '---': {
+    type: 'separator'
+  },
   'caption': {
     title: '/caption',
     type: 'page',
@@ -38,14 +41,6 @@ const meta: Meta = {
     type: 'page',
     description: 'Get precise coordinate locations for objects using Moondream\'s visual pointing API (Coming Soon)'
   },
-  '---': {
-    type: 'separator'
-  },
-  api_reference: {
-    title: 'API Reference',
-    href: 'https://moondream.ai/api',
-    newWindow: true
-  }
 }
 
 export default meta

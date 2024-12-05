@@ -38,14 +38,6 @@ const meta: Meta = {
 		type: 'page',
 		description: 'Command-line interface example for batch processing images and automating Moondream workflows'
 	},
-	'---': {
-		type: 'separator'
-	},
-	'examples_repo': {
-		title: 'Examples Repository',
-		href: 'https://github.com/m87-labs/moondream-examples',
-		newWindow: true
-	}
 }
 
 export default meta

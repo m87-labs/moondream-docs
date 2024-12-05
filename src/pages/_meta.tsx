@@ -42,14 +42,19 @@ const meta: Meta = {
   '---': {
     type: 'separator'
   },
-  moondream_link: {
-    title: 'Moondream.ai',
-    href: 'https://moondream.ai',
+  huggingface_link: {
+    title: 'HuggingFace Model',
+    href: 'https://huggingface.co/vikhyatk/moondream2',
     newWindow: true
   },
   github_link: {
     title: 'GitHub',
     href: 'https://github.com/vikhyat/moondream',
+    newWindow: true
+  },
+  discord_link: {
+    title: 'Discord',
+    href: 'https://discord.com/invite/tRUdpjDQfH',
     newWindow: true
   }
 }

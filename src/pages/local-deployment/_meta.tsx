@@ -18,6 +18,9 @@ const meta: Meta = {
     type: 'page',
     description: 'Complete guide to deploying Moondream locally, from installation to first inference, with performance optimization tips'
   },
+  '---': {
+    type: 'separator'
+  },
   'query': {
     title: '/query',
     type: 'page',
@@ -38,14 +41,6 @@ const meta: Meta = {
     type: 'page',
     description: 'Guide to implementing visual coordinate pointing locally (Coming Soon)'
   },
-  '---': {
-    type: 'separator'
-  },
-  docker_repo: {
-    title: 'Docker Images',
-    href: 'https://hub.docker.com/r/m87labs/moondream',
-    newWindow: true
-  }
 }
 
 export default meta 
