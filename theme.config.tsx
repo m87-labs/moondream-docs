@@ -1,5 +1,5 @@
 import type { DocsThemeConfig } from 'nextra-theme-docs';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { CodeBlock } from './src/components/CodeBlock';
 
 
@@ -42,15 +42,15 @@ const config: DocsThemeConfig = {
 			/>
 		</>
 	),
-	useNextSeoProps() {
-		const { asPath } = useRouter();
-		return {
-			titleTemplate: asPath === '/' ? '%s' : '%s – Moondream',
-			openGraph: {
-				description: 'Documentation for the Moondream vision-language model',
-			},
-		};
-	},
+	// useNextSeoProps() {
+	// 	const { asPath } = useRouter();
+	// 	return {
+	// 		titleTemplate: asPath === '/' ? '%s' : '%s – Moondream',
+	// 		openGraph: {
+	// 			description: 'Documentation for the Moondream vision-language model',
+	// 		},
+	// 	};
+	// },
 
 	// Navigation
 	navigation: {
