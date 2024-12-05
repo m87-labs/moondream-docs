@@ -36,6 +36,9 @@ jobs:
       - name: Build with Nextra
         run: npm run build
         
+      - name: Create CNAME file
+        run: echo "docs.moondream.ai" > ./out/CNAME
+        
       - name: Clear npm cache
         run: npm cache clean --force
         
@@ -53,4 +56,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: actions/deploy-pages@v4
