@@ -1,7 +1,5 @@
 import type { DocsThemeConfig } from 'nextra-theme-docs';
-// import { useRouter } from 'next/router';
 import { CodeBlock } from './src/components/CodeBlock';
-
 
 const config: DocsThemeConfig = {
 	// Basic branding
@@ -42,15 +40,6 @@ const config: DocsThemeConfig = {
 			/>
 		</>
 	),
-	// useNextSeoProps() {
-	// 	const { asPath } = useRouter();
-	// 	return {
-	// 		titleTemplate: asPath === '/' ? '%s' : '%s – Moondream',
-	// 		openGraph: {
-	// 			description: 'Documentation for the Moondream vision-language model',
-	// 		},
-	// 	};
-	// },
 
 	// Navigation
 	navigation: {
@@ -86,7 +75,6 @@ const config: DocsThemeConfig = {
 	// Code block component override
 	components: {
 		code: ({ children, className, ...props }: any) => {
-			// Extract text content from the MDX structure
 			const extractText = (node: any): string => {
 				if (typeof node === 'string') return node;
 				if (Array.isArray(node)) return node.map(extractText).join('');

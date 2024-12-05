@@ -1,17 +1,19 @@
 import nextra from 'nextra'
 import type { NextConfig } from 'next'
 
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig: NextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true // mandatory, otherwise won't export
+  }
+}
+
 const withNextra = nextra({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx'
 })
-
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  output: 'export',
-  images: {
-    unoptimized: true
-  },
-}
 
 export default withNextra(nextConfig)
