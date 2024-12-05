@@ -64,14 +64,10 @@ X-Moondream-Auth: your_api_key_here
 
 ## Request Format
 
-All endpoints accept POST requests with JSON payloads. Images can be provided either as:
-- A direct URL to the image
-- A base64-encoded image with appropriate data URI prefix
+All endpoints accept POST requests with JSON payloads. Images must be provided as base64-encoded strings with the appropriate data URI prefix:
 
 ~~~typescript filename="request-format"
 {
-  "image_url": "https://example.com/image.jpg"
-  // or
   "image_url": "data:image/jpeg;base64,..."
 }
 ~~~
@@ -115,7 +111,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/query \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "image_url": "${IMAGE_URL}",
+    "image_url": "data:image/jpeg;base64,${BASE64_IMAGE}",
     "question": "${QUESTION}",
     "stream": false
   }'
@@ -126,7 +122,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/caption \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "image_url": "${IMAGE_URL}",
+    "image_url": "data:image/jpeg;base64,${BASE64_IMAGE}",
     "length": "long",
     "stream": false
   }'
@@ -137,7 +133,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/detect \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "image_url": "${IMAGE_URL}",
+    "image_url": "data:image/jpeg;base64,${BASE64_IMAGE}",
     "object": "${OBJECT_TO_DETECT}"
   }'
 ~~~
@@ -147,7 +143,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/point \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "image_url": "${IMAGE_URL}",
+    "image_url": "data:image/jpeg;base64,${BASE64_IMAGE}",
     "object": "${OBJECT_TO_POINT}"
   }'
 ~~~
@@ -156,24 +152,24 @@ curl -X POST https://playground2.servers.moondream.ai/v1/point \
 
 ~~~python filename="request-models.py"
 class VqaRequest(BaseModel):
-    image_url: str
+    image_url: str  # Base64 encoded image with data URI prefix
     question: str
     stream: Optional[bool] = False
 
 
 class CaptionRequest(BaseModel):
-    image_url: str
+    image_url: str  # Base64 encoded image with data URI prefix
     length: Optional[str] = "long"
     stream: Optional[bool] = False
 
 
 class DetectRequest(BaseModel):
-    image_url: str
+    image_url: str  # Base64 encoded image with data URI prefix
     object: str
 
 
 class PointRequest(BaseModel):
-    image_url: str
+    image_url: str  # Base64 encoded image with data URI prefix
     object: str
 ~~~
 
