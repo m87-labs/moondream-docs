@@ -4,12 +4,9 @@
  * Location: /src/pages/
  */
 
-interface MetaItem {
-  title: string;
-  description: string;
-}
+import type { Meta } from 'nextra'
 
-const meta: Record<string, MetaItem> = {
+const meta: Meta = {
   index: {
     title: 'Introduction',
     description: 'Get started with Moondream, an efficient vision-language model for image understanding and analysis'
@@ -27,7 +24,7 @@ const meta: Record<string, MetaItem> = {
     description: 'Access Moondream\'s capabilities through our cloud API with ready-to-use endpoints'
   },
   'technical-specifications': {
-    title: 'Technical Specifications & Benchmarks',
+    title: 'Technical Specifications',
     description: 'Detailed technical specifications, performance benchmarks, and model architecture information'
   },
   'model-downloads': {
@@ -41,7 +38,20 @@ const meta: Record<string, MetaItem> = {
   cookbook: {
     title: 'Cookbook',
     description: 'Practical examples and recipes for common Moondream use cases and integrations'
+  },
+  '---': {
+    type: 'separator'
+  },
+  moondream_link: {
+    title: 'Moondream.ai',
+    href: 'https://moondream.ai',
+    newWindow: true
+  },
+  github_link: {
+    title: 'GitHub',
+    href: 'https://github.com/vikhyat/moondream',
+    newWindow: true
   }
-} as const;
+}
 
-export default meta;
+export default meta

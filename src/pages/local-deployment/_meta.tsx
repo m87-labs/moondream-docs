@@ -4,26 +4,47 @@
  * Location: /local-deployment/
  */
 
-const meta = {
-  "getting-started": {
-    title: "Getting Started",
-    description: "Complete guide to deploying Moondream locally, from installation to first inference, with performance optimization tips"
+import type { Meta } from 'nextra'
+
+const meta: Meta = {
+  '*': {
+    theme: {
+      layout: 'default',
+      typesetting: 'article'
+    }
   },
-  "query": {
-    title: "/query",
-    description: "Implement visual question-answering locally with Moondream, including batch processing and streaming capabilities"
+  'getting-started': {
+    title: 'Getting Started',
+    type: 'page',
+    description: 'Complete guide to deploying Moondream locally, from installation to first inference, with performance optimization tips'
   },
-  "caption": {
-    title: "/caption",
-    description: "Set up local image captioning with Moondream, featuring automatic and streaming caption generation"
+  'query': {
+    title: '/query',
+    type: 'page',
+    description: 'Implement visual question-answering locally with Moondream, including batch processing and streaming capabilities'
   },
-  "detect": {
-    title: "/detect 🚧",
-    description: "Local object detection implementation guide (Coming Soon)"
+  'caption': {
+    title: '/caption',
+    type: 'page',
+    description: 'Set up local image captioning with Moondream, featuring automatic and streaming caption generation'
   },
-  "point": {
-    title: "/point 🚧",
-    description: "Guide to implementing visual coordinate pointing locally (Coming Soon)"
+  'detect': {
+    title: '/detect 🚧',
+    type: 'page',
+    description: 'Local object detection implementation guide (Coming Soon)'
+  },
+  'point': {
+    title: '/point 🚧',
+    type: 'page',
+    description: 'Guide to implementing visual coordinate pointing locally (Coming Soon)'
+  },
+  '---': {
+    type: 'separator'
+  },
+  docker_repo: {
+    title: 'Docker Images',
+    href: 'https://hub.docker.com/r/m87labs/moondream',
+    newWindow: true
   }
 }
 

@@ -1,8 +1,7 @@
-import { DocsThemeConfig } from 'nextra-theme-docs';
+// import type { DocsThemeConfig } from 'nextra-theme-docs';
 import { useRouter } from 'next/router';
 import { CodeBlock } from './src/components/CodeBlock';
 
-/** @type {import('nextra-theme-docs').DocsThemeConfig} */
 const config = {
 	// Basic branding
 	logo: <span style={{ fontWeight: 600 }}>Moondream Documentation</span>,
@@ -13,12 +12,27 @@ const config = {
 	},
 	docsRepositoryBase: 'https://github.com/m87-labs/moondream-docs',
 
+	// Header navigation
+	navbar: {
+		extraContent: (
+			<a
+				href="https://moondream.ai"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="nx-text-sm nx-font-medium nx-text-gray-600 hover:nx-text-gray-800 dark:nx-text-gray-400 dark:hover:nx-text-gray-200"
+			>
+				moondream.ai →
+			</a>
+		)
+	},
+
 	// Head tags and SEO
 	head: (
 		<>
 			<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 			<meta property='og:title' content='Moondream Documentation' />
 			<meta property='og:description' content='Documentation for the Moondream vision-language model' />
+			<meta name='color-scheme' content='light' />
 		</>
 	),
 	useNextSeoProps() {
@@ -47,11 +61,11 @@ const config = {
 		next: true,
 	},
 
-	// Sidebar configuration
-	sidebar: {
-		defaultMenuCollapseLevel: 2,
-		autoCollapse: true,
-	},
+	// // Sidebar configuration
+	// sidebar: {
+	// 	defaultMenuCollapseLevel: 2,
+	// 	autoCollapse: true,
+	// },
 
 	// Footer
 	footer: {
@@ -69,14 +83,9 @@ const config = {
 
 	// Code block component override
 	components: {
-		/**
-		 * @param {object} props
-		 * @param {string} props.children - The code content
-		 * @param {string} props.className - The language class
-		 */
-		code: ({ children, className, ...props }) => {
+		code: ({ children, className, ...props }: any) => {
 			// Extract text content from the MDX structure
-			const extractText = (node) => {
+			const extractText = (node: any): string => {
 				if (typeof node === 'string') return node;
 				if (Array.isArray(node)) return node.map(extractText).join('');
 				if (node?.props?.children) return extractText(node.props.children);

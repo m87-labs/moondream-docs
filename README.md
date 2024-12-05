@@ -49,34 +49,6 @@ We welcome contributions to improve the documentation! Please see our [Contribut
 - How to submit changes
 - Development tips and troubleshooting
 
-## Project Structure
-
-```
-src/
-├── pages/
-│   ├── _app.tsx         # Custom Next.js App component
-│   ├── index.mdx        # Home page
-│   └── moondream-docs/  # Documentation pages
-│       ├── _meta.tsx    # Root navigation structure
-│       ├── getting-started.mdx
-│       ├── capabilities/
-│       │   ├── _meta.tsx
-│       │   ├── visual-qna.mdx
-│       │   ├── image-captioning.mdx
-│       │   ├── object-detection.mdx
-│       │   └── pointing.mdx
-│       ├── examples/
-│       │   ├── _meta.tsx
-│       │   ├── basic-usage.mdx
-│       │   ├── sample-cli.mdx
-│       │   └── gradio-webcam.mdx
-│       └── advanced/
-│           ├── _meta.tsx
-│           └── configuration.mdx
-├── styles/
-│   └── globals.css      # Global styles and Tailwind directives
-```
-
 ## Key Features of Nextra
 
 ### File-Based Routing
