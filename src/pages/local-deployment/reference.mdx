@@ -7,7 +7,7 @@ Welcome to the Moondream local deployment documentation. Learn how to run Moondr
 ## Installation
 
 ```bash filename="terminal"
-pip install moondream==0.0.2
+pip install moondream==0.0.4
 ```
 
 Download the model weights from our [Model Downloads](/model-downloads) page.
@@ -51,8 +51,8 @@ Download the model weights from our [Model Downloads](/model-downloads) page.
 Initialize the model and use any of the available features:
 
 ```python filename="example.py"
-from moondream import VL
-model = VL("models/moondream-2b-int8.bin.gz")
+from moondream import vl
+model = vl("models/moondream-2b-int8.bin.gz")
 
 # Visual Q&A
 answer = model.query(image, "What is in this image?")

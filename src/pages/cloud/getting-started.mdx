@@ -11,41 +11,85 @@ import { Tabs } from 'nextra/components'
   Get your API key from [beta.console.moondream.ai](https://beta.console.moondream.ai)
 </Callout>
 
+## Installation
+
+<Tabs items={['npm', 'yarn', 'pip']}>
+  <Tabs.Tab>
+```bash copy
+npm install moondream
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash copy
+yarn add moondream
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash copy
+pip install moondream
+```
+  </Tabs.Tab>
+</Tabs>
+
 ## Basic Usage
 
-<Tabs items={['Python', 'cURL', 'Streaming']}>
+<Tabs items={['Node.js', 'Python', 'cURL']}>
   <Tabs.Tab>
-~~~python
-import httpx
-import base64
+```typescript
+import { vl } from "moondream";
+import fs from "fs";
 
-# Convert your image to base64
-with open("image.jpg", "rb") as image_file:
-    image_base64 = base64.b64encode(image_file.read()).decode()
+// Initialize the client
+const model = new vl({
+  apiKey: "your-api-key",
+});
 
-# Prepare request data
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "length": "long",
-    "stream": False
+// Read an image file
+const image = fs.readFileSync("image.jpg");
+
+async function main() {
+  // Generate a caption for the image
+  const caption = await model.caption(image);
+  console.log("Caption:", caption);
+
+  // With streaming
+  const stream = await model.caption(image, "normal", true);
+  for await (const chunk of stream.caption) {
+    process.stdout.write(chunk);
+  }
 }
 
-headers = {
-    "X-Moondream-Auth": "your_api_key_here"
-}
+main();
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python
+import moondream as md
+from PIL import Image
 
-# Make request
-with httpx.Client() as client:
-    response = client.post(
-        "https://api.moondream.ai/v1/caption",
-        json=data,
-        headers=headers,
-        timeout=120.0
-    )
+# Initialize with API key
+model = md.vl(api_key="your_api_key_here")
 
-result = response.json()
-print(result["result"])
-~~~
+# Load an image
+image = Image.open("image.jpg")
+
+# Generate a caption
+result = model.caption(image)
+print("Caption:", result["caption"])
+
+# Ask a question
+result = model.query(image, "What's in this image?")
+print("Answer:", result["answer"])
+
+# With streaming
+print("\nStreaming caption:")
+for chunk in model.caption(image, stream=True)["caption"]:
+    print(chunk, end="", flush=True)
+
+print("\nStreaming answer:")
+for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
+    print(chunk, end="", flush=True)
+```
   </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash copy
@@ -57,60 +101,6 @@ curl -X POST https://api.moondream.ai/v1/caption \
     "length": "long",
     "stream": false
   }'
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~python
-import httpx
-import json
-import base64
-
-# Convert your image to base64
-with open("image.jpg", "rb") as image_file:
-    image_base64 = base64.b64encode(image_file.read()).decode()
-
-# Prepare request data
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "length": "long",
-    "stream": True
-}
-
-headers = {
-    "X-Moondream-Auth": "your_api_key_here"
-}
-
-# Make streaming request
-with httpx.Client() as client:
-    with client.stream(
-        "POST",
-        "https://api.moondream.ai/v1/caption",
-        json=data,
-        headers=headers,
-        timeout=60.0
-    ) as response:
-        full_response = ""
-        for line in response.iter_lines():
-            if not line:
-                continue
-
-            if line == "[START]":
-                continue
-            elif line == "[DONE]":
-                break
-
-            if line.startswith("data: "):
-                try:
-                    chunk = json.loads(line[6:])  # Skip "data: " prefix
-                    if chunk["completed"]:
-                        break
-                    chunk_text = chunk["chunk"]
-                    full_response += chunk_text
-                    print(chunk_text, end="", flush=True)
-                except json.JSONDecodeError:
-                    print(f"Failed to parse chunk: {line}")
-
-print("\nFinal response:", full_response)
 ~~~
   </Tabs.Tab>
 </Tabs>

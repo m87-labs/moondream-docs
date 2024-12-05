@@ -36,7 +36,7 @@ import { Tabs } from 'nextra/components'
 Create a new directory for your project
 
 ### Download Model
-Download the model by clicking here: [Download Moondream 0.5B INT8](https://huggingface.co/vikhyatk/moondream2/resolve/1cf747d11539ba8827f172e57f2215b5df3306cd/moondream-0_5b-int8.bin.gz?download=true)
+Download the model by clicking here: [Download Moondream 0.5B INT8](https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz?download=true)
 
 <Callout type="info">
   Check out other available models at [Model Downloads](/model-downloads) for different size and performance options.
@@ -50,7 +50,7 @@ Move the downloaded file to your project directory
   <Tabs.Tab>
 ```bash
 # Run this in your project directory
-pip install moondream==0.0.2
+pip install moondream==0.0.4
 ```
   </Tabs.Tab>
   <Tabs.Tab>
@@ -62,18 +62,18 @@ pip install moondream==0.0.2
       - [cuDNN 9.x](https://developer.nvidia.com/cudnn)
 ```bash
 # Run this in your project directory
-pip install moondream-gpu==0.0.2
+pip install moondream-gpu==0.0.4
 ```
   </Tabs.Tab>
 </Tabs>
 
 ### Run Sample Code
 ```python
-from moondream import VL
+from moondream import vl
 from PIL import Image
 from urllib.request import urlopen
 
-model = VL('moondream-0_5b-int8.bin.gz')
+model = vl('moondream-0_5b-int8.bin.gz')
 
 url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/1280px-Cat_November_2010-1a.jpg'
 image = Image.open(urlopen(url))

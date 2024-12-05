@@ -10,6 +10,31 @@ import Head from 'next/head'
 
 Ask questions about images and get natural language answers.
 
+## Quick Start
+
+```typescript
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize the client
+const model = new vl({
+  apiKey: "your-api-key",
+});
+
+// Read an image file
+const image = fs.readFileSync("image.jpg");
+
+// Ask a question
+const answer = await model.query(image, "What's in this image?");
+console.log(answer);
+
+// With streaming
+const stream = await model.query(image, "What's in this image?", true);
+for await (const chunk of stream.answer) {
+  process.stdout.write(chunk);
+}
+```
+
 ## API Specification
 
 ### Request Model
@@ -23,18 +48,16 @@ class VqaRequest(BaseModel):
 ### Response Model
 <Tabs items={['Non-Streaming', 'Streaming']}>
   <Tabs.Tab>
-~~~python filename="response.py"
-class VqaResponse(BaseModel):
-    result: str  # The answer to the question
-~~~
+```python
+class QueryOutput(BaseModel):
+    answer: str
+```
   </Tabs.Tab>
   <Tabs.Tab>
-~~~python
-{
-    'chunk': str,  # token from stream
-    'completed': bool
-}
-~~~
+```python
+class QueryOutput(BaseModel):
+    answer: Generator  # Yields tokens from stream
+```
   </Tabs.Tab>
 </Tabs>
 
@@ -56,7 +79,64 @@ class VqaResponse(BaseModel):
 
 ## Example Usage
 
-<Tabs items={['cURL', 'Python', 'Node.js', 'Fetch', 'Axios']}>
+<Tabs items={['Node.js Client', 'Python Client', 'cURL', 'Node.js HTTP', 'Fetch', 'Axios']}>
+  <Tabs.Tab>
+```typescript filename="query-client.ts"
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize client
+const model = new vl({
+  apiKey: process.env.MOONDREAM_API_KEY
+});
+
+async function main() {
+  // Read image file
+  const image = fs.readFileSync("image.jpg");
+  
+  // Ask a question
+  const answer = await model.query(
+    image,
+    "What is the main color in this image?"
+  );
+  console.log("Answer:", answer);
+  
+  // With streaming
+  const stream = await model.query(
+    image,
+    "What is the main color in this image?",
+    true
+  );
+  console.log("\nStreaming answer:");
+  for await (const chunk of stream.answer) {
+    process.stdout.write(chunk);
+  }
+}
+
+main().catch(console.error);
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python filename="query-client.py"
+import moondream as md
+from PIL import Image
+
+# Initialize client
+model = md.vl(api_key="your_api_key_here")
+
+# Load image
+image = Image.open("image.jpg")
+
+# Ask a question
+result = model.query(image, "What is the main color in this image?")
+print("Answer:", result["answer"])
+
+# With streaming
+print("\nStreaming answer:")
+for chunk in model.query(image, "What is the main color in this image?", stream=True)["answer"]:
+    print(chunk, end="", flush=True)
+```
+  </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash filename="query.sh"
 # Convert image to base64
@@ -71,54 +151,6 @@ curl -X POST https://api.moondream.ai/v1/query \
     \"question\": \"What is the main color in this image?\",
     \"stream\": false
   }"
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~python filename="query.py" {3-4,14,33-34} showLineNumbers
-import os
-from urllib.request import Request, urlopen
-import json
-import base64
-
-# Load image file and convert to base64
-def get_base64_image(image_path):
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-# Get API key from environment variable
-api_key = os.getenv("MOONDREAM_API_KEY")
-if not api_key:
-    raise ValueError("Please set MOONDREAM_API_KEY environment variable")
-
-# Prepare request
-image_base64 = get_base64_image("image.jpg")
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "question": "What is the main color in this image?",
-    "stream": False
-}
-
-# Set up request headers
-headers = {
-    "X-Moondream-Auth": api_key,
-    "Content-Type": "application/json"
-}
-
-# Make request using standard library
-req = Request(
-    "https://api.moondream.ai/v1/query",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
-)
-
-# Send request and handle response
-try:
-    with urlopen(req) as response:
-        result = json.loads(response.read())
-        print(f"Answer: {result['result']}")
-except Exception as e:
-    print(f"Error making request: {str(e)}")
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
@@ -272,143 +304,7 @@ askQuestion();
 </Tabs>
 
 <Callout type="info">
-  The examples above demonstrate different ways to interact with the API using popular libraries and tools. Each example includes proper error handling and environment variable usage. For streaming responses, see the streaming example below.
-</Callout>
-
-## Streaming Example
-
-<Tabs items={['Python', 'Node.js']}>
-  <Tabs.Tab>
-~~~python filename="query_stream.py" showLineNumbers
-import json
-import os
-import base64
-from urllib.request import Request, urlopen
-
-# Load image and convert to base64
-with open("image.jpg", "rb") as f:
-    image_base64 = base64.b64encode(f.read()).decode()
-
-# Prepare request
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "question": "What is the main color in this image?",
-    "stream": True
-}
-
-headers = {
-    "X-Moondream-Auth": os.getenv("MOONDREAM_API_KEY"),
-    "Content-Type": "application/json"
-}
-
-# Make streaming request
-req = Request(
-    "https://api.moondream.ai/v1/query",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
-)
-
-try:
-    with urlopen(req) as response:
-        full_response = ""
-        for line in response:
-            line = line.decode().strip()
-            if not line:
-                continue
-
-            if line == "[START]":
-                continue
-            elif line == "[DONE]":
-                break
-
-            if line.startswith("data: "):
-                try:
-                    chunk = json.loads(line[6:])
-                    if chunk["completed"]:
-                        break
-                    chunk_text = chunk["chunk"]
-                    full_response += chunk_text
-                    print(chunk_text, end="", flush=True)
-                except json.JSONDecodeError:
-                    print(f"Failed to parse chunk: {line}")
-
-    print("\nFinal response:", full_response)
-except Exception as e:
-    print(f"Error making streaming request: {str(e)}")
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~typescript filename="query_stream.ts" showLineNumbers
-import { readFileSync } from 'fs';
-import { request } from 'https';
-
-// Load and convert image to base64
-const imageBuffer = readFileSync('image.jpg');
-const imageBase64 = imageBuffer.toString('base64');
-
-// Prepare request data
-const data = {
-  image_url: `data:image/jpeg;base64,${imageBase64}`,
-  question: 'What is the main color in this image?',
-  stream: true
-};
-
-// Set up request options
-const options = {
-  hostname: 'playground2.servers.moondream.ai',
-  path: '/v1/query',
-  method: 'POST',
-  headers: {
-    'X-Moondream-Auth': process.env.MOONDREAM_API_KEY,
-    'Content-Type': 'application/json'
-  }
-};
-
-// Make streaming request
-let fullResponse = '';
-
-const req = request(options, (res) => {
-  res.on('data', (chunk) => {
-    const lines = chunk.toString().split('\n');
-    
-    for (const line of lines) {
-      if (!line.trim()) continue;
-      if (line === '[START]') continue;
-      if (line === '[DONE]') break;
-
-      if (line.startsWith('data: ')) {
-        try {
-          const data = JSON.parse(line.slice(6));
-          if (data.completed) break;
-          
-          const chunkText = data.chunk;
-          fullResponse += chunkText;
-          process.stdout.write(chunkText);
-        } catch (error) {
-          console.error('Failed to parse chunk:', line);
-        }
-      }
-    }
-  });
-
-  res.on('end', () => {
-    console.log('\nFinal response:', fullResponse);
-  });
-});
-
-req.on('error', (error) => {
-  console.error('Error making streaming request:', error);
-});
-
-req.write(JSON.stringify(data));
-req.end();
-~~~
-  </Tabs.Tab>
-</Tabs>
-
-<Callout type="info">
-  The streaming examples show how to handle server-sent events (SSE) and accumulate chunks of text as they arrive. This is useful for real-time display of model outputs.
+  The examples above demonstrate different ways to interact with the API. The Node.js and Python client libraries provide the simplest integration, while other examples show how to use the REST API directly with popular libraries and tools.
 </Callout>
 
 ---

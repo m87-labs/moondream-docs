@@ -5,7 +5,7 @@ Get precise coordinate locations for objects in images using Moondream.
 ## Installation & Model
 
 ```bash filename="terminal"
-pip install moondream==0.0.2
+pip install moondream==0.0.4
 ```
 
 Download the model from our [Model Downloads](/model-downloads) page.
@@ -13,8 +13,8 @@ Download the model from our [Model Downloads](/model-downloads) page.
 ## Basic Usage
 
 ```python filename="example.py"
-from moondream import VL
-model = VL("models/moondream-2b-int8.bin.gz")
+from moondream import vl
+model = vl("models/moondream-2b-int8.bin.gz")
 
 # Get coordinates of an object
 coords = model.point(image, "point to the dog")

@@ -143,8 +143,8 @@ With highlighting and filename:
 
 ~~~mdx
 ~~~python filename="example.py" {3,7-8} showLineNumbers
-from moondream import VL
-model = VL()  # Initialize model
+from moondream import vl
+model = vl()  # Initialize model
 print("Model loaded!")
 ~~~
 ~~~

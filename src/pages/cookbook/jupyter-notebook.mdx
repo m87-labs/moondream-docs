@@ -17,7 +17,7 @@ Run Moondream in a Jupyter notebook or Google Colab environment with Google Driv
 
 ```python
 # Install specific version of moondream
-!pip install moondream==0.0.2
+!pip install moondream==0.0.4
 print("✅ Moondream installed successfully!")
 
 # Mount Google Drive
@@ -129,7 +129,7 @@ model_path = download_model(variant=variant)
 
 # Initialize model with path to weights
 print("\n🔄 Initializing model... (this may take 15-30 seconds)")
-model = md.VL(model_path)
+model = md.vl(model_path)
 print("✅ Model initialized successfully!")
 ```
 
@@ -143,7 +143,7 @@ from io import BytesIO
 
 print("🔄 Initializing model... (this may take 15-30 seconds on free tier)...")
 # Initialize model with path to weights
-model = md.VL(model_path)
+model = md.vl(model_path)
 print("✅ Model initialized successfully!")
 
 # Use a sample image (cat photo)
@@ -203,7 +203,7 @@ model_2b_path = download_model('int8')  # 2B INT8 model
 
 # Initialize the 2B model
 print("\n🔄 Initializing 2B model for detection... (this may take 15-30 seconds)")
-model_2b = md.VL(model_2b_path)
+model_2b = md.vl(model_2b_path)
 print("✅ 2B Model initialized successfully!")
 
 from PIL import ImageDraw

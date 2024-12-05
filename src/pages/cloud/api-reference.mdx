@@ -1,8 +1,23 @@
-import { Cards } from 'nextra/components'
+import { Cards, Tabs } from 'nextra/components'
 
 # Moondream Cloud API Reference
 
-Welcome to the Moondream Cloud API documentation. Our REST API enables you to integrate Moondream's powerful vision-language capabilities into your applications.
+Welcome to the Moondream Cloud API documentation. Our REST API and Node.js client library enable you to integrate Moondream's powerful vision-language capabilities into your applications.
+
+## Installation
+
+<Tabs items={['npm', 'yarn']}>
+  <Tabs.Tab>
+~~~bash copy
+npm install moondream
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash copy
+yarn add moondream
+~~~
+  </Tabs.Tab>
+</Tabs>
 
 ## Base URL
 
@@ -64,9 +79,27 @@ X-Moondream-Auth: your_api_key_here
 
 ## Quick Reference
 
-Here's a quick overview of all available endpoints and their request/response models:
+Here's a quick overview of all available endpoints and their usage:
 
-### Endpoint Overview
+### Node.js Client
+
+~~~typescript
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize the client
+const model = new vl({
+  apiKey: "your-api-key",
+});
+
+// Methods available:
+// - caption(image: Buffer | Base64EncodedImage, length?: string, stream?: boolean)
+// - query(image: Buffer | Base64EncodedImage, question: string, stream?: boolean)
+// - detect(image: Buffer | Base64EncodedImage, object: string)
+// - point(image: Buffer | Base64EncodedImage, object: string)
+~~~
+
+### REST API Endpoints
 
 | Endpoint | Description | Request Model |
 | --- | --- | --- |
@@ -77,6 +110,27 @@ Here's a quick overview of all available endpoints and their request/response mo
 
 ### Quick Copy Examples
 
+<Tabs items={['Node.js', 'cURL']}>
+  <Tabs.Tab>
+~~~typescript filename="query-example.ts"
+const model = new vl({ apiKey: "your-api-key" });
+const image = fs.readFileSync("image.jpg");
+const answer = await model.query(image, "What's in this image?");
+~~~
+
+~~~typescript filename="caption-example.ts"
+const caption = await model.caption(image, "long");
+~~~
+
+~~~typescript filename="detect-example.ts"
+const detections = await model.detect(image, "car");
+~~~
+
+~~~typescript filename="point-example.ts"
+const points = await model.point(image, "person");
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
 ~~~bash filename="query-example.sh"
 curl -X POST https://api.moondream.ai/v1/query \
   -H "X-Moondream-Auth: ${API_KEY}" \
@@ -118,6 +172,8 @@ curl -X POST https://api.moondream.ai/v1/point \
     "object": "${OBJECT_TO_POINT}"
   }'
 ~~~
+  </Tabs.Tab>
+</Tabs>
 
 ### Request Models
 

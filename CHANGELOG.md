@@ -2,7 +2,25 @@
 
 All notable changes to the Moondream documentation will be documented in this file.
 
-## [Unreleased]
+## [0.1.1] - 2024-12-05
+
+### Changed
+- Standardized model quantization and size ordering across all pages and model cards for consistency
+- Updated API endpoints to use latest version (api.moondream.ai/v1)
+- Updated Python client changes:
+  - Changed `moondream.VL` to lowercase in documentation
+  - Added NPM package support
+  - Added Python package cloud support
+  - Updated model table with downloads and memory usage information
+- Updated documentation deployment:
+  - Configured GitHub hook for static site export and build
+  - Set up GitHub Pages deployment
+  - DNS configuration pending
+- Model updates:
+  - Updated 0.5B checkpoints with pointing capability
+  - Updated 2B checkpoints
+  - Removed .tar format from checkpoints
+- Updated authentication link to use new domain: https://console.moondream.ai/auth/login
 
 ### Added
 - New Capabilities section with dedicated pages for:
@@ -22,21 +40,13 @@ All notable changes to the Moondream documentation will be documented in this fi
 - Community-driven documentation approach
 - Code block copy button functionality with preserved Nextra syntax highlighting
 
-### Changed
-- Updated documentation structure for better organization
-- Improved README with clearer feature overview
-- Enhanced contributing guidelines
-- Restructured navigation using Nextra's recommended approach
-- Added comprehensive meta file documentation and structure
-- Simplified code block implementation to use native Nextra styling
-
 ### Fixed
 - Navigation issues in sidebar
 - Meta file structure for proper page organization
 - Documentation hierarchy for better user experience
 - File structure consistency across sections
 
-## [0.1.0] - 2024-03-03
+## [0.1.0] - 2024-12-03
 
 ### Added
 - Initial documentation setup

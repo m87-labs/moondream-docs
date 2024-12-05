@@ -16,7 +16,7 @@ pip install streamlit torch transformers pillow
 ```python
 import streamlit as st
 from PIL import Image
-from moondream import VL
+from moondream import vl
 
 # Initialize Streamlit
 st.title("🌙 Moondream Chat")
@@ -24,7 +24,7 @@ st.title("🌙 Moondream Chat")
 # Initialize model (do this only once)
 @st.cache_resource
 def load_model():
-    return VL("models/moondream-2b-int8.bin.gz")  # Adjust path to your downloaded model
+    return vl("models/moondream-2b-int8.bin.gz")  # Adjust path to your downloaded model
 
 model = load_model()
 

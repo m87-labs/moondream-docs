@@ -6,7 +6,7 @@
 
 ### Version Specification
 ```bash
-pip install moondream==0.0.2  # Always specify version for reproducibility
+pip install moondream==0.0.4  # Always specify version for reproducibility
 ```
 
 ### Model Downloads
@@ -44,7 +44,7 @@ from PIL import Image   # Required for image handling
 ### Model Initialization
 ```python
 # Always requires model path
-model = md.VL("moondream-latest-int8.bin")  # No default path
+model = md.vl("moondream-latest-int8.bin")  # No default path
 ```
 
 ### Core Functions
@@ -175,10 +175,10 @@ for token in model.caption(encoded_image, stream=True)["caption"]:
 1. **Model Initialization**
    ~~~python
    # INCORRECT
-   model = md.VL()  # Missing required model_path
+   model = md.vl()  # Missing required model_path
    
    # CORRECT
-   model = md.VL("path/to/model.bin")
+   model = md.vl("path/to/model.bin")
    ~~~
 
 2. **Image Encoding Efficiency**
@@ -254,7 +254,7 @@ from PIL import Image
 
 def test_basic_functionality():
     # Test initialization
-    model = md.VL("moondream-latest-int8.bin")
+    model = md.vl("moondream-latest-int8.bin")
     
     # Test image loading
     image = Image.open("test.jpg")

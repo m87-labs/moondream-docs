@@ -15,14 +15,14 @@ All Moondream models are available in different sizes and quantization formats t
 
 ### Moondream 0.5B
 Lightweight models optimized for faster inference and lower resource usage:
-- [Moondream 0.5B INT8 (585MB)](https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin.gz?download=true) - Balanced performance, better accuracy than INT4
-- [Moondream 0.5B INT4 (457MB)](https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin.gz?download=true) - Most compact size, fastest loading, good for testing
+- [Moondream 0.5B INT8 (622MB)](https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz?download=true) - Balanced performance, better accuracy than INT4
+- [Moondream 0.5B INT4 (442MB)](https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz?download=true) - Most compact size, fastest loading, good for testing
 
 ### Moondream 2B 
 Full-size models with higher accuracy and more capabilities:
-- [Moondream 2B FP16 (2.7GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz?download=true) - Full precision, highest accuracy, best for production use
-- [Moondream 2B INT8 (1.7GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin.gz?download=true) - Great balance between model size and accuracy
-- [Moondream 2B INT4 (1.2GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin.gz?download=true) - Smallest 2B variant, good for resource-constrained environments
+- [Moondream 2B FP16 (2.88GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz?download=true) - Full precision, highest accuracy, best for production use
+- [Moondream 2B INT8 (1.83GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin.gz?download=true) - Great balance between model size and accuracy
+- [Moondream 2B INT4 (1.31GB)](https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin.gz?download=true) - Smallest 2B variant, good for resource-constrained environments
 
 <Callout type="info">
   It's good practice to create a dedicated `models` directory in your project folder and place the downloaded model file there.
@@ -51,11 +51,11 @@ Full-size models with higher accuracy and more capabilities:
 
 			{/* Table Body */}
 			{[
-				{ name: '2B FP16', size: '2.7 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
-				{ name: '2B INT8', size: '1.7 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
-				{ name: '2B INT4', size: '1.2 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
-				{ name: '0.5B INT8', size: '585 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin.gz' },
-				{ name: '0.5B INT4', size: '457 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin.gz' },
+				{ name: '2B FP16', size: '2.88 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
+				{ name: '2B INT8', size: '1.83 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
+				{ name: '2B INT4', size: '1.31 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
+				{ name: '0.5B INT8', size: '622 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.mf.gz' },
+				{ name: '0.5B INT4', size: '442 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.mf.gz' },
 			].map((model) => {
 				const cmd = `wget https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
 				return (
@@ -98,11 +98,11 @@ Full-size models with higher accuracy and more capabilities:
 
 			{/* Table Body */}
 			{[
-				{ name: '2B FP16', size: '2.7 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
-				{ name: '2B INT8', size: '1.7 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
-				{ name: '2B INT4', size: '1.2 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
-				{ name: '0.5B INT8', size: '585 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin.gz' },
-				{ name: '0.5B INT4', size: '457 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin.gz' },
+				{ name: '2B FP16', size: '2.88 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
+				{ name: '2B INT8', size: '1.83 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
+				{ name: '2B INT4', size: '1.31 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
+				{ name: '0.5B INT8', size: '622 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.mf.gz' },
+				{ name: '0.5B INT4', size: '442 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.mf.gz' },
 			].map((model) => {
 				const cmd = `curl -L -o ${model.filename} https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
 				return (
@@ -145,11 +145,11 @@ Full-size models with higher accuracy and more capabilities:
 
 			{/* Table Body */}
 			{[
-				{ name: '2B FP16', size: '2.7 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
-				{ name: '2B INT8', size: '1.7 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
-				{ name: '2B INT4', size: '1.2 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
-				{ name: '0.5B INT8', size: '585 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin.gz' },
-				{ name: '0.5B INT4', size: '457 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin.gz' },
+				{ name: '2B FP16', size: '2.88 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
+				{ name: '2B INT8', size: '1.83 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
+				{ name: '2B INT4', size: '1.31 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
+				{ name: '0.5B INT8', size: '622 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.mf.gz' },
+				{ name: '0.5B INT4', size: '442 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.mf.gz' },
 			].map((model) => {
 				const cmd = `curl.exe -L -o ${model.filename} https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}`;
 				return (
@@ -192,11 +192,11 @@ Full-size models with higher accuracy and more capabilities:
 
 			{/* Table Body */}
 			{[
-				{ name: '2B FP16', size: '2.7 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
-				{ name: '2B INT8', size: '1.7 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
-				{ name: '2B INT4', size: '1.2 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
-				{ name: '0.5B INT8', size: '585 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.bin.gz' },
-				{ name: '0.5B INT4', size: '457 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.bin.gz' },
+				{ name: '2B FP16', size: '2.88 GB', branch: 'client', filename: 'moondream-latest-f16.bin.gz' },
+				{ name: '2B INT8', size: '1.83 GB', branch: 'client', filename: 'moondream-latest-int8.bin.gz' },
+				{ name: '2B INT4', size: '1.31 GB', branch: 'client', filename: 'moondream-latest-int4.bin.gz' },
+				{ name: '0.5B INT8', size: '622 MB', branch: 'onnx', filename: 'moondream-0_5b-int8.mf.gz' },
+				{ name: '0.5B INT4', size: '442 MB', branch: 'onnx', filename: 'moondream-0_5b-int4.mf.gz' },
 			].map((model) => {
 				const code = `import requests\n\nurl = "https://huggingface.co/vikhyatk/moondream2/resolve/${model.branch}/${model.filename}"\nresponse = requests.get(url)\nwith open("${model.filename}", "wb") as f:\n    f.write(response.content)`;
 				return (

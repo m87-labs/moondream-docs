@@ -18,20 +18,20 @@ import { Tabs } from 'nextra/components'
 <Tabs items={['CPU', 'GPU']}>
   <Tabs.Tab>
 ~~~bash
-pip install moondream==0.0.2
+pip install moondream==0.0.4
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash
-pip install moondream-gpu==0.0.2
+pip install moondream-gpu==0.0.4
 ~~~
   </Tabs.Tab>
 </Tabs>
 
 ### Try It Out
 ~~~python
-from moondream import VL
-model = VL("models/moondream-2b-int8.bin.gz")
+from moondream import vl
+model = vl("models/moondream-2b-int8.bin.gz")
 
 answer = model.query(image, "What's in this image?")
 print(answer['answer'])

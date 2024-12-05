@@ -29,7 +29,7 @@ import moondream as md
 from PIL import Image
 
 # Initialize model with downloaded weights
-model = md.VL("moondream-latest-int8.bin")  # Replace with your downloaded model file
+model = md.vl("moondream-latest-int8.bin")  # Replace with your downloaded model file
 image = Image.open("path/to/image.jpg")
 
 # Encode image (optional but recommended for multiple operations)

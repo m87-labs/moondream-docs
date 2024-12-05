@@ -10,6 +10,34 @@ import Head from 'next/head'
 
 Detect and locate objects in images.
 
+## Quick Start
+
+```typescript
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize the client
+const model = new vl({
+  apiKey: "your-api-key",
+});
+
+// Read an image file
+const image = fs.readFileSync("image.jpg");
+
+// Detect objects
+const detections = await model.detect(image, "cat");
+console.log(detections);
+// [
+//   {
+//     x_min: 0.2,  // Normalized coordinates (0-1)
+//     y_min: 0.3,  // Top-left corner
+//     x_max: 0.5,  // Bottom-right corner
+//     y_max: 0.7
+//   },
+//   ...
+// ]
+```
+
 ## API Specification
 
 ### Request Model
@@ -21,14 +49,14 @@ class DetectRequest(BaseModel):
 
 ### Response Model
 ~~~python filename="response.py"
-class DetectResponse(BaseModel):
-    result: List[Dict[str, float]]  # List of bounding boxes with coordinates
+class DetectOutput(BaseModel):
+    objects: List[Region]  # List of bounding boxes with coordinates
 ~~~
 
 ### Example Response
 ```python
 {
-    "result": [
+    "objects": [
         {
             "x_min": 0.2,  # Normalized coordinates (0-1)
             "y_min": 0.3,  # Top-left corner
@@ -47,7 +75,61 @@ class DetectResponse(BaseModel):
 
 ## Example Usage
 
-<Tabs items={['cURL', 'Python', 'Node.js', 'Fetch', 'Axios']}>
+<Tabs items={['Node.js Client', 'Python Client', 'cURL', 'Node.js HTTP', 'Fetch', 'Axios']}>
+  <Tabs.Tab>
+```typescript filename="detect-client.ts"
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize client
+const model = new vl({
+  apiKey: process.env.MOONDREAM_API_KEY
+});
+
+async function main() {
+  // Read image file
+  const image = fs.readFileSync("image.jpg");
+  
+  // Detect objects
+  const detections = await model.detect(image, "cat");
+  
+  if (!detections.length) {
+    console.log("No objects detected");
+  } else {
+    detections.forEach((box, index) => {
+      console.log(`Object ${index + 1} found at coordinates:`);
+      console.log(`  Top-left: (${box.x_min.toFixed(2)}, ${box.y_min.toFixed(2)})`);
+      console.log(`  Bottom-right: (${box.x_max.toFixed(2)}, ${box.y_max.toFixed(2)})`);
+    });
+  }
+}
+
+main().catch(console.error);
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python filename="detect-client.py"
+import moondream as md
+from PIL import Image
+
+# Initialize client
+model = md.vl(api_key="your_api_key_here")
+
+# Load image
+image = Image.open("image.jpg")
+
+# Detect objects
+result = model.detect(image, "cat")
+
+if not result["objects"]:
+    print("No objects detected")
+else:
+    for i, box in enumerate(result["objects"], 1):
+        print(f"Object {i} found at coordinates:")
+        print(f"  Top-left: ({box['x_min']:.2f}, {box['y_min']:.2f})")
+        print(f"  Bottom-right: ({box['x_max']:.2f}, {box['y_max']:.2f})")
+```
+  </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash filename="detect.sh"
 # Convert image to base64
@@ -61,59 +143,6 @@ curl -X POST https://api.moondream.ai/v1/detect \
     \"image_url\": \"data:image/jpeg;base64,$IMAGE_BASE64\",
     \"object\": \"cat\"
   }"
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~python filename="detect.py" {3-4,14,33-34} showLineNumbers
-import os
-from urllib.request import Request, urlopen
-import json
-import base64
-
-# Load image file and convert to base64
-def get_base64_image(image_path):
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-# Get API key from environment variable
-api_key = os.getenv("MOONDREAM_API_KEY")
-if not api_key:
-    raise ValueError("Please set MOONDREAM_API_KEY environment variable")
-
-# Prepare request
-image_base64 = get_base64_image("image.jpg")
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "object": "cat"
-}
-
-# Set up request headers
-headers = {
-    "X-Moondream-Auth": api_key,
-    "Content-Type": "application/json"
-}
-
-# Make request using standard library
-req = Request(
-    "https://api.moondream.ai/v1/detect",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
-)
-
-# Send request and handle response
-try:
-    with urlopen(req) as response:
-        result = json.loads(response.read())
-        if not result["result"]:
-            print("No objects detected")
-        else:
-            for i, box in enumerate(result["result"], 1):
-                print(f"Object {i} found at coordinates:")
-                print(f"  Top-left: ({box['x_min']:.2f}, {box['y_min']:.2f})")
-                print(f"  Bottom-right: ({box['x_max']:.2f}, {box['y_max']:.2f})")
-except Exception as e:
-    print(f"Error making request: {str(e)}")
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
@@ -288,7 +317,7 @@ detectObject();
 </Tabs>
 
 <Callout type="info">
-  The examples above demonstrate different ways to interact with the API using popular libraries and tools. Each example includes proper error handling, environment variable usage, and formatted output of the detected object coordinates. The coordinates are normalized between 0 and 1, where (0,0) is the top-left corner and (1,1) is the bottom-right corner of the image.
+  The examples above demonstrate different ways to interact with the API. The Node.js and Python client libraries provide the simplest integration, while other examples show how to use the REST API directly with popular libraries and tools.
 </Callout>
 
 ---

@@ -5,6 +5,31 @@ import { Callout } from 'nextra/components'
 
 Generate natural language descriptions of images.
 
+## Quick Start
+
+```typescript
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize the client
+const model = new vl({
+  apiKey: "your-api-key",
+});
+
+// Read an image file
+const image = fs.readFileSync("image.jpg");
+
+// Generate a caption
+const caption = await model.caption(image);
+console.log(caption);
+
+// With streaming
+const stream = await model.caption(image, "normal", true);
+for await (const chunk of stream.caption) {
+  process.stdout.write(chunk);
+}
+```
+
 ## API Specification
 
 ### Request Model
@@ -18,24 +43,72 @@ class CaptionRequest(BaseModel):
 ### Response Model
 <Tabs items={['Non-Streaming', 'Streaming']}>
   <Tabs.Tab>
-~~~python
-class CaptionResponse(BaseModel):
-    result: str
-~~~
+```python
+class CaptionOutput(BaseModel):
+    caption: str
+```
   </Tabs.Tab>
   <Tabs.Tab>
-~~~python
-{
-    'chunk': str,  # token from stream
-    'completed': bool
-}
-~~~
+```python
+class CaptionOutput(BaseModel):
+    caption: Generator  # Yields tokens from stream
+```
   </Tabs.Tab>
 </Tabs>
 
 ## Example Usage
 
-<Tabs items={['cURL', 'Python', 'Node.js', 'Fetch', 'Axios']}>
+<Tabs items={['Node.js Client', 'Python Client', 'cURL', 'Node.js HTTP', 'Fetch', 'Axios']}>
+  <Tabs.Tab>
+```typescript filename="caption-client.ts"
+import { vl } from "moondream";
+import fs from "fs";
+
+// Initialize client
+const model = new vl({
+  apiKey: process.env.MOONDREAM_API_KEY
+});
+
+async function main() {
+  // Read image file
+  const image = fs.readFileSync("image.jpg");
+  
+  // Generate caption
+  const caption = await model.caption(image, "long");
+  console.log("Caption:", caption);
+  
+  // With streaming
+  const stream = await model.caption(image, "normal", true);
+  console.log("\nStreaming caption:");
+  for await (const chunk of stream.caption) {
+    process.stdout.write(chunk);
+  }
+}
+
+main().catch(console.error);
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python filename="caption-client.py"
+import moondream as md
+from PIL import Image
+
+# Initialize client
+model = md.vl(api_key="your_api_key_here")
+
+# Load image
+image = Image.open("image.jpg")
+
+# Generate caption
+result = model.caption(image)
+print("Caption:", result["caption"])
+
+# With streaming
+print("\nStreaming caption:")
+for chunk in model.caption(image, stream=True)["caption"]:
+    print(chunk, end="", flush=True)
+```
+  </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash filename="caption.sh"
 # Convert image to base64
@@ -50,54 +123,6 @@ curl -X POST https://api.moondream.ai/v1/caption \
     \"length\": \"long\",
     \"stream\": false
   }"
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~python filename="caption.py" {3-4} showLineNumbers
-import os
-from urllib.request import Request, urlopen
-import json
-import base64
-
-# Load image file and convert to base64
-def get_base64_image(image_path):
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-# Get API key from environment variable
-api_key = os.getenv("MOONDREAM_API_KEY")
-if not api_key:
-    raise ValueError("Please set MOONDREAM_API_KEY environment variable")
-
-# Prepare request
-image_base64 = get_base64_image("image.jpg")
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "length": "long",
-    "stream": False
-}
-
-# Set up request headers
-headers = {
-    "X-Moondream-Auth": api_key,
-    "Content-Type": "application/json"
-}
-
-# Make request using standard library
-req = Request(
-    "https://api.moondream.ai/v1/caption",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
-)
-
-# Send request and handle response
-try:
-    with urlopen(req) as response:
-        result = json.loads(response.read())
-        print(result["result"])
-except Exception as e:
-    print(f"Error: {e}")
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
@@ -241,7 +266,7 @@ captionImage();
 </Tabs>
 
 <Callout type="info">
-  The examples above demonstrate different ways to interact with the API using popular libraries and tools. Each example includes proper error handling and environment variable usage.
+  The examples above demonstrate different ways to interact with the API. The Node.js and Python client libraries provide the simplest integration, while other examples show how to use the REST API directly with popular libraries and tools.
 </Callout>
 
 ---

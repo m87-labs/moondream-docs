@@ -59,32 +59,32 @@ import { Callout } from 'nextra/components';
                 <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
                   <Tabs.Tab>
                     ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```bash
-                    curl -L -o moondream-latest-f16.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    curl -L -o moondream-latest-f16.bin.gz https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```powershell
-                    curl.exe -L -o moondream-latest-f16.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin
+                    curl.exe -L -o moondream-latest-f16.bin.gz https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```python
                     import requests
 
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin"
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz"
                     response = requests.get(url)
-                    with open("moondream-latest-f16.bin", "wb") as f:
+                    with open("moondream-latest-f16.bin.gz", "wb") as f:
                         f.write(response.content)
                     ```
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-latest-f16.bin (3.74 GB)
+                  Downloads: moondream-latest-f16.bin.gz (2.88 GB)
                 </div>
               </div>
             </div>
@@ -99,7 +99,7 @@ import { Callout } from 'nextra/components';
                 <div className="text-gray-600 mt-1">Balanced performance and quality</div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-mono">2.09 GB</div>
+                <div className="text-xl font-mono">1.82 GB</div>
                 <div className="text-sm text-gray-500">Compressed: 1.83 GB</div>
               </div>
             </div>
@@ -125,38 +125,38 @@ import { Callout } from 'nextra/components';
 
             <div className="mt-6 pt-4 border-t border-gray-100">
               <div className="mb-2">
-                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">onnx branch</code>
               </div>
               <div className="rounded-md border border-gray-200 overflow-hidden">
                 <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
                   <Tabs.Tab>
                     ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```bash
-                    curl -L -o moondream-latest-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    curl -L -o moondream-2b-int8.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```powershell
-                    curl.exe -L -o moondream-latest-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin
+                    curl.exe -L -o moondream-2b-int8.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```python
                     import requests
 
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int8.bin"
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int8.mf.gz"
                     response = requests.get(url)
-                    with open("moondream-latest-int8.bin", "wb") as f:
+                    with open("moondream-2b-int8.mf.gz", "wb") as f:
                         f.write(response.content)
                     ```
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-latest-int8.bin (2.09 GB)
+                  Downloads: moondream-2b-int8.mf.gz (1.82 GB)
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@ import { Callout } from 'nextra/components';
                 <div className="text-gray-600 mt-1">Maximum compression</div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-mono">1.52 GB</div>
+                <div className="text-xl font-mono">1.22 GB</div>
                 <div className="text-sm text-gray-500">Compressed: 1.31 GB</div>
               </div>
             </div>
@@ -197,38 +197,38 @@ import { Callout } from 'nextra/components';
 
             <div className="mt-6 pt-4 border-t border-gray-100">
               <div className="mb-2">
-                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
+                <code className="text-sm bg-gray-50 px-2 py-1 rounded">onnx branch</code>
               </div>
               <div className="rounded-md border border-gray-200 overflow-hidden">
                 <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
                   <Tabs.Tab>
                     ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```bash
-                    curl -L -o moondream-latest-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    curl -L -o moondream-2b-int4.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```powershell
-                    curl.exe -L -o moondream-latest-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin
+                    curl.exe -L -o moondream-2b-int4.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```python
                     import requests
 
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-int4.bin"
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int4.mf.gz"
                     response = requests.get(url)
-                    with open("moondream-latest-int4.bin", "wb") as f:
+                    with open("moondream-2b-int4.mf.gz", "wb") as f:
                         f.write(response.content)
                     ```
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-latest-int4.bin (1.52 GB)
+                  Downloads: moondream-2b-int4.mf.gz (1.22 GB)
                 </div>
               </div>
             </div>
@@ -255,7 +255,7 @@ import { Callout } from 'nextra/components';
                 <div className="text-gray-600 mt-1">Fast CPU inference</div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-mono">613 MB</div>
+                <div className="text-xl font-mono">622 MB</div>
                 <div className="text-sm text-gray-500">Compressed: 479 MB</div>
               </div>
             </div>
@@ -287,32 +287,32 @@ import { Callout } from 'nextra/components';
                 <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
                   <Tabs.Tab>
                     ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```bash
-                    curl -L -o moondream-0_5b-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    curl -L -o moondream-0_5b-int8.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```powershell
-                    curl.exe -L -o moondream-0_5b-int8.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin
+                    curl.exe -L -o moondream-0_5b-int8.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```python
                     import requests
 
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.bin"
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz"
                     response = requests.get(url)
-                    with open("moondream-0_5b-int8.bin", "wb") as f:
+                    with open("moondream-0_5b-int8.mf.gz", "wb") as f:
                         f.write(response.content)
                     ```
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-0_5b-int8.bin (613 MB)
+                  Downloads: moondream-0_5b-int8.mf.gz (622 MB)
                 </div>
               </div>
             </div>
@@ -327,7 +327,7 @@ import { Callout } from 'nextra/components';
                 <div className="text-gray-600 mt-1">Ultra-lightweight deployment</div>
               </div>
               <div className="text-right">
-                <div className="text-xl font-mono">479 MB</div>
+                <div className="text-xl font-mono">442 MB</div>
                 <div className="text-sm text-gray-500">Compressed: 375 MB</div>
               </div>
             </div>
@@ -359,32 +359,32 @@ import { Callout } from 'nextra/components';
                 <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
                   <Tabs.Tab>
                     ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    wget https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```bash
-                    curl -L -o moondream-0_5b-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    curl -L -o moondream-0_5b-int4.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```powershell
-                    curl.exe -L -o moondream-0_5b-int4.bin https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin
+                    curl.exe -L -o moondream-0_5b-int4.mf.gz https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz
                     ```
                   </Tabs.Tab>
                   <Tabs.Tab>
                     ```python
                     import requests
 
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.bin"
+                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz"
                     response = requests.get(url)
-                    with open("moondream-0_5b-int4.bin", "wb") as f:
+                    with open("moondream-0_5b-int4.mf.gz", "wb") as f:
                         f.write(response.content)
                     ```
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-0_5b-int4.bin (479 MB)
+                  Downloads: moondream-0_5b-int4.mf.gz (442 MB)
                 </div>
               </div>
             </div>
