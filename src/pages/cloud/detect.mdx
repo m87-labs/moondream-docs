@@ -54,7 +54,7 @@ class DetectResponse(BaseModel):
 IMAGE_BASE64=$(base64 -i image.jpg)
 
 # Make API request
-curl -X POST https://playground2.servers.moondream.ai/v1/detect \
+curl -X POST https://api.moondream.ai/v1/detect \
   -H "Content-Type: application/json" \
   -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
   -d "{
@@ -95,7 +95,7 @@ headers = {
 
 # Make request using standard library
 req = Request(
-    "https://playground2.servers.moondream.ai/v1/detect",
+    "https://api.moondream.ai/v1/detect",
     data=json.dumps(data).encode(),
     headers=headers,
     method="POST"
@@ -204,7 +204,7 @@ async function detectObject() {
   try {
     const imageBase64 = await getBase64Image('image.jpg');
     
-    const response = await fetch('https://playground2.servers.moondream.ai/v1/detect', {
+    const response = await fetch('https://api.moondream.ai/v1/detect', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ async function detectObject() {
 
     const response = await axios({
       method: 'post',
-      url: 'https://playground2.servers.moondream.ai/v1/detect',
+      url: 'https://api.moondream.ai/v1/detect',
       headers: {
         'Content-Type': 'application/json',
         'X-Moondream-Auth': process.env.MOONDREAM_API_KEY

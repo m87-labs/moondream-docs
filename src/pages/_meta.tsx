@@ -15,6 +15,10 @@ const meta: Meta = {
     title: 'Quick Start',
     description: 'Learn how to set up and run Moondream in under 5 minutes with our step-by-step guide'
   },
+  'technical-specifications': {
+    title: 'Technical Specifications',
+    description: 'Detailed technical specifications, performance benchmarks, and model architecture information'
+  },
   'local-deployment': {
     title: 'Local Deployment',
     description: 'Deploy and run Moondream locally on your own infrastructure with detailed setup instructions'
@@ -23,10 +27,7 @@ const meta: Meta = {
     title: 'Cloud',
     description: 'Access Moondream\'s capabilities through our cloud API with ready-to-use endpoints'
   },
-  'technical-specifications': {
-    title: 'Technical Specifications',
-    description: 'Detailed technical specifications, performance benchmarks, and model architecture information'
-  },
+
   'model-downloads': {
     title: 'Model Downloads',
     description: 'Download Moondream model variants optimized for different use cases and hardware configurations'

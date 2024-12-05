@@ -189,7 +189,7 @@ print("Model loaded!")
 
 ### Base URL
 ```
-https://playground2.servers.moondream.ai
+https://api.moondream.ai
 ```
 
 ### Endpoints
@@ -283,7 +283,7 @@ Example format for API documentation:
 IMAGE_BASE64=$(base64 -i image.jpg)
 
 # Make API request
-curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+curl -X POST https://api.moondream.ai/v1/caption \
   -H "Content-Type: application/json" \
   -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
   -d "{
@@ -326,7 +326,7 @@ headers = {
 
 # Make request using standard library
 req = Request(
-    "https://playground2.servers.moondream.ai/v1/caption",
+    "https://api.moondream.ai/v1/caption",
     data=json.dumps(data).encode(),
     headers=headers,
     method="POST"
@@ -417,7 +417,7 @@ async function captionImage() {
   try {
     const imageBase64 = await getBase64Image('image.jpg');
     
-    const response = await fetch('https://playground2.servers.moondream.ai/v1/caption', {
+    const response = await fetch('https://api.moondream.ai/v1/caption', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -453,7 +453,7 @@ async function captionImage() {
 
     const response = await axios({
       method: 'post',
-      url: 'https://playground2.servers.moondream.ai/v1/caption',
+      url: 'https://api.moondream.ai/v1/caption',
       headers: {
         'Content-Type': 'application/json',
         'X-Moondream-Auth': process.env.MOONDREAM_API_KEY

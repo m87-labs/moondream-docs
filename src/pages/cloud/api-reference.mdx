@@ -7,7 +7,7 @@ Welcome to the Moondream Cloud API documentation. Our REST API enables you to in
 ## Base URL
 
 ~~~bash filename="base-url"
-https://playground2.servers.moondream.ai
+https://api.moondream.ai
 ~~~
 
 ## Available Endpoints
@@ -57,39 +57,10 @@ X-Moondream-Auth: your_api_key_here
   <Cards.Card
     icon="🔑"
     title="Get Your API Key"
-    href="/cloud/getting-started#authentication"
+    href="https://console.moondream.ai/auth/login"
     description="Learn how to obtain and use your Moondream API key"
   />
 </Cards>
-
-## Request Format
-
-All endpoints accept POST requests with JSON payloads. Images must be provided as base64-encoded strings with the appropriate data URI prefix:
-
-~~~typescript filename="request-format"
-{
-  "image_url": "data:image/jpeg;base64,..."
-}
-~~~
-
-## Response Format
-
-Responses are returned in JSON format. For non-streaming requests:
-
-~~~typescript filename="response-format"
-{
-  "result": string | object // Depends on the endpoint
-}
-~~~
-
-For streaming requests (available on /query and /caption):
-
-~~~typescript filename="streaming-response"
-{
-  "chunk": string,
-  "completed": boolean
-}
-~~~
 
 ## Quick Reference
 
@@ -107,7 +78,7 @@ Here's a quick overview of all available endpoints and their request/response mo
 ### Quick Copy Examples
 
 ~~~bash filename="query-example.sh"
-curl -X POST https://playground2.servers.moondream.ai/v1/query \
+curl -X POST https://api.moondream.ai/v1/query \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -118,7 +89,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/query \
 ~~~
 
 ~~~bash filename="caption-example.sh"
-curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+curl -X POST https://api.moondream.ai/v1/caption \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -129,7 +100,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/caption \
 ~~~
 
 ~~~bash filename="detect-example.sh"
-curl -X POST https://playground2.servers.moondream.ai/v1/detect \
+curl -X POST https://api.moondream.ai/v1/detect \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -139,7 +110,7 @@ curl -X POST https://playground2.servers.moondream.ai/v1/detect \
 ~~~
 
 ~~~bash filename="point-example.sh"
-curl -X POST https://playground2.servers.moondream.ai/v1/point \
+curl -X POST https://api.moondream.ai/v1/point \
   -H "X-Moondream-Auth: ${API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{

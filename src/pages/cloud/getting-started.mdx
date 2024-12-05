@@ -37,7 +37,7 @@ headers = {
 # Make request
 with httpx.Client() as client:
     response = client.post(
-        "https://playground2.servers.moondream.ai/v1/caption",
+        "https://api.moondream.ai/v1/caption",
         json=data,
         headers=headers,
         timeout=120.0
@@ -49,7 +49,7 @@ print(result["result"])
   </Tabs.Tab>
   <Tabs.Tab>
 ~~~bash copy
-curl -X POST https://playground2.servers.moondream.ai/v1/caption \
+curl -X POST https://api.moondream.ai/v1/caption \
   -H "X-Moondream-Auth: your_api_key_here" \
   -H "Content-Type: application/json" \
   -d '{
@@ -84,7 +84,7 @@ headers = {
 with httpx.Client() as client:
     with client.stream(
         "POST",
-        "https://playground2.servers.moondream.ai/v1/caption",
+        "https://api.moondream.ai/v1/caption",
         json=data,
         headers=headers,
         timeout=60.0
