@@ -29,7 +29,7 @@ Thank you for your interest in contributing to the Moondream documentation! This
 
 ### File Structure
 
-- All documentation pages are in `src/pages/docs/`
+- All documentation pages are in `src/pages/`
 - Use `.mdx` files for documentation pages
 - Navigation is controlled by `_meta.tsx` files
 
@@ -41,9 +41,9 @@ Thank you for your interest in contributing to the Moondream documentation! This
 
 By default, all MDX routes in the filesystem will be shown on the sidebar. But you can hide specific pages or folders by using the "display": "hidden" configuration:
 
-pages/_meta.js:
+pages/_meta.tsx:
 
-~~~javascript
+~~~typescript
 export default {
   index: 'My Homepage',
   contact: {
@@ -157,13 +157,13 @@ Showcase different features:
 ### Code Blocks
 With highlighting and filename:
 
-~~~mdx
-~~~python filename="example.py" {3,7-8} showLineNumbers
+```mdx
+```python filename="example.py" {3,7-8} showLineNumbers
 from moondream import vl
 model = vl()  # Initialize model
 print("Model loaded!")
-~~~
-~~~
+```
+```
 
 ## 🔍 Review Process
 
