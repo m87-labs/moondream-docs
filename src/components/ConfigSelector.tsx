@@ -485,7 +485,7 @@ main().catch(console.error);`;
 											{category.replace(/([A-Z])/g, ' $1').trim()}
 										</td>
 										<td className='flex flex-col md:table-cell md:flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
-											{options.map((option: ConfigOption, index) => (
+											{options.map((option: ConfigOption) => (
 												<div
 													key={option.id}
 													className={`px-6 py-4 cursor-pointer select-none md:border-r last:border-r-0 border-gray-200
