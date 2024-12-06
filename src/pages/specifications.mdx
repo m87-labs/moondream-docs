@@ -19,77 +19,9 @@ import { Callout } from 'nextra/components';
       </div>
       
       <div className="space-y-4">
-        <div className="bg-white rounded-lg border border-gray-200">
-          <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h3 className="text-2xl font-semibold">FP16 Model</h3>
-                <div className="text-gray-600 mt-1">Maximum accuracy and quality</div>
-              </div>
-              <div className="text-right">
-                <div className="text-xl font-mono">3.74 GB</div>
-                <div className="text-sm text-gray-500">Compressed: 2.88 GB</div>
-              </div>
-            </div>
+       
+        
 
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• ~200ms on V100 GPU</li>
-                  <li>• 4GB VRAM required</li>
-                  <li>• GPU recommended</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• Research projects</li>
-                  <li>• Quality benchmarking</li>
-                  <li>• High-end servers</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-gray-100">
-              <div className="mb-2">
-                <code className="text-sm bg-gray-50 px-2 py-1 rounded">client branch</code>
-              </div>
-              <div className="rounded-md border border-gray-200 overflow-hidden">
-                <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
-                  <Tabs.Tab>
-                    ```bash
-                    wget https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
-                    ```
-                  </Tabs.Tab>
-                  <Tabs.Tab>
-                    ```bash
-                    curl -L -o moondream-latest-f16.bin.gz https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
-                    ```
-                  </Tabs.Tab>
-                  <Tabs.Tab>
-                    ```powershell
-                    curl.exe -L -o moondream-latest-f16.bin.gz https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz
-                    ```
-                  </Tabs.Tab>
-                  <Tabs.Tab>
-                    ```python
-                    import requests
-
-                    url = "https://huggingface.co/vikhyatk/moondream2/resolve/client/moondream-latest-f16.bin.gz"
-                    response = requests.get(url)
-                    with open("moondream-latest-f16.bin.gz", "wb") as f:
-                        f.write(response.content)
-                    ```
-                  </Tabs.Tab>
-                </Tabs>
-                <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-latest-f16.bin.gz (2.88 GB)
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="relative bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="p-6">
@@ -105,14 +37,7 @@ import { Callout } from 'nextra/components';
             </div>
 
             <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• ~250ms on V100 GPU</li>
-                  <li>• ~1s on modern CPU</li>
-                  <li>• 2GB VRAM required</li>
-                </ul>
-              </div>
+
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
                 <ul className="space-y-2 text-gray-600">
@@ -177,14 +102,7 @@ import { Callout } from 'nextra/components';
             </div>
 
             <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• ~300ms on V100 GPU</li>
-                  <li>• 1GB VRAM required</li>
-                  <li>• 8GB RAM recommended</li>
-                </ul>
-              </div>
+
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
                 <ul className="space-y-2 text-gray-600">
@@ -261,14 +179,7 @@ import { Callout } from 'nextra/components';
             </div>
 
             <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• ~500ms on modern CPU</li>
-                  <li>• 2GB RAM required</li>
-                  <li>• CPU optimized</li>
-                </ul>
-              </div>
+             
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
                 <ul className="space-y-2 text-gray-600">
@@ -333,14 +244,7 @@ import { Callout } from 'nextra/components';
             </div>
 
             <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-medium text-gray-700 mb-3">Performance</h4>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• ~600ms on modern CPU</li>
-                  <li>• 1GB RAM required</li>
-                  <li>• Mobile optimized</li>
-                </ul>
-              </div>
+             
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
                 <ul className="space-y-2 text-gray-600">
@@ -564,60 +468,61 @@ import { Callout } from 'nextra/components';
 				</table>
 			</div>
 
-			<div className='mt-4 text-sm text-gray-600'>
-			<h4 className='font-medium mb-2'>Benchmark Details:</h4>
-				<ul className='space-y-1 list-disc pl-4'>
-					<li>
-						<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
-					</li>
-					<li>
-						<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
-					</li>
-					<li>
-						<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
-					</li>
-					<li>
-						<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
-					</li>
-					<li>
-						<span className='font-medium'>Natural Bench</span>: Evaluation on natural adversarial samples requiring diverse visio-linguistic skills like attribute binding, relationships, logic and counting
-					</li>
-				</ul>
-			</div>
-		</div>
-	</Tabs.Tab>
+    		<div className='mt-4 text-sm text-gray-600'>
+    		<h4 className='font-medium mb-2'>Benchmark Details:</h4>
+    			<ul className='space-y-1 list-disc pl-4'>
+    				<li>
+    					<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
+    				</li>
+    				<li>
+    					<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
+    				</li>
+    				<li>
+    					<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
+    				</li>
+    				<li>
+    					<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
+    				</li>
+    				<li>
+    					<span className='font-medium'>Natural Bench</span>: Evaluation on natural adversarial samples requiring diverse visio-linguistic skills like attribute binding, relationships, logic and counting
+    				</li>
+    			</ul>
+    		</div>
+    	</div>
+    </Tabs.Tab>
+
 </Tabs>
 
 ## Feature Support
 
-<div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-  <div className="overflow-x-auto">
-    <table className="min-w-full">
-      <thead>
-        <tr className="border-b border-gray-200">
-          <th className="text-left py-3 px-4 font-semibold text-gray-700">Model</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Visual Q&A</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Captioning</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Detection</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Pointing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr className="border-b border-gray-200">
-          <td className="py-3 px-4">2B Models (FP16/INT8/INT4)</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-        </tr>
-        <tr className="border-b border-gray-200">
-          <td className="py-3 px-4">0.5B Models (INT8/INT4)</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">❌</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div className='bg-white rounded-lg border border-gray-200 p-6 mb-8'>
+	<div className='overflow-x-auto'>
+		<table className='min-w-full'>
+			<thead>
+				<tr className='border-b border-gray-200'>
+					<th className='text-left py-3 px-4 font-semibold text-gray-700'>Model</th>
+					<th className='text-center py-3 px-4 font-semibold text-gray-700'>Visual Q&A</th>
+					<th className='text-center py-3 px-4 font-semibold text-gray-700'>Captioning</th>
+					<th className='text-center py-3 px-4 font-semibold text-gray-700'>Detection</th>
+					<th className='text-center py-3 px-4 font-semibold text-gray-700'>Pointing</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr className='border-b border-gray-200'>
+					<td className='py-3 px-4'>2B Models (FP16/INT8/INT4)</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>✅</td>
+				</tr>
+				<tr className='border-b border-gray-200'>
+					<td className='py-3 px-4'>0.5B Models (INT8/INT4)</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>✅</td>
+					<td className='text-center py-3 px-4'>❌</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
