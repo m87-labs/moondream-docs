@@ -1,38 +1,42 @@
-# 🌙 Moondream Documentation
+# Moondream Documentation
 
-> This is the community-driven documentation for Moondream, an open-source vision-language model. We welcome contributions from the community to help make this documentation more comprehensive and useful for everyone.
-
-Official documentation for Moondream - a lightweight yet powerful vision-language model that enables you to analyze images, generate captions, and answer questions about visual content.
-
-## 🌟 Key Features
-
-- 🖼️ **Image Analysis**: Generate detailed descriptions of any image
-- 💬 **Visual Q&A**: Ask natural language questions about images
-- 🚀 **Visual Pointing**: Get precise coordinates for objects in images 
-- 🔍 **Object Detection**: Locate and identify objects in images 
-- 🚀 **Local Processing**: Run entirely on your machine for privacy
-- 🎯 **CUDA Support**: GPU acceleration for faster processing
-- ⚡ **Streaming**: Real-time response streaming for longer outputs
-- 🔒 **Privacy-First**: All processing happens locally
-- 📱 **Multi-Platform**: Supports Python, JavaScript, and TypeScript
-- 🎨 **Modern Stack**: Built with Next.js, Nextra, and Tailwind CSS
+This repository contains the official documentation for Moondream, built with Nextra, Next.js, and Tailwind CSS. The documentation aims to be comprehensive and community-driven.
 
 ## Contributing
 
-We welcome contributions to improve the documentation! Please see our [Contributing Guide](CONTRIBUTING.md) for:
-- How to set up the documentation locally
-- Understanding the project structure
-- Documentation style guide
-- How to submit changes
+We welcome and encourage contributions to improve the documentation. Please see our [Contributing Guide](CONTRIBUTING.md) for detailed information on:
+
+- Local development setup
+- Project structure and conventions
+- Documentation style guidelines
+- Pull request process
 - Development tips and troubleshooting
 
-## Key Features of Nextra
+## Development
 
-### File-Based Routing
+~~~bash
+npm install
+npm run dev
+npm run build
+npm start
+~~~
 
-- Every `.mdx` file becomes a page automatically
-- Nested folders create nested routes
-- Example: `pages/docs/advanced/configuration.mdx` → `/docs/advanced/configuration`
+## Documentation Structure
+
+### Core Components
+
+The documentation uses several custom components found in `src/components`:
+- `NotePad`: Multi-purpose content container with various layouts
+- `Callout`: Highlighted information blocks
+- `Tabs`: Content organization component
+
+### File Organization
+
+- `pages/`: MDX documentation files
+- `public/`: Static assets
+- `src/components/`: React components
+- `src/styles/`: Tailwind configuration and global styles
+- `theme.config.tsx`: Nextra theme configuration
 
 ### Special Files
 
@@ -49,79 +53,85 @@ Each section has its own `_meta.tsx` file that:
 - Supports nested structures
 
 Example:
-```typescript
+~~~typescript
 const meta = {
-  "visual-qna": {
-    title: "Visual Q&A",
-    description: "Ask questions about images"
+  "docs": {
+    title: "Documentation",
+    description: "Getting started and guides"
   }
 }
-```
-
-### Built-in Features
-
-- 🔍 Full-text search
-- 🌗 Dark mode
-- 📱 Responsive design
-- 🔗 Auto-generated sidebar
-- 📝 Markdown & MDX support
-- 🎨 Syntax highlighting
-- 🔖 Table of contents
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
+~~~
 
 ## Adding New Documentation
 
-1. Create `.mdx` files in the `pages` directory
-2. Use nested folders for organization
-3. Add entries to `_meta.tsx` files to control navigation
-4. Use standard Markdown syntax with MDX features
+### File Creation
+1. Create `.mdx` files in the appropriate directory under `pages/`
+2. Use nested folders for logical organization
+3. Update `_meta.tsx` files to include new pages
+4. Follow established naming conventions
 
-### Example Page Structure
+### Content Structure
+1. Use available components and Markdown syntax
+2. Include code examples with proper syntax highlighting
+3. Add descriptive frontmatter
+4. Reference related documentation
 
+Example page structure:
 ```mdx
-# Page Title
-
-## Section
-
-Content goes here...
-
-```python
-# Code examples with syntax highlighting
-print("Hello, World!")
+---
+title: Guide Title
+description: Brief description
+---
 ```
 
-## Customization
+# Main Title
 
-### Theme Configuration
+<NotePad>
+  <NotePad.Section title="Section">
+    Content goes here...
+  </NotePad.Section>
+</NotePad>
 
-Modify `theme.config.jsx` to customize:
-- Logo
-- Navigation links
-- GitHub links
-- Footer content
-- SEO defaults
-- Color scheme
+## Code Examples
+
+~~~python
+# Example code
+print("Hello World")
+~~~
+
+
+### Component Usage
+
+- Use `NotePad` for structured content sections
+- Implement `Callout` for important notes
+- Utilize `Tabs` for alternative content views
+- Include proper frontmatter metadata
+
+
+## Configuration
+
+### Nextra Setup
+
+- File-based routing through `pages/` directory
+- Custom components via MDX
+- TypeScript support
+- Tailwind CSS styling
+
+### Theme Customization
+
+Modify `theme.config.tsx` for:
+- Navigation structure
+- Component defaults
+- Layout options
+- Branding elements
+- SEO configuration
 
 ### Styling
 
-- Uses Tailwind CSS for styling
+- Tailwind CSS utility classes
 - Global styles in `src/styles/globals.css`
-- Custom CSS variables for theming
+- Component-specific styles
+- Custom CSS variables
 
 ## License
 
