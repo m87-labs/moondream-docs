@@ -5,76 +5,122 @@ import { Cards, Card } from 'nextra/components'
 
 # Understanding Vision Language Models (VLMs)
 
-
 ## What are VLMs?
 <NotePad 
-  readingTime="~3 min read"
-  preview="Vision Language Models represent a breakthrough in how computers understand images. While traditional computer vision models like CLIP were limited to specific tasks and often struggled with simple scenarios, VLMs can understand and reason about images in a much more natural and flexible way..."
+  readingTime="~5 min read"
+  preview="Vision Language Models (VLMs) are multimodal AI systems that combine large language models with vision encoders, enabling them to understand and reason about both text and images through natural language interaction..."
 >
   <NotePad.Section title="What are VLMs?">
-    Vision Language Models represent a breakthrough in how computers understand images. While traditional 
-    computer vision models like CLIP were limited to specific tasks and often struggled with simple scenarios, 
-    VLMs can <NotePad.Highlight>understand and reason about images in a much more natural and flexible way</NotePad.Highlight>.
+    Vision Language Models (VLMs) are multimodal AI systems that combine large language models with vision encoders, 
+    enabling them to <NotePad.Highlight>understand and reason about both text and images through natural language interaction</NotePad.Highlight>.
 
-    The key breakthrough is that VLMs can understand images through natural language - just like having a 
-    conversation about what you see. This opens up entirely new possibilities for building visual AI applications.
+    The key breakthrough is that VLMs can process both text and image inputs, similar to having a conversation about what you see. 
+    This opens up entirely new possibilities for building visual AI applications.
 
     <NotePad.SideNote>
-      Unlike traditional models that need extensive training for each task, VLMs can adapt to new scenarios through natural language interaction.
+      Moondream builds on these foundations using advanced architectures like SigLIP and Phi-1.5, combined with 
+      proprietary innovations to deliver state-of-the-art performance in a compact model.
     </NotePad.SideNote>
 
-    Unlike traditional approaches that needed separate models for each task, VLMs can:
+    Unlike traditional computer vision models that are bound by fixed classes or specific tasks, VLMs can:
     <NotePad.BulletList>
-      <NotePad.Bullet>Understand natural language questions about images</NotePad.Bullet>
-      <NotePad.Bullet>Generate detailed descriptions and captions</NotePad.Bullet>
-      <NotePad.Bullet>Identify and locate objects</NotePad.Bullet>
-      <NotePad.Bullet>Reason about visual relationships</NotePad.Bullet>
+      <NotePad.Bullet>Process both text and image inputs naturally</NotePad.Bullet>
+      <NotePad.Bullet>Perform advanced visual reasoning</NotePad.Bullet>
+      <NotePad.Bullet>Generalize to nearly any vision task</NotePad.Bullet>
+      <NotePad.Bullet>Generate detailed text responses about visual content</NotePad.Bullet>
     </NotePad.BulletList>
   </NotePad.Section>
 
-  <NotePad.Section title="Why Now?">
+  <NotePad.Section title="How Do VLMs Work?">
     <NotePad.Note type="info">
       Recent advances in transformer architectures and training techniques have made it possible to create
       <NotePad.Highlight color="blue">smaller, more efficient VLMs without sacrificing capability</NotePad.Highlight>. Moondream leverages these advances to
       provide enterprise-grade visual AI that's accessible to everyone.
     </NotePad.Note>
 
+    VLMs consist of three key components that Moondream has optimized:
+    <NotePad.BulletList>
+      <NotePad.Bullet><NotePad.Highlight color="blue">A vision encoder (typically CLIP-based)</NotePad.Highlight></NotePad.Bullet>
+      <NotePad.Bullet><NotePad.Highlight color="blue">A projector to translate visual features</NotePad.Highlight></NotePad.Bullet>
+      <NotePad.Bullet><NotePad.Highlight color="blue">A large language model (LLM)</NotePad.Highlight></NotePad.Bullet>
+    </NotePad.BulletList>
+
     <NotePad.SideNote>
-      Key innovation: Moondream's 0.5B and 2B parameter models achieve comparable results to much larger models.
+      Through vertical integration and proprietary innovations in each component, Moondream achieves 7B-level performance 
+      with just 0.5B-2B parameters, enabling deployment on resource-constrained devices like Raspberry Pis and old phones.
     </NotePad.SideNote>
   </NotePad.Section>
 
   <NotePad.Section title="The Journey">
     <NotePad.Timeline>
-      <NotePad.TimelineItem era="1960s-1990s" title="Rule-Based Systems">
-        Manually programmed rules, very specific use cases, brittle and inflexible approaches that 
-        required extensive programming for each new scenario.
-      </NotePad.TimelineItem>
-
-      <NotePad.TimelineItem era="1990s-2010s" title="Task-Specific ML">
-        Models like CLIP emerged, showing promise but with significant limitations:
+      <NotePad.TimelineItem era="1960s-1970s" title="Rule-Based Systems">
+        Early computer vision attempts:
         <NotePad.BulletList>
-          <NotePad.Bullet><NotePad.Highlight color="pink">Required deep ML expertise to use effectively</NotePad.Highlight></NotePad.Bullet>
-          <NotePad.Bullet>Performance varied greatly outside trained scenarios</NotePad.Bullet>
-          <NotePad.Bullet>Needed separate models for different tasks</NotePad.Bullet>
+          <NotePad.Bullet>Manually programmed rules and patterns</NotePad.Bullet>
+          <NotePad.Bullet>Very specific use cases only</NotePad.Bullet>
           <NotePad.Bullet>Limited by rigid input/output formats</NotePad.Bullet>
+          <NotePad.Bullet>Required extensive domain expertise</NotePad.Bullet>
         </NotePad.BulletList>
       </NotePad.TimelineItem>
 
-      <NotePad.TimelineItem era="Present" title="Vision Language Models">
+      <NotePad.TimelineItem era="1980s-1990s" title="Classical Vision">
+        Foundational techniques emerged:
+        <NotePad.BulletList>
+          <NotePad.Bullet><NotePad.Highlight color="pink">Focus on geometric and statistical approaches</NotePad.Highlight></NotePad.Bullet>
+          <NotePad.Bullet>Introduction of feature detection algorithms</NotePad.Bullet>
+          <NotePad.Bullet>Early pattern recognition systems</NotePad.Bullet>
+          <NotePad.Bullet>Limited by computational power</NotePad.Bullet>
+        </NotePad.BulletList>
+      </NotePad.TimelineItem>
+
+      <NotePad.TimelineItem era="2000s-2011" title="Machine Learning Era">
+        Statistical approaches emerge:
+        <NotePad.BulletList>
+          <NotePad.Bullet>Support Vector Machines (SVMs) gain popularity</NotePad.Bullet>
+          <NotePad.Bullet>Heavy reliance on hand-crafted features</NotePad.Bullet>
+          <NotePad.Bullet>Limited generalization capabilities</NotePad.Bullet>
+          <NotePad.Bullet>Task-specific architectures</NotePad.Bullet>
+        </NotePad.BulletList>
+      </NotePad.TimelineItem>
+
+      <NotePad.TimelineItem era="2012-2020" title="Deep Learning Revolution">
         A fundamental shift in computer vision:
         <NotePad.BulletList>
-          <NotePad.Bullet><NotePad.Highlight color="green">Natural language interaction with images</NotePad.Highlight></NotePad.Bullet>
-          <NotePad.Bullet>Better generalization to new scenarios</NotePad.Bullet>
-          <NotePad.Bullet>Single model handles diverse tasks</NotePad.Bullet>
-          <NotePad.Bullet>Accessible to developers of all skill levels</NotePad.Bullet>
+          <NotePad.Bullet>AlexNet (2012) wins ImageNet, revolutionizing the field</NotePad.Bullet>
+          <NotePad.Bullet>CNNs achieve human-level performance on many tasks</NotePad.Bullet>
+          <NotePad.Bullet>Emergence of transformer architectures</NotePad.Bullet>
+          <NotePad.Bullet>Advanced feature learning techniques</NotePad.Bullet>
+        </NotePad.BulletList>
+      </NotePad.TimelineItem>
+
+      <NotePad.TimelineItem era="2021-Present" title="Multimodal AI Era">
+        Latest innovations:
+        <NotePad.BulletList>
+          <NotePad.Bullet><NotePad.Highlight color="green">CLIP (2021) enables efficient visual-language learning</NotePad.Highlight></NotePad.Bullet>
+          <NotePad.Bullet>Integration of LLMs with vision encoders</NotePad.Bullet>
+          <NotePad.Bullet>Advanced architectures like SigLIP emerge</NotePad.Bullet>
+          <NotePad.Bullet>A new era of accessibility and democratization by open source models like Moondream</NotePad.Bullet>
         </NotePad.BulletList>
 
         <NotePad.SideNote>
-          This shift from specialized models to general-purpose VLMs marks a turning point in computer vision.
+          Moondream represents the next evolution: bringing high-performance vision AI to resource-constrained environments.
         </NotePad.SideNote>
       </NotePad.TimelineItem>
     </NotePad.Timeline>
+  </NotePad.Section>
+
+  <NotePad.Section title="Current Challenges">
+    <NotePad.BulletList>
+      <NotePad.Bullet>Limited input resolution (typically 224x224 or 336x336)</NotePad.Bullet>
+      <NotePad.Bullet>Challenges with precise spatial understanding</NotePad.Bullet>
+      <NotePad.Bullet>Limited context length for video understanding</NotePad.Bullet>
+      <NotePad.Bullet>Need for domain-specific fine-tuning in specialized cases</NotePad.Bullet>
+    </NotePad.BulletList>
+
+    <NotePad.Note type="info">
+      Moondream addresses these challenges through innovative techniques like efficient tiling, 
+      optimized spatial reasoning, and advanced context handling - all while maintaining a small footprint.
+    </NotePad.Note>
   </NotePad.Section>
 
   <NotePad.Section title="The Breakthrough">
@@ -91,20 +137,20 @@ import { Cards, Card } from 'nextra/components'
 
   <NotePad.Section title="Why This Matters">
     <NotePad.Columns>
-      <NotePad.Column title="Old Barriers">
+      <NotePad.Column title="Traditional CV Limitations">
         <NotePad.BulletList>
-          <NotePad.Bullet>Required deep ML expertise</NotePad.Bullet>
-          <NotePad.Bullet>Needed task-specific training</NotePad.Bullet>
-          <NotePad.Bullet>Limited to pre-defined tasks</NotePad.Bullet>
-          <NotePad.Bullet>Complex integration</NotePad.Bullet>
+          <NotePad.Bullet>Fixed set of classes</NotePad.Bullet>
+          <NotePad.Bullet>Task-specific training required</NotePad.Bullet>
+          <NotePad.Bullet>Expensive retraining process</NotePad.Bullet>
+          <NotePad.Bullet>No natural language understanding</NotePad.Bullet>
         </NotePad.BulletList>
       </NotePad.Column>
-      <NotePad.Column title="Moondream's Solution">
+      <NotePad.Column title="VLM Advantages">
         <NotePad.BulletList>
+          <NotePad.Bullet>Flexible, task-agnostic approach</NotePad.Bullet>
           <NotePad.Bullet>Natural language interaction</NotePad.Bullet>
-          <NotePad.Bullet>Consistent performance</NotePad.Bullet>
-          <NotePad.Bullet>Runs on standard hardware</NotePad.Bullet>
-          <NotePad.Bullet>Simple integration</NotePad.Bullet>
+          <NotePad.Bullet>Zero-shot capabilities</NotePad.Bullet>
+          <NotePad.Bullet>Multimodal understanding</NotePad.Bullet>
         </NotePad.BulletList>
       </NotePad.Column>
     </NotePad.Columns>
@@ -115,6 +161,26 @@ import { Cards, Card } from 'nextra/components'
       Traditional VLMs require massive computational resources. Moondream proves that effective 
       vision AI can be lightweight and efficient:
     </NotePad.Note>
+
+    <NotePad.Section title="Moondream's Key Innovations">
+      <NotePad.BulletList>
+      <NotePad.Bullet>Advanced model pruning techniques that preserve critical capabilities</NotePad.Bullet>
+      <NotePad.Bullet>Novel architecture optimizations for efficient cross-modal learning</NotePad.Bullet>
+      <NotePad.Bullet>Specialized training approaches for parameter efficiency</NotePad.Bullet>
+      <NotePad.Bullet>Breakthrough vision-language alignment methods</NotePad.Bullet>
+      <NotePad.Bullet>Optimized inference paths for resource-constrained environments</NotePad.Bullet>
+    </NotePad.BulletList>
+
+    <NotePad.Note type="info">
+      These innovations collectively enable Moondream to overcome traditional VLM limitations:
+      <NotePad.BulletList>
+        <NotePad.Bullet>Massive model sizes (typically 7B+ parameters)</NotePad.Bullet>
+        <NotePad.Bullet>High computational requirements</NotePad.Bullet>
+        <NotePad.Bullet>Memory-intensive operations</NotePad.Bullet>
+        <NotePad.Bullet>Limited deployment flexibility</NotePad.Bullet>
+      </NotePad.BulletList>
+    </NotePad.Note>
+  </NotePad.Section>
 
     <NotePad.Columns>
       <NotePad.Column title="Technical Benefits">

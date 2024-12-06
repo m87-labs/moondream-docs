@@ -49,9 +49,9 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="my-8 p-8 bg-white rounded-xl border border-gray-200 relative">
+    <div className="my-4 sm:my-8 p-4 sm:p-8 bg-white rounded-xl border border-gray-200 relative">
       {readingTime && (
-        <div className="absolute top-4 right-4 flex items-center gap-1.5 text-sm text-gray-500 font-geist">
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5 text-sm text-gray-500 font-geist">
           <span className="font-mono">⌚</span>
           <span>{readingTime}</span>
         </div>
@@ -59,7 +59,7 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
       <div className="relative">
         <div 
           className={cn(
-            "prose max-w-none notepad-content font-geist tracking-wide",
+            "prose prose-sm sm:prose max-w-none notepad-content font-geist tracking-wide",
             !isExpanded && "max-h-[250px] overflow-hidden py-4"
           )}
         >
@@ -132,7 +132,7 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
 NotePad.Section = function Section({ title, children }: SectionProps) {
   return (
     <div className="mb-8 last:mb-0">
-      <h3 className="text-xl sm:text-2xl font-semibold mb-4 font-geist tracking-wide">{title}</h3>
+      <h3 className="text-lg sm:text-2xl font-semibold mb-4 font-geist tracking-wide">{title}</h3>
       <div className="pl-4 border-l-2 border-gray-200">
         <div className="space-y-4">
           {children}
