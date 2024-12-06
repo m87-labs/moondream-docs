@@ -30,8 +30,8 @@ interface ScriptVariables {
 
 const configOptions: ConfigOptions = {
 	environment: [
-		{ id: 'local', label: 'Local Deployment', value: 'local' },
 		{ id: 'cloud', label: 'Cloud API', value: 'cloud' },
+		{ id: 'local', label: 'Local Deployment', value: 'local' },
 	],
 	processor: [
 		{ id: 'cpu', label: 'CPU', value: 'cpu' },
@@ -170,10 +170,10 @@ const CodeBlock: FC<{ text: string; children: ReactNode }> = ({ text, children }
 
 const ConfigSelector: FC = () => {
 	const [selectedConfig, setSelectedConfig] = useState<SelectedConfig>({
-		environment: null,
-		processor: null,
-		moondreamModel: null,
-		quantization: null,
+		environment: 'cloud',
+		processor: 'none',
+		moondreamModel: 'none',
+		quantization: 'none',
 	});
 
 	const handleSelection = (category: keyof SelectedConfig, value: string) => {
@@ -201,7 +201,7 @@ const ConfigSelector: FC = () => {
 		if (selectedConfig.environment === 'cloud') {
 			const sections = {
 				setup: `# Install dependencies in your project directory
-pip install moondream
+# pip install moondream
 
 # Get your API key at console.moondream.ai
 import moondream as md
@@ -211,7 +211,7 @@ from PIL import Image
 model = md.vl(api_key="your-api-key")
 
 # Load an image
-image = Image.open("path/to/image.jpg")
+image = Image.open("./path/to/image.jpg")
 `,
 
 				caption: `# Generate a caption
@@ -242,51 +242,51 @@ for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
 			const nodeSections = {
 				setup: `// Install dependencies in your project directory
 // npm install moondream
-
-// Get your API key at console.moondream.ai
 const { vl } = require('moondream');
+const fs = require('fs');
 
 async function main() {
-  // Initialize with API key
-  const model = new vl({ apiKey: 'your-api-key' });
-  
+  // Get your API key at console.moondream.ai
+  const model = new vl({
+    apiKey: "your-api-key"
+  });
+
   // Load an image
-  const image = "path/to/image.jpg";
-  `,
+  const image = fs.readFileSync("./path/to/image.jpg");`,
 
 				caption: `  // Generate caption
-  const { caption } = await model.caption(image);
-  console.log('Caption:', caption);
-  
-  // Stream the caption
-  console.log('\\nStreaming caption:');
-  const captionStream = await model.caption(image, "normal", true);
-  for await (const chunk of captionStream.caption) {
-    process.stdout.write(chunk);
-  }`,
+const caption = await model.caption(image, "normal", false);
+console.log('Caption:', caption);
+
+// Stream the caption
+console.log('\\nStreaming caption:');
+const captionStream = await model.caption(image, "normal", true);
+for await (const chunk of captionStream.caption) {
+  process.stdout.write(chunk);
+}`,
 
 				query: `  // Ask questions about the image
-  const { answer } = await model.query(image, "What's in this image?");
-  console.log('\\nAnswer:', answer);
+const answer = await model.query(image, "What's in this image?");
+console.log('\\nAnswer:', answer);
 
-  // Stream the answer
-  console.log('\\nStreaming answer:');
-  const answerStream = await model.query(image, "What's in this image?", true);
-  for await (const chunk of answerStream.answer) {
-    process.stdout.write(chunk);
-  }`,
+// Stream the answer
+console.log('\\nStreaming answer:');
+const answerStream = await model.query(image, "What's in this image?", true);
+for await (const chunk of answerStream.answer) {
+  process.stdout.write(chunk);
+}`,
 
 				detect: `  // Uncomment to use object detection
-  // const { detections } = await model.detect(image);
-  // console.log('Detected objects:', detections);`,
+  // const result = await model.detect(image, "car");
+  // console.log('Detected objects:', result.objects);`,
 
 				point: `  // Uncomment to use object localization
-  // const { coordinates } = await model.point(image, "Where is the cat?");
-  // console.log('Coordinates:', coordinates);`,
+  // const result = await model.point(image, "person");
+  // console.log('Coordinates:', result.points);`,
 
 				closing: `}
 
-main().catch(console.error);`,
+main().catch(console.error);`
 			};
 
 			return (
@@ -448,12 +448,14 @@ main().catch(console.error);`;
                     before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
                     before:transition-opacity before:content-["↳"] before:text-[#565872]
                     border border-transparent hover:border-[#E5E5E7] hover:shadow-sm
-                    ${!selectedConfig.environment ? 'border-dashed border-gray-300' : ''}`}
+                    border-dashed border-gray-300`}
 									onClick={() => handleSelection('environment', option.value)}
 								>
 									<div className='pl-4'>
 										{option.label}
-										{!selectedConfig.environment && <div className='text-xs text-gray-500 mt-1 group-hover:text-[#565872]'>Click to select</div>}
+										{selectedConfig.environment !== option.value && (
+											<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872]'>Click to select</div>
+										)}
 									</div>
 								</td>
 							))}
@@ -470,7 +472,7 @@ main().catch(console.error);`;
 					<table className='w-full border-collapse'>
 						<thead className='bg-[#F7F7F8] hidden md:table-header-group'>
 							<tr className='border-b border-gray-200'>
-								<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4 border-r border-gray-200'>Modifier</th>
+								<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4 border-r border-gray-200'>Configuration</th>
 								<th className='px-6 py-4 text-left font-medium text-[#565872]' colSpan={3}>
 									Options
 								</th>
@@ -482,19 +484,24 @@ main().catch(console.error);`;
 								.map(([category, options]) => (
 									<tr key={category} className='flex flex-col md:table-row'>
 										<td className='px-6 py-4 text-gray-900 font-medium bg-[#F7F7F8] md:bg-transparent border-r border-gray-200'>
-											{category.replace(/([A-Z])/g, ' $1').trim()}
+											{category === 'processor' ? 'Processor' :
+											 category === 'moondreamModel' ? 'Moondream Model' :
+											 category === 'quantization' ? 'Quantization' :
+											 category.replace(/([A-Z])/g, ' $1').trim()}
 										</td>
-										<td className='flex flex-col md:table-cell md:flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
+										<td className='flex flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
 											{options.map((option: ConfigOption) => (
 												<div
 													key={option.id}
-													className={`px-6 py-4 cursor-pointer select-none md:border-r last:border-r-0 border-gray-200
+													className={`px-6 py-4 cursor-pointer select-none border-r border-gray-200 flex-1
 														${selectedConfig[category as keyof SelectedConfig] === option.value
 															? 'bg-[#565872] text-white font-medium'
 															: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
 														transition-all duration-200 active:scale-[0.98]
 														before:content-["↳_"] before:opacity-0 hover:before:opacity-100 before:transition-opacity
-														border border-transparent hover:border-[#E5E5E7] hover:shadow-sm`}
+														border border-transparent hover:border-[#E5E5E7] hover:shadow-sm
+														${option === options[0] ? 'border-l border-gray-200' : ''}
+														${option === options[options.length-1] ? 'border-r border-gray-200' : 'border-r border-gray-200'}`}
 													onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
 												>
 													{option.label}

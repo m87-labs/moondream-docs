@@ -1,40 +1,94 @@
-import ConfigSelector from '../components/ConfigSelector'
-import { Cards } from 'nextra/components'
+import ConfigSelector from '../components/ConfigSelector';
+import FaqDropdown from '../components/FaqDropdown';
+import EndpointCard from '../components/EndpointCard';
+import { Callout } from 'nextra/components';
 
 # Quick Start
 
 Get started with Moondream in minutes. Select your configuration below to get the appropriate installation and setup instructions.
+
+## Installation Options
 
 <ConfigSelector />
 
 ## Explore Our Cloud Endpoints
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">💬</div>
-    <h3 className="text-xl font-semibold mb-2">/query</h3>
-    <p className="text-gray-600 mb-4">Ask natural language questions about images and receive detailed answers</p>
-    <a href="/cloud/query" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
+  <EndpointCard
+    icon="💬"
+    title="/query"
+    description="Ask natural language questions about images and receive detailed answers"
+    href="/cloud/query"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📝</div>
-    <h3 className="text-xl font-semibold mb-2">/caption</h3>
-    <p className="text-gray-600 mb-4">Generate accurate and natural image captions</p>
-    <a href="/cloud/caption" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
+  <EndpointCard
+    icon="📝"
+    title="/caption"
+    description="Generate accurate and natural image captions"
+    href="/cloud/caption"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🔍</div>
-    <h3 className="text-xl font-semibold mb-2">/detect</h3>
-    <p className="text-gray-600 mb-4">Detect and locate objects in images</p>
-    <a href="/cloud/detect" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
+  <EndpointCard
+    icon="🔍"
+    title="/detect"
+    description="Detect and locate objects in images"
+    href="/cloud/detect"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📍</div>
-    <h3 className="text-xl font-semibold mb-2">/point</h3>
-    <p className="text-gray-600 mb-4">Get precise coordinate locations for objects in images</p>
-    <a href="/cloud/point" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
+  <EndpointCard
+    icon="📍"
+    title="/point"
+    description="Get precise coordinate locations for objects in images"
+    href="/cloud/point"
+  />
 </div>
+
+## Troubleshooting & FAQ
+
+### Supported Image Formats
+
+<FaqDropdown question='What image formats does Moondream support?'>
+  Moondream supports these common image formats:
+  ```txt
+  ✓ JPEG/JPG
+  ✓ PNG 
+  ✓ WebP
+  ✓ GIF (first frame only)
+  ✓ BMP
+  
+  ✗ AVIF 
+  ✗ HEIC
+  ```
+</FaqDropdown>
+
+### Common Questions
+
+<FaqDropdown question='Do I need to encode images before using them with `vl`?'>
+  No, the client libraries handle encoding automatically. You can pass image file paths, PIL Images, or raw buffers directly. However, if you plan to make multiple API calls with the same image, encoding it once beforehand will improve performance by avoiding repeated encoding operations.
+</FaqDropdown>
+
+<FaqDropdown question="What's the maximum image size supported?">
+  There is no strict maximum size limit, but due to the nature of vision-language models, performance tends to deteriorate with very large images. Larger images will still work but may result in reduced accuracy and slower processing times.
+</FaqDropdown>
+
+<FaqDropdown question="How do I handle API rate limits? What are the limits for the free tier?">
+  The free tier has the following limits:
+  - 60 requests per minute
+  - 5,000 requests per month
+
+  For higher rate limits and production use cases, please contact us to discuss upgrade options.
+</FaqDropdown>
+
+<FaqDropdown question='Why am I getting "Invalid API Key" errors?'>
+  Common causes:
+  ```txt
+  • API key not set correctly in environment variables
+  • Using a revoked or expired key
+  • Including quotes around the key when setting env vars
+  ```
+  Make sure to keep your API key secure and never commit it to version control.
+</FaqDropdown>
+
+<FaqDropdown question='Can I use Moondream offline?'>
+  Yes! Check out our [local installation guide](#installation-options) for running Moondream without API calls. Note that local installations require more computational resources.
+</FaqDropdown>

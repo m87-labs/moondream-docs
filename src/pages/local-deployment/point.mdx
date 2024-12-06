@@ -1,6 +1,6 @@
 # Visual Pointing
 
-Get precise coordinate locations for objects in images using Moondream.
+Ask Moondream to locate specific objects or regions in images by returning their coordinates.
 
 ## Installation & Model
 
@@ -19,15 +19,17 @@ from moondream import vl
 model = vl("models/moondream-2b-int8.bin")
 
 # Get coordinates of an object
-coords = model.point(image, "point to the dog")
-print(f"The dog is at coordinates: {coords}")
-
-# Multiple points
-coords = model.point(image, "point to all the windows")
-print(f"Window coordinates: {coords}")
+points = model.point(image, "the red car")
+print(points)
+# [
+#   {
+#     "x": 0.4,  # Normalized coordinates (0-1) 
+#     "y": 0.6   # (0,0) is top-left, (1,1) is bottom-right
+#   }
+# ]
 ~~~
 
-That's all you need to start using visual pointing!
+That's all you need to start locating objects in images!
 
 ---
 

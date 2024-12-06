@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react'
 import cn from 'classnames'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface NotePadProps {
   children: ReactNode
@@ -49,10 +50,18 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="my-4 sm:my-8 p-4 sm:p-8 bg-white rounded-xl border border-gray-200 relative">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.15,
+        ease: "easeOut"
+      }}
+      className="my-4 sm:my-8 p-4 sm:p-8 bg-white rounded-xl border border-gray-200 relative hover:border-gray-300 transition-colors"
+    >
       {readingTime && (
         <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5 text-sm text-gray-500 font-geist">
-          <span className="font-mono">⌚</span>
+          <span className="hidden sm:inline font-mono">⌚</span>
           <span>{readingTime}</span>
         </div>
       )}
@@ -70,19 +79,67 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
           )}
         </div>
         
-        {!isExpanded && (
-          <div className="absolute bottom-0 left-0 right-0">
-            <div className="h-24 bg-gradient-to-t from-white to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-2">
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
+        <AnimatePresence>
+          {!isExpanded && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="absolute bottom-0 left-0 right-0"
+            >
+              <div className="h-24 bg-gradient-to-t from-white to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-2">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="flex items-center gap-2 px-4 py-2 text-sm bg-white 
+                    text-gray-600 hover:text-gray-900 
+                    rounded-full shadow-sm hover:shadow-md transition-all border border-gray-200
+                    hover:border-gray-300"
+                >
+                  <span>Read more</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="flex justify-center mt-8"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setIsExpanded(false)}
                 className="flex items-center gap-2 px-4 py-2 text-sm bg-white 
                   text-gray-600 hover:text-gray-900 
-                  rounded-full shadow-sm hover:shadow transition-all border border-gray-200"
+                  rounded-full shadow-sm hover:shadow-md transition-all border border-gray-200
+                  hover:border-gray-300"
               >
-                <span>Read more</span>
+                <span>Show less</span>
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 transform rotate-180"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -94,38 +151,12 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
-              </button>
-            </div>
-          </div>
-        )}
-        
-        {isExpanded && (
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={() => setIsExpanded(false)}
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-white 
-                text-gray-600 hover:text-gray-900 
-                rounded-full shadow-sm hover:shadow transition-all border border-gray-200"
-            >
-              <span>Show less</span>
-              <svg
-                className="w-4 h-4 transform rotate-180"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

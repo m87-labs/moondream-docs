@@ -1,4 +1,5 @@
-import { Callout } from 'nextra/components'
+import EndpointCard from '../components/EndpointCard';
+import { Callout } from 'nextra/components';
 
 # Build with Moondream
 
@@ -7,32 +8,32 @@ Moondream is a tiny open-source vision AI that brings powerful image understandi
 Want to see Moondream in action? Try our [Interactive Playground](https://moondream.ai/playground) to experiment with different capabilities. Need help getting started? Join our [Discord community](https://discord.com/invite/tRUdpjDQfH) for support and discussions!
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🔍</div>
-    <h3 className="text-xl font-semibold mb-2">Discover</h3>
-    <p className="text-gray-600 mb-4">New to vision-language models? Learn about image captioning, visual Q&A, object detection, and visual pointing capabilities. See if Moondream is right for your use case.</p>
-    <a href="/discover" className="text-blue-500 hover:text-blue-600 mt-auto">Explore capabilities →</a>
-  </div>
+  <EndpointCard
+    icon="🔍"
+    title="Discover"
+    description="New to vision-language models? Learn about image captioning, visual Q&A, object detection, and visual pointing capabilities. See if Moondream is right for your use case."
+    href="/discover"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🚀</div>
-    <h3 className="text-xl font-semibold mb-2">Quickstart</h3>
-    <p className="text-gray-600 mb-4">Ready to start building? Follow our step-by-step guides to get up and running with Moondream in minutes, whether locally or in the cloud.</p>
-    <a href="/quick-start" className="text-blue-500 hover:text-blue-600 mt-auto">Get started →</a>
-  </div>
+  <EndpointCard
+    icon="🚀"
+    title="Quickstart"
+    description="Ready to start building? Follow our step-by-step guides to get up and running with Moondream in minutes, whether locally or in the cloud."
+    href="/quick-start"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📚</div>
-    <h3 className="text-xl font-semibold mb-2">Recipes</h3>
-    <p className="text-gray-600 mb-4">Learn best practices, optimization tips, and get inspired by real-world examples and implementations using Moondream.</p>
-    <a href="/recipes" className="text-blue-500 hover:text-blue-600 mt-auto">View recipes →</a>
-  </div>
+  <EndpointCard
+    icon="📚"
+    title="Recipes"
+    description="Learn best practices, optimization tips, and get inspired by real-world examples and implementations using Moondream."
+    href="/recipes"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📊</div>
-    <h3 className="text-xl font-semibold mb-2">Specifications</h3>
-    <p className="text-gray-600 mb-4">Explore detailed technical specifications, memory requirements, model sizes, and performance benchmarks.</p>
-    <a href="/specifications" className="text-blue-500 hover:text-blue-600 mt-auto">View specs →</a>
-  </div>
+  <EndpointCard
+    icon="📊"
+    title="Specifications"
+    description="Explore detailed technical specifications, memory requirements, model sizes, and performance benchmarks."
+    href="/specifications"
+  />
 </div>
 

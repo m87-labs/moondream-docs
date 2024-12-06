@@ -2,6 +2,8 @@ import { NotePad } from '../components/NotePad'
 import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
+import EndpointCard from '../components/EndpointCard'
+import FeatureCard from '../components/FeatureCard'
 
 # Understanding Vision Language Models (VLMs)
 
@@ -208,57 +210,57 @@ import { Cards, Card } from 'nextra/components'
 Moondream provides a comprehensive set of visual understanding capabilities through a single, efficient model
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">❓</div>
-    <h3 className="text-xl font-semibold mb-2">Visual Question Answering</h3>
-    <p className="text-gray-600 mb-4">Ask natural questions about any image and receive detailed answers</p>
-    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-      <li>Extract specific information from visual content</li>
-      <li>Analyze complex scenes and relationships</li>
-      <li>Understand context and details in images</li>
-      <li>Support interactive visual learning</li>
-      <li>Enable visual data validation</li>
-    </ul>
-  </div>
+  <FeatureCard
+    icon="❓"
+    title="Visual Question Answering"
+    description="Ask natural questions about any image and receive detailed answers"
+    features={[
+      "Extract specific information from visual content",
+      "Analyze complex scenes and relationships",
+      "Understand context and details in images",
+      "Support interactive visual learning",
+      "Enable visual data validation"
+    ]}
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📝</div>
-    <h3 className="text-xl font-semibold mb-2">Image Captioning</h3>
-    <p className="text-gray-600 mb-4">Generate accurate, detailed descriptions of image content</p>
-    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-      <li>Create alt text for accessibility</li>
-      <li>Generate search-optimized descriptions</li>
-      <li>Create image embeddings for similarity search</li>
-      <li>Index visual content for search engines</li>
-      <li>Generate metadata tags automatically</li>
-    </ul>
-  </div>
+  <FeatureCard
+    icon="📝"
+    title="Image Captioning"
+    description="Generate accurate, detailed descriptions of image content"
+    features={[
+      "Create alt text for accessibility",
+      "Generate search-optimized descriptions",
+      "Create image embeddings for similarity search",
+      "Index visual content for search engines",
+      "Generate metadata tags automatically"
+    ]}
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🎯</div>
-    <h3 className="text-xl font-semibold mb-2">Object Detection</h3>
-    <p className="text-gray-600 mb-4">Locate and identify objects within images</p>
-    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-      <li>Track object positions and relationships</li>
-      <li>Analyze scene composition and layout</li>
-      <li>Enable visual inventory management</li>
-      <li>Support automated quality control</li>
-      <li>Power visual search features</li>
-    </ul>
-  </div>
+  <FeatureCard
+    icon="🎯"
+    title="Object Detection"
+    description="Locate and identify objects within images"
+    features={[
+      "Track object positions and relationships",
+      "Analyze scene composition and layout",
+      "Enable visual inventory management",
+      "Support automated quality control",
+      "Power visual search features"
+    ]}
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📍</div>
-    <h3 className="text-xl font-semibold mb-2">Visual Pointing</h3>
-    <p className="text-gray-600 mb-4">Get precise coordinates for objects in images</p>
-    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-      <li>Enable spatial reasoning about content</li>
-      <li>Support interactive visual applications</li>
-      <li>Power precise object localization</li>
-      <li>Create visual annotation tools</li>
-      <li>Enable region-based image analysis</li>
-    </ul>
-  </div>
+  <FeatureCard
+    icon="📍"
+    title="Visual Pointing"
+    description="Get precise coordinates for objects in images"
+    features={[
+      "Enable spatial reasoning about content",
+      "Support interactive visual applications",
+      "Power precise object localization",
+      "Create visual annotation tools",
+      "Enable region-based image analysis"
+    ]}
+  />
 </div>
 
 ## Common Use Cases
@@ -279,19 +281,19 @@ The flexibility of VLMs means new use cases are constantly emerging as developer
 ## Getting Started
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📚</div>
-    <h3 className="text-xl font-semibold mb-2">Explore Recipes</h3>
-    <p className="text-gray-600 mb-4">See real-world examples and implementation patterns</p>
-    <a href="/recipes" className="text-blue-500 hover:text-blue-600 mt-auto">View recipes →</a>
-  </div>
+  <EndpointCard
+    icon="📚"
+    title="Explore Recipes"
+    description="See real-world examples and implementation patterns"
+    href="/recipes"
+  />
 
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🎮</div>
-    <h3 className="text-xl font-semibold mb-2">Try the Playground</h3>
-    <p className="text-gray-600 mb-4">Test Moondream's capabilities interactively</p>
-    <a href="https://moondream.ai/playground" target="_blank" className="text-blue-500 hover:text-blue-600 mt-auto">Launch playground →</a>
-  </div>
+  <EndpointCard
+    icon="🎮"
+    title="Try the Playground"
+    description="Test Moondream's capabilities interactively"
+    href="https://moondream.ai/playground"
+  />
 </div>
 
 <Callout type="info">

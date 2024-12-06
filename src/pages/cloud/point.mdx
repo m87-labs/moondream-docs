@@ -1,134 +1,76 @@
-import { Tabs } from 'nextra/components';
-import { Callout } from 'nextra/components';
-import Head from 'next/head';
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import Head from 'next/head'
 
-# Visual Pointing API
+# /point
 
 <Head>
   <meta name="color-scheme" content="light" />
 </Head>
 
-Get coordinates for specific objects or regions in images.
+Locate specific objects or regions in images by getting their coordinates.
 
 ## Quick Start
 
-```typescript
-import { vl } from "moondream";
-import fs from "fs";
+First, install the package:
 
-// Initialize the client
-const model = new vl({
-  apiKey: "your-api-key",
-});
-
-// Read an image file
-const image = fs.readFileSync("image.jpg");
-
-// Get object coordinates
-const points = await model.point(image, "the red car");
-console.log(points);
-// [
-//   {
-//     x: 0.4,  // Normalized coordinates (0-1)
-//     y: 0.6   // (0,0) is top-left, (1,1) is bottom-right
-//   },
-//   ...
-// ]
-```
-
-## API Specification
-
-### Request Model
-
-```python
-class PointRequest(BaseModel):
-    image_url: str
-    object: str  # Object or region to locate in the image
-```
-
-### Response Model
-
-```python
-class PointOutput(BaseModel):
-    points: List[Point]  # List of point coordinates
-```
-
-### Example Response
-
-```python
-{
-    "points": [
-        {
-            "x": 0.4,  # Normalized coordinates (0-1)
-            "y": 0.6   # (0,0) is top-left, (1,1) is bottom-right
-        },
-        {
-            "x": 0.7,
-            "y": 0.3
-        }
-    ]
-}
-```
-
-## Example Usage
-
-<Tabs items={['Node.js Client', 'Python Client', 'cURL', 'Node.js HTTP', 'Fetch', 'Axios']}>
+<Tabs items={['Python', 'Node.js']}>
   <Tabs.Tab>
-```typescript filename="point-client.ts"
-import { vl } from "moondream";
-import fs from "fs";
-
-// Initialize client
-const model = new vl({
-  apiKey: process.env.MOONDREAM_API_KEY
-});
-
-async function main() {
-  // Read image file
-  const image = fs.readFileSync("image.jpg");
-  
-  // Get object coordinates
-  const points = await model.point(image, "the red car");
-  
-  if (!points.length) {
-    console.log("No objects found");
-  } else {
-    points.forEach((point, index) => {
-      console.log(`Object ${index + 1} found at coordinates:`);
-      console.log(`  Position: (${point.x.toFixed(2)}, ${point.y.toFixed(2)})`);
-    });
-  }
-}
-
-main().catch(console.error);
-```
+~~~bash
+pip install moondream
+~~~
   </Tabs.Tab>
   <Tabs.Tab>
-```python filename="point-client.py"
+~~~bash
+npm install moondream
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+Place an image file in your working directory, then:
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+~~~python
 import moondream as md
 from PIL import Image
 
-# Initialize client
-model = md.vl(api_key="your_api_key_here")
+model = md.vl(api_key="your-api-key")
 
-# Load image
-image = Image.open("image.jpg")
+# Load an image (supports PIL.Image, numpy arrays, or file paths)
+image = Image.open("./image.jpg")
 
-# Get object coordinates
-result = model.point(image, "the red car")
-
-if not result["points"]:
-    print("No objects found")
-else:
-    for i, point in enumerate(result["points"], 1):
-        print(f"Object {i} found at coordinates:")
-        print(f"  Position: ({point['x']:.2f}, {point['y']:.2f})")
-```
+# Returns List[Dict[str, float]]
+points = model.point(image, "the red car")
+print(points)
+# [{"x": 0.4, "y": 0.6}]  # Normalized coordinates (0,0) is top-left, (1,1) is bottom-right
+~~~
   </Tabs.Tab>
   <Tabs.Tab>
-~~~bash filename="point.sh"
+~~~typescript
+import { vl } from "moondream";
+import fs from 'fs';
+
+const model = new vl({
+  apiKey: "your-api-key" 
+});
+
+// Load image (supports Buffer or Base64EncodedImage: { imageUrl: string })
+const image = fs.readFileSync('./image.jpg');  // recommended for better performance
+
+// Returns Promise<Array<{x: number, y: number}>>
+const points = await model.point(image, "the red car");
+~~~
+  </Tabs.Tab>
+</Tabs>
+
+## Direct API Access
+
+<Tabs items={['cURL', 'Python', 'Node.js']}>
+  <Tabs.Tab>
+~~~bash
 # Convert image to base64
-IMAGE_BASE64=$(base64 -i image.jpg)
+IMAGE_BASE64=$(base64 -i ./image.jpg)
 
 # Make API request
 curl -X POST https://api.moondream.ai/v1/point \
@@ -141,92 +83,48 @@ curl -X POST https://api.moondream.ai/v1/point \
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
-~~~typescript filename="point.ts" {3-4,14,33-34} showLineNumbers
-import { readFileSync } from 'fs';
-import { request } from 'https';
+~~~python
+import os
+from urllib.request import Request, urlopen
+import json
+import base64
 
-// Load and convert image to base64
-function getBase64Image(imagePath: string): string {
-  const imageBuffer = readFileSync(imagePath);
-  return imageBuffer.toString('base64');
+def get_base64_image(image_path):
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+image_base64 = get_base64_image("./image.jpg")
+data = {
+    "image_url": f"data:image/jpeg;base64,{image_base64}",
+    "object": "the red car"
 }
 
-// Get API key from environment
-const apiKey = process.env.MOONDREAM_API_KEY;
-if (!apiKey) {
-  throw new Error('Please set MOONDREAM_API_KEY environment variable');
+headers = {
+    "X-Moondream-Auth": os.getenv("MOONDREAM_API_KEY"),
+    "Content-Type": "application/json"
 }
 
-// Prepare request data
-const imageBase64 = getBase64Image('image.jpg');
-const data = {
-  image_url: `data:image/jpeg;base64,${imageBase64}`,
-  object: 'the red car'
-};
+req = Request(
+    "https://api.moondream.ai/v1/point",
+    data=json.dumps(data).encode(),
+    headers=headers,
+    method="POST"
+)
 
-// Set up request options
-const options = {
-  hostname: 'playground2.servers.moondream.ai',
-  path: '/v1/point',
-  method: 'POST',
-  headers: {
-    'X-Moondream-Auth': apiKey,
-    'Content-Type': 'application/json'
-  }
-};
-
-// Make request
-const req = request(options, (res) => {
-  let data = '';
-
-  res.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  res.on('end', () => {
-    try {
-      const result = JSON.parse(data);
-      if (!result.result.length) {
-        console.log('No objects found');
-      } else {
-        result.result.forEach((point, index) => {
-          console.log(`Object ${index + 1} found at coordinates:`);
-          console.log(`  Position: (${point.x.toFixed(2)}, ${point.y.toFixed(2)})`);
-        });
-      }
-    } catch (error) {
-      console.error('Error parsing response:', error);
-    }
-  });
-});
-
-req.on('error', (error) => {
-  console.error('Error making request:', error);
-});
-
-// Send request
-req.write(JSON.stringify(data));
-req.end();
+with urlopen(req) as response:
+    result = json.loads(response.read())
+    print(result["result"])
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
-~~~javascript filename="point-fetch.js" {14,33-34} showLineNumbers
-// Load and convert image to base64
-async function getBase64Image(imagePath) {
-  const response = await fetch(imagePath);
-  const blob = await response.blob();
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
+~~~javascript
+import fs from 'fs';
 
 async function pointToObject() {
   try {
-    const imageBase64 = await getBase64Image('image.jpg');
-    
+    const imageBuffer = fs.readFileSync('./image.jpg');
+    const imageBase64 = imageBuffer.toString('base64');
+
     const response = await fetch('https://api.moondream.ai/v1/point', {
       method: 'POST',
       headers: {
@@ -235,71 +133,14 @@ async function pointToObject() {
       },
       body: JSON.stringify({
         image_url: `data:image/jpeg;base64,${imageBase64}`,
-        object: 'the red car'
+        object: "the red car"
       })
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data = await response.json();
-    if (!data.result.length) {
-      console.log('No objects found');
-    } else {
-      data.result.forEach((point, index) => {
-        console.log(`Object ${index + 1} found at coordinates:`);
-        console.log(`  Position: (${point.x.toFixed(2)}, ${point.y.toFixed(2)})`);
-      });
-    }
+    console.log(data.result);
   } catch (error) {
-    console.error('Error making request:', error);
-  }
-}
-
-pointToObject();
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~javascript filename="point-axios.js" {14,33-34} showLineNumbers
-import axios from 'axios';
-import fs from 'fs';
-
-async function pointToObject() {
-  try {
-    // Read and convert image to base64
-    const imageBuffer = fs.readFileSync('image.jpg');
-    const imageBase64 = imageBuffer.toString('base64');
-
-    const response = await axios({
-      method: 'post',
-      url: 'https://api.moondream.ai/v1/point',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
-      },
-      data: {
-        image_url: `data:image/jpeg;base64,${imageBase64}`,
-        object: 'the red car'
-      }
-    });
-
-    if (!response.data.result.length) {
-      console.log('No objects found');
-    } else {
-      response.data.result.forEach((point, index) => {
-        console.log(`Object ${index + 1} found at coordinates:`);
-        console.log(`  Position: (${point.x.toFixed(2)}, ${point.y.toFixed(2)})`);
-      });
-    }
-  } catch (error) {
-    if (error.response) {
-      console.error('Error from server:', error.response.data);
-    } else if (error.request) {
-      console.error('No response received:', error.request);
-    } else {
-      console.error('Error making request:', error.message);
-    }
+    console.error('Error:', error);
   }
 }
 
@@ -309,13 +150,5 @@ pointToObject();
 </Tabs>
 
 <Callout type="info">
-  The examples above demonstrate different ways to interact with the API. The Node.js and Python client libraries provide the simplest integration, while other examples show how to use the REST API directly with popular libraries and tools.
+  The examples above show both client library usage and direct API access patterns. The client libraries provide the simplest integration, while direct API access offers more control.
 </Callout>
-
----
-
-## Next Steps
-
-- Check out our [Examples](/cookbook/basic-usage) to see visual pointing in action with sample code and use cases
-- Learn about model specifications and performance in our [Technical Specifications](/technical-specifications) guide
-- Want to use moondream with Transformers? Check out our [Integration Guide](/advanced/transformers)
