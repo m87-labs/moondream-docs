@@ -62,7 +62,7 @@ const meta: Meta = {
   },
   playground_link: {
     title: 'Interactive Playground',
-    href: '/playground',
+    href: 'https://moondream.ai/playground',
     newWindow: true
   },
   discord_link: {
