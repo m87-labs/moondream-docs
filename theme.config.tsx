@@ -9,7 +9,7 @@ const config: DocsThemeConfig = {
 	project: {
 		link: 'https://github.com/vikhyat/moondream',
 	},
-	docsRepositoryBase: 'https://github.com/m87-labs/moondream-docs',
+	docsRepositoryBase: 'https://github.com/m87-labs/moondream-docs/tree/main',
 
 	// Header navigation
 	navbar: {

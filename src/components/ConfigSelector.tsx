@@ -244,11 +244,11 @@ for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
 // npm install moondream
 
 // Get your API key at console.moondream.ai
-const { VL } = require('moondream');
+const { vl } = require('moondream');
 
 async function main() {
   // Initialize with API key
-  const model = new VL({ apiKey: 'your-api-key' });
+  const model = new vl({ apiKey: 'your-api-key' });
   
   // Load an image
   const image = "path/to/image.jpg";
@@ -352,7 +352,7 @@ wget ${vars.modelUrl}
 import moondream as md
 from PIL import Image
 
-model = md.VL('${vars.modelPath}')
+model = md.vl('${vars.modelPath}')
 image = Image.open("path/to/image.jpg")
 
 # Encode the image (optional, but recommended for multiple queries)
@@ -374,10 +374,10 @@ for t in model.answer_question(encoded_image, question, stream=True)["answer"]:
 // Use: wget (Linux) or curl -O (macOS) or curl.exe -O (Windows)
 wget ${vars.modelUrl}
 
-const { VL } = require('moondream');
+const { vl } = require('moondream');
 
 async function main() {
-  const model = new VL('${vars.modelPath}');
+  const model = new vl('${vars.modelPath}');
   
   // Load and encode your image
   const image = "path/to/image.jpg";
