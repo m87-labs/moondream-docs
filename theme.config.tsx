@@ -66,6 +66,19 @@ const config: DocsThemeConfig = {
 		storageKey: 'theme',
 	},
 
+	// Theme color configuration
+	color: {
+		hue: 214, // Blue hue (#4363cc)
+		saturation: 60,
+		lightness: {
+			dark: 60,
+			light: 45
+		}
+	},
+	backgroundColor: {
+		light: '250,250,255'
+	},
+
 	// Table of contents
 	toc: {
 		float: true,
