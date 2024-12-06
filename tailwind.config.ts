@@ -9,6 +9,9 @@ export default {
   darkMode: 'media',
   theme: {
     extend: {
+      fontFamily: {
+        'geist': ['Geist', 'sans-serif'],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

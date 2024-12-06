@@ -1,91 +1,43 @@
 import { Callout } from 'nextra/components'
 
-<Callout type="warning" emoji="🚧">
-  **Alpha Documentation**: This documentation is under active development and some features may be incomplete or subject to change.
-</Callout>
-
 # Build with Moondream
 
-Learn how to get started with Moondream, an open-source vision-language model optimized for CPU and edge devices, with optional CUDA acceleration.
+Moondream is a tiny open-source vision AI that brings powerful image understanding to your applications and runs everywhere. Moondream excels at tasks involving image analysis, object detection, visual reasoning, scene comprehension, and more.
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">⬇️</div>
-    <h3 className="text-xl font-semibold mb-2">Download Models</h3>
-    <p className="text-gray-600 mb-4">Get the latest Moondream model weights.</p>
-    <a href="/model-downloads" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
-
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
   <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
     <div className="text-2xl mb-2">🔍</div>
-    <h3 className="text-xl font-semibold mb-2">Capabilities</h3>
-    <p className="text-gray-600 mb-4">Explore image captioning, visual Q&A, and more.</p>
-    <a href="/local-deployment/getting-started" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+    <h3 className="text-xl font-semibold mb-2">Discover</h3>
+    <p className="text-gray-600 mb-4">New to vision-language models? Learn about image captioning, visual Q&A, object detection, and visual pointing capabilities. See if Moondream is right for your use case.</p>
+    <a href="/cookbook/basic-usage" className="text-blue-500 hover:text-blue-600 mt-auto">Explore capabilities →</a>
   </div>
 
   <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">💻</div>
-    <h3 className="text-xl font-semibold mb-2">Cookbook</h3>
-    <p className="text-gray-600 mb-4">See code samples and implementations.</p>
-    <a href="/cookbook/basic-usage" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+    <div className="text-2xl mb-2">🚀</div>
+    <h3 className="text-xl font-semibold mb-2">Quickstart</h3>
+    <p className="text-gray-600 mb-4">Ready to start building? Follow our step-by-step guides to get up and running with Moondream in minutes, whether locally or in the cloud.</p>
+    <a href="/quick-start" className="text-blue-500 hover:text-blue-600 mt-auto">Get started →</a>
   </div>
 
   <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">☁️</div>
-    <h3 className="text-xl font-semibold mb-2">Moondream Cloud</h3>
-    <p className="text-gray-600 mb-4">Access Moondream via REST API from any platform.</p>
-    <a href="/cloud/getting-started" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+    <div className="text-2xl mb-2">📚</div>
+    <h3 className="text-xl font-semibold mb-2">Recipes</h3>
+    <p className="text-gray-600 mb-4">Learn best practices, optimization tips, and get inspired by real-world examples and implementations using Moondream.</p>
+    <a href="/cookbook/basic-usage" className="text-blue-500 hover:text-blue-600 mt-auto">View recipes →</a>
   </div>
 
   <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">📱</div>
-    <h3 className="text-xl font-semibold mb-2">Technical Specifications</h3>
-    <p className="text-gray-600 mb-4">Explore model variants and technical details.</p>
-    <a href="/technical-specifications" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
-  </div>
-
-  <div className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-    <div className="text-2xl mb-2">🤗</div>
-    <h3 className="text-xl font-semibold mb-2">Transformers</h3>
-    <p className="text-gray-600 mb-4">Use Moondream with Hugging Face Transformers.</p>
-    <a href="/advanced/transformers" className="text-blue-500 hover:text-blue-600 mt-auto">Learn more →</a>
+    <div className="text-2xl mb-2">📊</div>
+    <h3 className="text-xl font-semibold mb-2">Specifications</h3>
+    <p className="text-gray-600 mb-4">Explore detailed technical specifications, memory requirements, model sizes, and performance benchmarks.</p>
+    <a href="/technical-specifications" className="text-blue-500 hover:text-blue-600 mt-auto">View specs →</a>
   </div>
 </div>
 
-## Feature Support
-
-<div className="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-  <div className="overflow-x-auto">
-    <table className="min-w-full">
-      <thead>
-        <tr className="border-b border-gray-200">
-          <th className="text-left py-3 px-4 font-semibold text-gray-700">Model</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Visual Q&A</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Captioning</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Detection</th>
-          <th className="text-center py-3 px-4 font-semibold text-gray-700">Pointing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr className="border-b border-gray-200">
-          <td className="py-3 px-4">2B Models (FP16/INT8/INT4)</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-        </tr>
-        <tr className="border-b border-gray-200">
-          <td className="py-3 px-4">0.5B Models (INT8/INT4)</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">✅</td>
-          <td className="text-center py-3 px-4">❌</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<Callout type="info" emoji="💡">
+  Want to see Moondream in action? Try our [Interactive Playground](/playground) to experiment with different capabilities.
+</Callout>
 
 <Callout>
-  Run into any issues getting setup? Join our [Discord](https://discord.com/invite/tRUdpjDQfH) and share your experience or get help!
+  Need help getting started? Join our [Discord community](https://discord.com/invite/tRUdpjDQfH) for support and discussions!
 </Callout>

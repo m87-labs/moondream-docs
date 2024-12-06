@@ -39,6 +39,22 @@ Thank you for your interest in contributing to the Moondream documentation! This
 2. Update the corresponding `_meta.tsx` file to include your page
 3. Follow the existing structure and formatting
 
+By default, all MDX routes in the filesystem will be shown on the sidebar. But you can hide specific pages or folders by using the "display": "hidden" configuration:
+
+pages/_meta.js:
+
+~~~javascript
+export default {
+  index: 'My Homepage',
+  contact: {
+    display: 'hidden'
+  },
+  about: 'About Us'
+}
+~~~
+
+The page will still be accessible via the /contact URL, but it will not be shown in the sidebar.
+
 ### Writing Guidelines
 
 - Use clear, concise language

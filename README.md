@@ -8,37 +8,14 @@ Official documentation for Moondream - a lightweight yet powerful vision-languag
 
 - 🖼️ **Image Analysis**: Generate detailed descriptions of any image
 - 💬 **Visual Q&A**: Ask natural language questions about images
-- 🚀 **Visual Pointing**: Get precise coordinates for objects in images 🚧
-- 🔍 **Object Detection**: Locate and identify objects in images 🚧
+- 🚀 **Visual Pointing**: Get precise coordinates for objects in images 
+- 🔍 **Object Detection**: Locate and identify objects in images 
 - 🚀 **Local Processing**: Run entirely on your machine for privacy
 - 🎯 **CUDA Support**: GPU acceleration for faster processing
 - ⚡ **Streaming**: Real-time response streaming for longer outputs
 - 🔒 **Privacy-First**: All processing happens locally
 - 📱 **Multi-Platform**: Supports Python, JavaScript, and TypeScript
 - 🎨 **Modern Stack**: Built with Next.js, Nextra, and Tailwind CSS
-
-## 📚 Documentation Structure
-
-```
-docs/
-├── Introduction
-├── Getting Started
-├── Capabilities/
-│   ├── Visual Q&A
-│   ├── Image Captioning
-│   ├── Object Detection 🚧
-│   └── Visual Pointing 🚧
-├── Advanced Topics/
-│   ├── Configuration
-│   └── Troubleshooting
-└── Examples/
-    ├── Basic Usage
-    ├── Batch Processing
-    ├── Sample CLI
-    ├── Gradio Webcam Demo
-    ├── Streamlit Chat App
-    └── Documentation Features
-```
 
 ## Contributing
 

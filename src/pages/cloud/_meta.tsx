@@ -34,11 +34,11 @@ const meta: Meta = {
   },
   'detect': {
     title: '/detect',
-    description: 'Detect and locate objects in images using Moondream\'s object detection API or Node.js client (Coming Soon)'
+    description: 'Detect and locate objects in images using Moondream\'s object detection API or Node.js client'
   },
   'point': {
     title: '/point',
-    description: 'Get precise coordinate locations for objects using Moondream\'s visual pointing API or Node.js client (Coming Soon)'
+    description: 'Get precise coordinate locations for objects using Moondream\'s visual pointing API or Node.js client'
   },
 }
 

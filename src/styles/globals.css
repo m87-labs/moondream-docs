@@ -2,14 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #000000;
-}
+@layer utilities {
+  .font-handwriting {
+    font-family: 'Architects Daughter', cursive;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ffffff;
+  .font-geist {
+    font-family: 'Geist', sans-serif;
+  }
+  
+  .notepad-content {
+    line-height: 1.8;
   }
 }

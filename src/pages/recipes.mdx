@@ -1,0 +1,68 @@
+import Recipe from '../components/Recipe'
+
+# Recipes
+
+Explore real-world examples and implementation patterns using Moondream.
+<Recipe
+  title="Interactive Image Analysis Demo"
+  description="A Gradio-based web interface for real-time image analysis, featuring visual question answering and object detection with bounding box visualization."
+  github="https://github.com/vikhyat/moondream/blob/main/gradio_demo.py"
+  demo="https://moondream.ai/demo"
+  tags={['Gradio', 'Interactive UI', 'Object Detection', 'VQA']}
+  performance={[
+    {
+      device: "RTX 3090",
+      speed: "150ms",
+      memory: "2.1GB",
+      throughput: "6.7 img/s"
+    },
+    {
+      device: "CPU (8 cores)",
+      speed: "450ms",
+      memory: "1.8GB",
+      throughput: "2.2 img/s"
+    }
+  ]}
+>
+  <Recipe.CodePreview 
+    filename="gradio_demo.py"
+    sourceUrl="https://github.com/vikhyat/moondream/blob/main/gradio_demo.py"
+  >
+    {`# Core setup
+model_id = "vikhyatk/moondream2"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+moondream = Moondream.from_pretrained(model_id).to(device)
+
+# Create the interface
+with gr.Blocks() as demo:
+    gr.Markdown("# 🌔 moondream")
+    with gr.Row():
+        prompt = gr.Textbox(label="Input Prompt", value="Describe this image.")
+        submit = gr.Button("Submit")
+    with gr.Row():
+        img = gr.Image(type="pil", label="Upload an Image")
+        with gr.Column():
+            output = gr.Markdown(label="Response")
+            ann = gr.Image(visible=False, label="Annotated Image")`}
+  </Recipe.CodePreview>
+
+  <Recipe.Feature icon="⚡️" title="Streaming Responses">
+    Get real-time text generation with token-by-token streaming for a more
+    interactive experience.
+  </Recipe.Feature>
+
+  <Recipe.Feature icon="🎯" title="Automatic Annotations">
+    Visualize object detection results with automatically generated bounding
+    boxes overlaid on images.
+  </Recipe.Feature>
+
+  <Recipe.Feature icon="🔄" title="Flexible Runtime">
+    Switch between CPU and GPU inference with automatic device detection
+    and optimization.
+  </Recipe.Feature>
+
+  <Recipe.Feature icon="🚀" title="Simple Deployment">
+    Deploy as a standalone web app or integrate into existing Gradio
+    applications with minimal configuration.
+  </Recipe.Feature>
+</Recipe>
