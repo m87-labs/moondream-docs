@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface FeatureCardProps {
   icon: string;
   title: string;
   description: string;
   features: string[];
+  href?: string;
 }
 
-export default function FeatureCard({ icon, title, description, features }: FeatureCardProps) {
-  return (
+export default function FeatureCard({ icon, title, description, features, href }: FeatureCardProps) {
+  const Card = (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -16,7 +18,9 @@ export default function FeatureCard({ icon, title, description, features }: Feat
         duration: 0.15,
         ease: "easeOut"
       }}
-      className="flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-all duration-150"
+      className={`flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-all duration-150 ${
+        href ? 'cursor-pointer' : ''
+      }`}
     >
       <div className="text-2xl mb-2">{icon}</div>
       <h3 className="text-xl font-semibold mb-2 text-gray-900">{title}</h3>
@@ -28,4 +32,14 @@ export default function FeatureCard({ icon, title, description, features }: Feat
       </ul>
     </motion.div>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="h-full">
+        {Card}
+      </Link>
+    );
+  }
+
+  return Card;
 } 
