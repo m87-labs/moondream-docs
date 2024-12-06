@@ -434,16 +434,10 @@ main().catch(console.error);`;
 					<thead className='bg-[#F7F7F8]'>
 						<tr>
 							<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4'>Environment</th>
-							<th className='px-6 py-4 text-left font-medium' colSpan={3}>
-								<span className='inline-flex items-center gap-2 px-3 py-1 bg-[#565872] text-white rounded-full text-sm'>
-									<span className='w-2 h-2 bg-white rounded-full animate-pulse'></span>
-									Select One
-								</span>
-							</th>
 						</tr>
 					</thead>
-					<tbody className='divide-y divide-gray-100'>
-						<tr>
+					<tbody className='divide-y divide-gray-100 md:table-row-group flex flex-col md:flex-none'>
+						<tr className='flex flex-col md:table-row'>
 							<td className='px-6 py-4 text-gray-900 font-medium'>Deployment</td>
 							{configOptions.environment.map((option: ConfigOption) => (
 								<td
@@ -463,7 +457,6 @@ main().catch(console.error);`;
 									</div>
 								</td>
 							))}
-							<td className='px-6 py-4' />
 						</tr>
 					</tbody>
 				</table>
@@ -471,43 +464,43 @@ main().catch(console.error);`;
 
 			{selectedConfig.environment === 'local' && (
 				<div className='mt-4 rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
+					<div className='bg-[#F7F7F8] px-6 py-4 text-left font-medium text-[#565872] md:hidden'>
+						Modifiers
+					</div>
 					<table className='w-full border-collapse'>
-						<thead className='bg-[#F7F7F8]'>
-							<tr>
-								<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4'>Modifier</th>
+						<thead className='bg-[#F7F7F8] hidden md:table-header-group'>
+							<tr className='border-b border-gray-200'>
+								<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4 border-r border-gray-200'>Modifier</th>
 								<th className='px-6 py-4 text-left font-medium text-[#565872]' colSpan={3}>
 									Options
 								</th>
 							</tr>
 						</thead>
-						<tbody className='divide-y divide-gray-100'>
+						<tbody className='divide-y divide-gray-200'>
 							{Object.entries(configOptions)
 								.filter(([category]) => category !== 'environment')
 								.map(([category, options]) => (
-									<tr key={category}>
-										<td className='px-6 py-4 text-gray-900 font-medium'>{category.replace(/([A-Z])/g, ' $1').trim()}</td>
-										{options.map((option: ConfigOption) => (
-											<td
-												key={option.id}
-												className={`px-6 py-4 cursor-pointer select-none
-                          ${
-														selectedConfig[category as keyof SelectedConfig] === option.value
+									<tr key={category} className='flex flex-col md:table-row'>
+										<td className='px-6 py-4 text-gray-900 font-medium bg-[#F7F7F8] md:bg-transparent border-r border-gray-200'>
+											{category.replace(/([A-Z])/g, ' $1').trim()}
+										</td>
+										<td className='flex flex-col md:table-cell md:flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
+											{options.map((option: ConfigOption, index) => (
+												<div
+													key={option.id}
+													className={`px-6 py-4 cursor-pointer select-none md:border-r last:border-r-0 border-gray-200
+														${selectedConfig[category as keyof SelectedConfig] === option.value
 															? 'bg-[#565872] text-white font-medium'
-															: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'
-													}
-                          transition-all duration-200 active:scale-[0.98]
-                          before:content-["↳_"] before:opacity-0 hover:before:opacity-100 before:transition-opacity
-                          border border-transparent hover:border-[#E5E5E7] hover:shadow-sm`}
-												onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
-											>
-												{option.label}
-											</td>
-										))}
-										{Array(Math.max(0, 3 - options.length))
-											.fill(null)
-											.map((_, i) => (
-												<td key={`empty-${i}`} className='px-6 py-4' />
+															: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+														transition-all duration-200 active:scale-[0.98]
+														before:content-["↳_"] before:opacity-0 hover:before:opacity-100 before:transition-opacity
+														border border-transparent hover:border-[#E5E5E7] hover:shadow-sm`}
+													onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
+												>
+													{option.label}
+												</div>
 											))}
+										</td>
 									</tr>
 								))}
 						</tbody>
@@ -518,7 +511,7 @@ main().catch(console.error);`;
 			<div className='mt-8'>
 				<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
 					<div className='bg-[#F7F7F8] px-6 py-3 text-sm font-medium text-[#565872] border-b border-gray-200'>Installation Script</div>
-					<div className='p-6'>{generateScript()}</div>
+					<div className='p-6 overflow-x-auto'>{generateScript()}</div>
 				</div>
 			</div>
 		</div>
