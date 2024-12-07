@@ -374,7 +374,7 @@ curl -O ${vars.modelUrl}
 import moondream as md
 from PIL import Image
 
-model = md.vl('${vars.modelPath}')
+model = md.vl(model='${vars.modelPath}')
 image = Image.open("path/to/image.jpg")
 
 # Encode the image (optional, but recommended for multiple queries)
@@ -386,50 +386,87 @@ for t in model.caption(encoded_image, stream=True)["caption"]:
 
 # Ask questions about the image
 question = "What do you see in this image?"
-for t in model.answer_question(encoded_image, question, stream=True)["answer"]:
+for t in model.query(encoded_image, question, stream=True)["answer"]:
     print(t, end="", flush=True)`;
 
-		const nodeScript = `// Install dependencies in your project directory
+		const nodeScript = `// ===== STEP 1: Install Dependencies =====
+// Install the Node.js client
 // npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}
 
+// Install the Python server (required for local inference)
+// pip install moondream
+
+
+// ===== STEP 2: Download Model =====
 // Download model - run once then comment out (${vars.fileSize})
 // Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
 curl -O ${vars.modelUrl}
 
+
+// ===== STEP 3: Start Local Server =====
+// Open a new terminal and run:
+// moondream serve --model ${vars.modelPath}
+// Keep this server running while using the Node.js client
+
+
+// ===== STEP 4: Node.js Client Code =====
 const { vl } = require('moondream');
+const fs = require('fs');
 
+// Initialize client to use local server
+const model = new vl({
+  apiUrl: "http://localhost:3475"  // Default local server URL
+});
+
+// Load your image
+const image = fs.readFileSync("path/to/image.jpg");
+
+// Basic usage examples
 async function main() {
-  const model = new vl('${vars.modelPath}');
-  
-  // Load and encode your image
-  const image = "path/to/image.jpg";
-  const encoded = await model.encodeImage(image);
-  
-  // Generate caption
-  const { caption } = await model.caption(encoded);
-  console.log('Caption:', caption);
-  
-  // Stream the caption
-  console.log('\\nStreaming caption:');
-  const captionStream = await model.caption(encoded, "normal", true);
-  for await (const chunk of captionStream.caption) {
-    process.stdout.write(chunk);
-  }
-  
-  // Ask questions about the image
-  const question = "What do you see in this image?";
-  const { answer } = await model.answerQuestion(encoded, question);
-  console.log('\\nAnswer:', answer);
+  try {
+    // Generate a caption for the image
+    const caption = await model.caption({
+      image: image,
+      length: "normal",
+      stream: false
+    });
+    console.log("Caption:", caption);
 
-  // Stream the answer
-  console.log('\\nStreaming answer:');
-  const answerStream = await model.answerQuestion(encoded, question, true);
-  for await (const chunk of answerStream.answer) {
-    process.stdout.write(chunk);
+    // Ask a question about the image
+    const answer = await model.query({
+      image: image,
+      question: "What's in this image?",
+      stream: false
+    });
+    console.log("Answer:", answer);
+
+    // Stream the caption
+    console.log("\\nStreaming caption:");
+    const captionStream = await model.caption({
+      image: image,
+      length: "normal",
+      stream: true
+    });
+    for await (const chunk of captionStream.caption) {
+      process.stdout.write(chunk);
+    }
+
+    // Stream a question answer
+    console.log("\\n\\nStreaming answer:");
+    const answerStream = await model.query({
+      image: image,
+      question: "What's in this image?",
+      stream: true
+    });
+    for await (const chunk of answerStream.answer) {
+      process.stdout.write(chunk);
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 }
 
-main().catch(console.error);`;
+main();`;
 
 		return (
 			<Tabs items={['Python', 'Node.js']}>
