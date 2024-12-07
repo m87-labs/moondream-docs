@@ -368,8 +368,8 @@ main().catch(console.error);`
 ${vars.libraryInstall}
 
 # Download model - run once then comment out (${vars.fileSize})
-# Use: wget (Linux) or curl -O (macOS) or curl.exe -O (Windows)
-wget ${vars.modelUrl}
+# Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
+curl -O ${vars.modelUrl}
 
 import moondream as md
 from PIL import Image
@@ -393,8 +393,8 @@ for t in model.answer_question(encoded_image, question, stream=True)["answer"]:
 // npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}
 
 // Download model - run once then comment out (${vars.fileSize})
-// Use: wget (Linux) or curl -O (macOS) or curl.exe -O (Windows)
-wget ${vars.modelUrl}
+// Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
+curl -O ${vars.modelUrl}
 
 const { vl } = require('moondream');
 
@@ -520,35 +520,57 @@ main().catch(console.error);`;
 						<tbody className='divide-y divide-gray-200'>
 							{Object.entries(configOptions)
 								.filter(([category]) => category !== 'environment')
-								.map(([category, options]) => (
-									<tr key={category} className='flex flex-col md:table-row'>
-										<td className='px-6 py-4 text-gray-900 font-medium bg-[#F7F7F8] md:bg-transparent border-r border-gray-200'>
-											{category === 'processor' ? 'Processor' :
-											 category === 'moondreamModel' ? 'Moondream Model' :
-											 category === 'quantization' ? 'Quantization' :
-											 category.replace(/([A-Z])/g, ' $1').trim()}
-										</td>
-										<td className='flex flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
-											{options.map((option: ConfigOption) => (
-												<div
-													key={option.id}
-													className={`px-6 py-4 cursor-pointer select-none border-r border-gray-200 flex-1
-														${selectedConfig[category as keyof SelectedConfig] === option.value
-															? 'bg-[#565872] text-white font-medium'
-															: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
-														transition-all duration-200 active:scale-[0.98]
-														before:content-["↳_"] before:opacity-0 hover:before:opacity-100 before:transition-opacity
-														border border-transparent hover:border-[#E5E5E7] hover:shadow-sm
-														${option === options[0] ? 'border-l border-gray-200' : ''}
-														${option === options[options.length-1] ? 'border-r border-gray-200' : 'border-r border-gray-200'}`}
-													onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
-												>
-													{option.label}
-												</div>
-											))}
-										</td>
-									</tr>
-								))}
+								.map(([category, options]) => {
+									// Check if this row should be active based on previous selections
+									const isActive = category === 'processor' ? true :
+										category === 'moondreamModel' ? selectedConfig.processor !== null :
+										category === 'quantization' ? selectedConfig.moondreamModel !== null :
+										false;
+
+									return (
+										<tr key={category} className={`flex flex-col md:table-row transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+											<td className='px-6 py-4 text-gray-900 font-medium bg-[#F7F7F8] md:bg-transparent border-r border-gray-200'>
+												{category === 'processor' ? 'Processor' :
+												 category === 'moondreamModel' ? 'Moondream Model' :
+												 category === 'quantization' ? 'Quantization' :
+												 category.replace(/([A-Z])/g, ' $1').trim()}
+											</td>
+											<td className='flex flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
+												{options.map((option: ConfigOption) => (
+													<div
+														key={option.id}
+														className={`px-6 py-4 cursor-pointer select-none border-r border-gray-200 flex-1 group relative
+															${selectedConfig[category as keyof SelectedConfig] === option.value
+																? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg'
+																: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+															transition-all duration-300 ease-out
+															hover:scale-[1.02] hover:shadow-md
+															before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
+															before:transition-opacity before:content-["↳"] before:text-[#565872]
+															before:hidden before:md:block
+															border border-transparent hover:border-[#E5E5E7]
+															${option === options[0] ? 'border-l border-gray-200' : ''}
+															${option === options[options.length-1] ? 'border-r border-gray-200' : 'border-r border-gray-200'}`}
+														onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
+													>
+														<div className='pl-0 md:pl-4'>
+															{option.label}
+															{selectedConfig[category as keyof SelectedConfig] !== option.value && 
+															 selectedConfig[category as keyof SelectedConfig] === null && (
+																<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
+																	<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors flex items-center justify-center md:inline-flex hidden">
+																		<span className="block w-1.5 h-1.5 rounded-full bg-blue-400 opacity-40 group-hover:opacity-60 group-hover:animate-ping" />
+																	</span>
+																	<span className="md:inline hidden">Click to select</span>
+																</div>
+															)}
+														</div>
+													</div>
+												))}
+											</td>
+										</tr>
+									);
+								})}
 						</tbody>
 					</table>
 				</div>
