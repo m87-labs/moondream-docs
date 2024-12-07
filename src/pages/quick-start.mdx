@@ -83,26 +83,16 @@ Get started with Moondream in minutes.
 
 ## Troubleshooting & FAQ
 
-### Supported Image Formats
 
-<FaqDropdown question='What image formats does Moondream support?'>
-  Moondream supports these common image formats:
-  ```txt
-  ✓ JPEG/JPG
-  ✓ PNG 
-  ✓ WebP
-  ✓ GIF (first frame only)
-  ✓ BMP
-  
-  ✗ AVIF 
-  ✗ HEIC
-  ```
-</FaqDropdown>
 
 ### Common Questions
 
 <FaqDropdown question='Do I need to encode images before using them with `vl`?'>
   No, the client libraries handle encoding automatically. You can pass image file paths, PIL Images, or raw buffers directly. However, if you plan to make multiple API calls with the same image, encoding it once beforehand will improve performance by avoiding repeated encoding operations.
+</FaqDropdown>
+
+<FaqDropdown question='What image formats does Moondream support?'>
+  Moondream supports most common image formats like JPEG, PNG, WebP and more. If you want to use a format that is not supported, please let us know on our discord and we can add support.
 </FaqDropdown>
 
 <FaqDropdown question="What's the maximum image size supported?">
