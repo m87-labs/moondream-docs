@@ -66,7 +66,7 @@ const meta: Meta = {
     newWindow: true
   },
   discord_link: {
-    title: 'Discord Community',
+    title: 'Join the Moondream Community',
     href: 'https://discord.com/invite/tRUdpjDQfH',
     newWindow: true
   },

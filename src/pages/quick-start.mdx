@@ -5,11 +5,49 @@ import { Callout } from 'nextra/components';
 
 # Quick Start
 
-Get started with Moondream in minutes. Select your configuration below to get the appropriate installation and setup instructions.
+Get started with Moondream in minutes.
 
-## Installation Options
+## Setup Options
 
-<ConfigSelector />
+<div className="relative mt-8">
+  <div className="bg-gradient-to-b from-blue-50/50 to-transparent p-10 rounded-2xl mb-8">
+    <div className="flex items-start gap-8">
+      <div className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-full bg-blue-100/70 items-center justify-center">
+        <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+      <div className="flex-1">
+        <div className="text-2xl font-semibold mb-6">Configuration Wizard</div>
+        <div className="text-gray-600">
+          Follow these steps:
+          <div className="mt-6 space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
+                1
+              </div>
+              <div>Choose your deployment environment (Cloud API or Local)</div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
+                2
+              </div>
+              <div>Select hardware specifications if running locally</div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
+                3
+              </div>
+              <div>Get your personalized installation instructions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ConfigSelector />
+</div>
 
 ## Explore Our Cloud Endpoints
 

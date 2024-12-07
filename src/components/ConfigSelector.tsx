@@ -168,7 +168,28 @@ const CodeBlock: FC<{ text: string; children: ReactNode }> = ({ text, children }
 	);
 };
 
+// Update the GuidanceNote component to hide on mobile
+const GuidanceNote: FC<{show: boolean}> = ({show}) => (
+	<div className={`
+		hidden md:flex absolute -top-12 left-1/2 -translate-x-1/2 
+		bg-blue-50 text-blue-600 px-4 py-2 rounded-full shadow-sm
+		border border-blue-100 text-sm font-medium
+		items-center gap-2
+		transition-all duration-500
+		${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+	`}>
+		<svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+		</svg>
+		Select your deployment environment
+	</div>
+);
+
 const ConfigSelector: FC = () => {
+	// Add state for guidance
+	const [showGuidance, setShowGuidance] = useState(true);
+	
+	// Existing state
 	const [selectedConfig, setSelectedConfig] = useState<SelectedConfig>({
 		environment: 'cloud',
 		processor: 'none',
@@ -177,6 +198,7 @@ const ConfigSelector: FC = () => {
 	});
 
 	const handleSelection = (category: keyof SelectedConfig, value: string) => {
+		setShowGuidance(false);
 		if (category === 'environment') {
 			// Reset other options when switching environment
 			setSelectedConfig({
@@ -428,33 +450,50 @@ main().catch(console.error);`;
 	};
 
 	return (
-		<div className='w-full mt-8'>
-			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
-				<table className='w-full border-collapse'>
+		<div className='w-full mt-8 relative'>
+			<GuidanceNote show={showGuidance} />
+			
+			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD] relative'>
+				<div className="absolute inset-0 bg-grid-pattern opacity-5" />
+				<table className='w-full border-collapse relative'>
 					<thead className='bg-[#F7F7F8]'>
 						<tr>
-							<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4'>Environment</th>
+							<th colSpan={2} className='px-6 py-4 text-left font-medium text-[#565872]'>
+								Environment
+								<div className="text-xs font-normal text-gray-500 mt-1">Choose your deployment method</div>
+							</th>
 						</tr>
 					</thead>
-					<tbody className='divide-y divide-gray-100 md:table-row-group flex flex-col md:flex-none'>
-						<tr className='flex flex-col md:table-row'>
-							<td className='px-6 py-4 text-gray-900 font-medium'>Deployment</td>
+					<tbody>
+						<tr>
 							{configOptions.environment.map((option: ConfigOption) => (
 								<td
 									key={option.id}
-									className={`px-6 py-4 cursor-pointer select-none group relative
-                    ${selectedConfig.environment === option.value ? 'bg-[#565872] text-white font-medium' : 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
-                    transition-all duration-200 active:scale-[0.98]
-                    before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
-                    before:transition-opacity before:content-["↳"] before:text-[#565872]
-                    border border-transparent hover:border-[#E5E5E7] hover:shadow-sm
-                    border-dashed border-gray-300`}
+									className={`
+										w-1/2 px-6 py-4 cursor-pointer select-none group relative
+										${selectedConfig.environment === option.value 
+											? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg' 
+											: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+										transition-all duration-300 ease-out
+										hover:scale-[1.02] hover:shadow-md
+										before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
+										before:transition-opacity before:content-["↳"] before:text-[#565872]
+										before:hidden before:md:block
+										border border-transparent hover:border-[#E5E5E7]
+										${!selectedConfig.environment && 'animate-pulse'}
+										${option.id === 'cloud' ? 'border-r border-gray-200' : ''}
+									`}
 									onClick={() => handleSelection('environment', option.value)}
 								>
-									<div className='pl-4'>
+									<div className='pl-0 md:pl-4'>
 										{option.label}
 										{selectedConfig.environment !== option.value && (
-											<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872]'>Click to select</div>
+											<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
+												<span className="w-4 h-4 rounded-full bg-blue-100 group-hover:bg-blue-200 transition-colors flex items-center justify-center md:inline-flex hidden">
+													<span className="block w-1.5 h-1.5 rounded-full bg-blue-500 group-hover:animate-ping" />
+												</span>
+												<span className="md:inline hidden">Click to select</span>
+											</div>
 										)}
 									</div>
 								</td>
