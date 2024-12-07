@@ -25,18 +25,24 @@ import { Callout } from 'nextra/components';
 
         <div className="relative bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-col md:flex-row justify-between items-start mb-4">
               <div>
                 <h3 className="text-2xl font-semibold">INT8 Model</h3>
                 <div className="text-gray-600 mt-1">Balanced performance and quality</div>
+                <div className="text-gray-600 mt-1 font-mono">Requires <span className="bg-yellow-50">2,624 MiB</span> runtime memory</div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-mono">1.82 GB</div>
-                <div className="text-sm text-gray-500">Compressed: 1.83 GB</div>
+              <div className="text-left md:text-right mt-2 md:mt-0">
+                <div className="text-xl font-mono">1,900 MiB</div>
+                <div className="text-sm text-gray-500">Compressed: 1,733 MiB</div>
+                <div className="mt-2">
+                  <a href="https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int8.mf.gz" className="text-blue-500 hover:text-blue-600 text-sm">
+                    Direct Download →
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
 
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
@@ -81,7 +87,7 @@ import { Callout } from 'nextra/components';
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-2b-int8.mf.gz (1.82 GB)
+                  Downloads: moondream-2b-int8.mf.gz
                 </div>
               </div>
             </div>
@@ -90,18 +96,24 @@ import { Callout } from 'nextra/components';
 
         <div className="bg-white rounded-lg border border-gray-200">
           <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-col md:flex-row justify-between items-start mb-4">
               <div>
                 <h3 className="text-2xl font-semibold">INT4 Model</h3>
                 <div className="text-gray-600 mt-1">Maximum compression</div>
+                <div className="text-gray-600 mt-1 font-mono">Requires <span className="bg-yellow-50">2,002 MiB</span> runtime memory</div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-mono">1.22 GB</div>
-                <div className="text-sm text-gray-500">Compressed: 1.31 GB</div>
+              <div className="text-left md:text-right mt-2 md:mt-0">
+                <div className="text-xl font-mono">1,290 MiB</div>
+                <div className="text-sm text-gray-500">Compressed: 1,167 MiB</div>
+                <div className="mt-2">
+                  <a href="https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-2b-int4.mf.gz" className="text-blue-500 hover:text-blue-600 text-sm">
+                    Direct Download →
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
 
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
@@ -146,7 +158,7 @@ import { Callout } from 'nextra/components';
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-2b-int4.mf.gz (1.22 GB)
+                  Downloads: moondream-2b-int4.mf.gz
                 </div>
               </div>
             </div>
@@ -167,18 +179,24 @@ import { Callout } from 'nextra/components';
       <div className="space-y-4">
         <div className="relative bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-col md:flex-row justify-between items-start mb-4">
               <div>
                 <h3 className="text-2xl font-semibold">INT8 Model (0.5B)</h3>
                 <div className="text-gray-600 mt-1">Fast CPU inference</div>
+                <div className="text-gray-600 mt-1 font-mono">Requires <span className="bg-yellow-50">996 MiB</span> runtime memory</div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-mono">622 MB</div>
-                <div className="text-sm text-gray-500">Compressed: 479 MB</div>
+              <div className="text-left md:text-right mt-2 md:mt-0">
+                <div className="text-xl font-mono">660 MiB</div>
+                <div className="text-sm text-gray-500">Compressed: 593 MiB</div>
+                <div className="mt-2">
+                  <a href="https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int8.mf.gz" className="text-blue-500 hover:text-blue-600 text-sm">
+                    Direct Download →
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
              
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
@@ -223,7 +241,7 @@ import { Callout } from 'nextra/components';
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-0_5b-int8.mf.gz (622 MB)
+                  Downloads: moondream-0_5b-int8.mf.gz
                 </div>
               </div>
             </div>
@@ -232,18 +250,24 @@ import { Callout } from 'nextra/components';
 
         <div className="bg-white rounded-lg border border-gray-200">
           <div className="p-6">
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex flex-col md:flex-row justify-between items-start mb-4">
               <div>
                 <h3 className="text-2xl font-semibold">INT4 Model (0.5B)</h3>
                 <div className="text-gray-600 mt-1">Ultra-lightweight deployment</div>
+                <div className="text-gray-600 mt-1 font-mono">Requires <span className="bg-yellow-50">816 MiB</span> runtime memory</div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-mono">442 MB</div>
-                <div className="text-sm text-gray-500">Compressed: 375 MB</div>
+              <div className="text-left md:text-right mt-2 md:mt-0">
+                <div className="text-xl font-mono">477 MiB</div>
+                <div className="text-sm text-gray-500">Compressed: 422 MiB</div>
+                <div className="mt-2">
+                  <a href="https://huggingface.co/vikhyatk/moondream2/resolve/onnx/moondream-0_5b-int4.mf.gz" className="text-blue-500 hover:text-blue-600 text-sm">
+                    Direct Download →
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
              
               <div>
                 <h4 className="font-medium text-gray-700 mb-3">Best For</h4>
@@ -288,7 +312,7 @@ import { Callout } from 'nextra/components';
                   </Tabs.Tab>
                 </Tabs>
                 <div className="text-xs text-gray-500 p-2 bg-gray-50 border-t border-gray-200">
-                  Downloads: moondream-0_5b-int4.mf.gz (442 MB)
+                  Downloads: moondream-0_5b-int4.mf.gz
                 </div>
               </div>
             </div>
@@ -308,22 +332,23 @@ import { Callout } from 'nextra/components';
 			<div className='overflow-x-auto'>
 				<table className='min-w-full'>
 					<thead>
+						<tr className='border-b-0 border-gray-200'>
+							<th className='text-left py-2 px-4 font-semibold text-gray-700'>Release</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>VQAv2</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>GQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>DocVQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
+						</tr>
 						<tr className='border-b border-gray-200'>
-							<th className='text-left py-3 px-4 font-semibold text-gray-700'>Release</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>VQAv2</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>GQA</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>TextVQA</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>DocVQA</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
-								TallyQA
-								<br />
-								<span className='text-xs'>(simple/full)</span>
-							</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
-								POPE
-								<br />
-								<span className='text-xs'>(rand/pop/adv)</span>
-							</th>
+							<th className='text-left py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4 text-xs text-gray-600'>(simple/full)</th>
+							<th className='text-right py-1 px-4 text-xs text-gray-600'>(rand/pop/adv)</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -435,21 +460,21 @@ import { Callout } from 'nextra/components';
 			<div className='overflow-x-auto'>
 				<table className='min-w-full'>
 					<thead>
+						<tr className='border-b-0 border-gray-200'>
+							<th className='text-left py-2 px-4 font-semibold text-gray-700'>Model</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>VQAv2</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>GQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>Natural Bench</th>
+						</tr>
 						<tr className='border-b border-gray-200'>
-							<th className='text-left py-3 px-4 font-semibold text-gray-700'>Model</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>VQAv2</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>GQA</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
-								TallyQA
-								<br />
-								<span className='text-xs'>(simple/full)</span>
-							</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>
-								POPE
-								<br />
-								<span className='text-xs'>(rand/pop/adv)</span>
-							</th>
-							<th className='text-right py-3 px-4 font-semibold text-gray-700'>Natural Bench</th>
+							<th className='text-left py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4'></th>
+							<th className='text-right py-1 px-4 text-xs text-gray-600'>(simple/full)</th>
+							<th className='text-right py-1 px-4 text-xs text-gray-600'>(rand/pop/adv)</th>
+							<th className='text-right py-1 px-4'></th>
 						</tr>
 					</thead>
 					<tbody>
