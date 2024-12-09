@@ -364,12 +364,20 @@ main().catch(console.error);`
 		}
 
 		const vars = getScriptVariables(selectedConfig);
-		const pythonScript = `# Install dependencies in your project directory
+		const pythonScript = `# ===== STEP 1: Install Dependencies =====
+# Install dependencies in your project directory
 ${vars.libraryInstall}
 
+${vars.libraryInstall.includes('gpu') ? `# Prerequisites for GPU support
+	# - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
+	# - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
+
+# ===== STEP 2: Download Model =====
 # Download model - run once then comment out (${vars.fileSize})
 # Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
 curl -O ${vars.modelUrl}
+
+
 
 import moondream as md
 from PIL import Image
@@ -392,15 +400,18 @@ for t in model.query(encoded_image, question, stream=True)["answer"]:
 		const nodeScript = `// ===== STEP 1: Install Dependencies =====
 // Install the Node.js client
 // npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}
-
 // Install the Python server (required for local inference)
 // pip install moondream
 
+${vars.libraryInstall.includes('gpu') ? `// Prerequisites for GPU support
+// - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
+// - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
 
 // ===== STEP 2: Download Model =====
 // Download model - run once then comment out (${vars.fileSize})
 // Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
 curl -O ${vars.modelUrl}
+
 
 
 // ===== STEP 3: Start Local Server =====
@@ -409,9 +420,15 @@ curl -O ${vars.modelUrl}
 // Keep this server running while using the Node.js client
 
 
+
 // ===== STEP 4: Node.js Client Code =====
-const { vl } = require('moondream');
-const fs = require('fs');
+// For .js files using require (CommonJS):
+// const { vl } = require('moondream');
+// const fs = require('fs');
+
+// For .mjs files or package.json with "type": "module":
+import { vl } from 'moondream';
+import fs from 'fs';
 
 // Initialize client to use local server
 const model = new vl({
