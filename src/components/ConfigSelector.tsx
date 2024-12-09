@@ -95,7 +95,7 @@ const getScriptVariables = (config: SelectedConfig): ScriptVariables => {
 	}
 
 	const modelSize = config.moondreamModel === '0.5b' ? '0_5b' : '2b';
-	const modelPath = `./moondream-${modelSize}-${config.quantization}.mf.gz`;
+	const modelPath = `moondream-${modelSize}-${config.quantization}.mf.gz`;
 	const baseUrl = 'https://huggingface.co/vikhyatk/moondream2/resolve/onnx';
 
 	return {
@@ -374,7 +374,7 @@ curl -O ${vars.modelUrl}
 import moondream as md
 from PIL import Image
 
-model = md.vl(model='${vars.modelPath}')
+model = md.vl(model='./${vars.modelPath}')
 image = Image.open("path/to/image.jpg")
 
 # Encode the image (optional, but recommended for multiple queries)
