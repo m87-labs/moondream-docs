@@ -267,7 +267,7 @@ detect_result = model.detect(image, 'subject')  # change 'subject' to what you w
 print("Detected objects:", detect_result["objects"])`,
 
 				point: `# Point at an object
-point_result = model.point(image, "Where is the cat?")
+point_result = model.point(image, 'subject')  # change 'subject' to what you want to point at
 print("Points:", point_result["points"])`,
 			};
 
@@ -309,7 +309,7 @@ const detectResult = await model.detect({ image: encodedImage, object: "subject"
 console.log("Detected objects:", detectResult.objects)`,
 
 				point: `// Point at an object
-const pointResult = await model.point({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to detect
+const pointResult = await model.point({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to point at
 console.log("Points:", pointResult.points)`,
 
 				closing: `}
