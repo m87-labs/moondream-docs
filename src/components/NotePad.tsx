@@ -62,7 +62,7 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
       {readingTime && (
         <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5 text-sm text-gray-500 font-geist">
           <span className="hidden sm:inline font-mono">⌚</span>
-          <span>{readingTime}</span>
+          <span className="font-mono">{readingTime}</span>
         </div>
       )}
       <div className="relative">
@@ -224,7 +224,7 @@ NotePad.Column = function Column({ title, children }: SectionProps) {
   return (
     <div>
       <h4 className="font-semibold mb-2 font-geist tracking-wide">{title}</h4>
-      <div className="text-sm text-gray-600 font-mono tracking-wide whitespace-pre-line">
+      <div className="text-sm text-gray-600 font-geist tracking-wide whitespace-pre-line">
         {children}
       </div>
     </div>

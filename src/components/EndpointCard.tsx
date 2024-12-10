@@ -8,6 +8,34 @@ interface EndpointCardProps {
   href: string;
 }
 
+const HighlightedText = ({ text }: { text: string }) => {
+  const words = text.split(' ');
+  const keywords = ['locally', 'cloud', 'detailed', 'real-world'];
+
+  return (
+    <>
+      {words.map((word, index) => {
+        const cleanWord = word.replace(/[.,?!]$/, '');
+        const punctuation = word.slice(cleanWord.length);
+        
+        return (
+          <span key={index}>
+            {keywords.includes(cleanWord.toLowerCase()) ? (
+              <span className="border-b-2 border-blue-300 border-opacity-50">
+                {cleanWord}
+              </span>
+            ) : (
+              cleanWord
+            )}
+            {punctuation}
+            {index < words.length - 1 ? ' ' : ''}
+          </span>
+        );
+      })}
+    </>
+  );
+};
+
 export default function EndpointCard({ icon, title, description, href }: EndpointCardProps) {
   return (
     <Link href={href} className="h-full">
@@ -31,7 +59,7 @@ export default function EndpointCard({ icon, title, description, href }: Endpoin
           {title}
         </h3>
         <p className="text-gray-600 mb-4 flex-grow">
-          {description}
+          <HighlightedText text={description} />
         </p>
         <div className="text-blue-500 group-hover:text-blue-600 inline-flex items-center">
           <span>Learn more</span>

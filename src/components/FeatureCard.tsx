@@ -9,6 +9,28 @@ interface FeatureCardProps {
   href?: string;
 }
 
+const HighlightedText = ({ text }: { text: string }) => {
+  const words = text.split(' ');
+  const keywords = ['extract', 'analyze', 'understand', 'support', 'enable', 'power', 'create', 'generate', 'index', 'track'];
+
+  return (
+    <>
+      {words.map((word, index) => (
+        <>
+          {keywords.includes(word.toLowerCase()) ? (
+            <span key={index} className="bg-blue-100 text-blue-900 px-1 rounded">
+              {word}
+            </span>
+          ) : (
+            word
+          )}
+          {index < words.length - 1 ? ' ' : ''}
+        </>
+      ))}
+    </>
+  );
+};
+
 export default function FeatureCard({ icon, title, description, features, href }: FeatureCardProps) {
   const Card = (
     <motion.div
@@ -27,7 +49,9 @@ export default function FeatureCard({ icon, title, description, features, href }
       <p className="text-gray-600 mb-4">{description}</p>
       <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
         {features.map((feature, index) => (
-          <li key={index}>{feature}</li>
+          <li key={index}>
+            <HighlightedText text={feature} />
+          </li>
         ))}
       </ul>
     </motion.div>
