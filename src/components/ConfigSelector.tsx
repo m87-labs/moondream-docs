@@ -486,19 +486,20 @@ async function main() {
 main();`;
 
 		return (
-			<Tabs items={['Python', 'Node.js']}>
+			// <Tabs items={['Python', 'Node.js']}>
+			<Tabs items={['Python']}>
 				<Tabs.Tab>
 					<div className='relative'>
 						<CopyButton text={pythonScript} />
 						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{pythonScript}</pre>
 					</div>
 				</Tabs.Tab>
-				<Tabs.Tab>
+				{/* <Tabs.Tab>
 					<div className='relative'>
 						<CopyButton text={nodeScript} />
 						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{nodeScript}</pre>
 					</div>
-				</Tabs.Tab>
+				</Tabs.Tab> */}
 			</Tabs>
 		);
 	};
