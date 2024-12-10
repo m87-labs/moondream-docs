@@ -1,9 +1,9 @@
-import { FC, useState, ReactNode } from 'react';
+import { FC, useState } from 'react';
 import { Tabs } from 'nextra/components';
 
 interface ConfigOption {
 	id: string;
-	label: string;
+	label: string | React.ReactNode;
 	value: string;
 }
 
@@ -26,7 +26,28 @@ interface ScriptVariables {
 	libraryInstall: string;
 	modelPath: string;
 	fileSize: string;
+	memoryUsage: string;
 }
+
+interface TooltipProps {
+	text: string;
+	children: React.ReactNode;
+}
+
+const Tooltip: FC<TooltipProps> = ({ text, children }) => (
+	<div className="group relative inline-block">
+		{children}
+		<div className="pointer-events-none absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-full 
+			opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+			<div className="bg-gray-900 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
+				{text}
+				<div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2">
+					<div className="border-4 border-transparent border-t-gray-900" />
+				</div>
+			</div>
+		</div>
+	</div>
+);
 
 const configOptions: ConfigOptions = {
 	environment: [
@@ -35,7 +56,16 @@ const configOptions: ConfigOptions = {
 	],
 	processor: [
 		{ id: 'cpu', label: 'CPU', value: 'cpu' },
-		{ id: 'gpu', label: 'GPU', value: 'gpu' },
+		{ id: 'gpu', label: (
+			<div className="flex items-center gap-1 opacity-50 cursor-not-allowed">
+				GPU
+				<Tooltip text="Coming soon">
+					<span className="bg-yellow-100 text-yellow-800 text-xs px-1.5 py-0.5 rounded">
+						WIP
+					</span>
+				</Tooltip>
+			</div>
+		), value: 'gpu' },
 	],
 	moondreamModel: [
 		{ id: '0.5b', label: '0.5B', value: '0.5b' },
@@ -47,123 +77,48 @@ const configOptions: ConfigOptions = {
 	],
 };
 
-const ClipboardIcon = () => (
-	<svg className='h-5 w-5' viewBox='0 0 24 24' fill='none' stroke='currentColor'>
-		<path
-			strokeLinecap='round'
-			strokeLinejoin='round'
-			strokeWidth={2}
-			d='M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3'
-		/>
-	</svg>
-);
-
-const CheckIcon = () => (
-	<svg className='h-5 w-5' viewBox='0 0 24 24' fill='none' stroke='currentColor'>
-		<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-	</svg>
-);
-
-interface CopyButtonProps {
-	text: string;
-}
-
-const CopyButton: FC<CopyButtonProps> = ({ text }) => {
+// Update the CodeBlock component to use the new syntax highlighting while preserving the Node.js code
+const CodeBlock: FC<{ code: string }> = ({ code }) => {
 	const [copied, setCopied] = useState(false);
 
-	const copy = async () => {
-		await navigator.clipboard.writeText(text);
+	const copyToClipboard = async () => {
+		await navigator.clipboard.writeText(code);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	};
 
-	return (
-		<button onClick={copy} className='absolute top-3 right-3 p-2 rounded-lg hover:bg-[#F7F7F8] transition-colors' aria-label='Copy code'>
-			{copied ? <CheckIcon /> : <ClipboardIcon />}
-		</button>
-	);
-};
+	// First escape HTML to prevent XSS and formatting issues
+	const escaped = code
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
 
-const getScriptVariables = (config: SelectedConfig): ScriptVariables => {
-	if (config.environment === 'cloud') {
-		return {
-			modelUrl: '',
-			libraryInstall: 'pip install moondream',
-			modelPath: '',
-			fileSize: '',
-		};
-	}
-
-	const modelSize = config.moondreamModel === '0.5b' ? '0_5b' : '2b';
-	const modelPath = `moondream-${modelSize}-${config.quantization}.mf.gz`;
-	const baseUrl = 'https://huggingface.co/vikhyatk/moondream2/resolve/onnx';
-
-	return {
-		modelUrl: `${baseUrl}/${modelPath}`,
-		libraryInstall: config.processor === 'gpu' ? 'pip install moondream-gpu' : 'pip install moondream',
-		modelPath,
-		fileSize: `${modelSize === '0_5b' ? (config.quantization === 'int4' ? '442 MB' : '622 MB') : config.quantization === 'int4' ? '1.22 GB' : '1.82 GB'}`,
-	};
-};
-
-// Update the endpoint-specific styles
-const endpointStyles = {
-	caption: {
-		header: 'text-gray-900 font-semibold border-l-4 border-emerald-500 pl-3 py-1 bg-emerald-50/30',
-		content: 'border-l-4 border-emerald-500/20 pl-3 ml-3 text-gray-800',
-	},
-	query: {
-		header: 'text-gray-900 font-semibold border-l-4 border-blue-500 pl-3 py-1 bg-blue-50/30',
-		content: 'border-l-4 border-blue-500/20 pl-3 ml-3 text-gray-800',
-	},
-	detect: {
-		header: 'text-gray-900 font-semibold border-l-4 border-violet-500 pl-3 py-1 bg-violet-50/30',
-		content: 'border-l-4 border-violet-500/20 pl-3 ml-3 text-gray-600',
-	},
-	point: {
-		header: 'text-gray-900 font-semibold border-l-4 border-amber-500 pl-3 py-1 bg-amber-50/30',
-		content: 'border-l-4 border-amber-500/20 pl-3 ml-3 text-gray-600',
-	},
-};
-
-// Update the components to include content wrapping
-const EndpointHeader: FC<{ type: keyof typeof endpointStyles; children: ReactNode }> = ({ type, children }) => <div className={endpointStyles[type].header}>{children}</div>;
-
-const EndpointContent: FC<{ type: keyof typeof endpointStyles; children: ReactNode }> = ({ type, children }) => <div className={endpointStyles[type].content}>{children}</div>;
-// Update the code block wrapper for cloud examples
-const CodeBlock: FC<{ text: string; children: ReactNode }> = ({ text, children }) => {
-	const [copied, setCopied] = useState(false);
-
-	const copy = async () => {
-		await navigator.clipboard.writeText(text);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
-	};
+	const highlighted = escaped
+		// Strings - handle both single and double quotes
+		.replace(/(['"])(.*?)\1/g, '<span style="color: #032f62">$1$2$1</span>')
+		// Keywords
+		.replace(/\b(import|from|const|let|var|function|async|await|try|catch|for|if|else|return)\b/g, 
+			'<span style="color: #d73a49">$1</span>')
+		// Constants
+		.replace(/\b(true|false|null|undefined)\b/g, 
+			'<span style="color: #005cc5">$1</span>')
+		// Function calls - avoid matching already colored text
+		.replace(/(?<!<[^>]*)\b(\w+)(?=\()/g, '<span style="color: #6f42c1">$1</span>');
 
 	return (
-		<div 
-			onClick={copy}
-			className={`relative select-none cursor-pointer group transition-all duration-200
-				${copied ? 'bg-[#F7F7F8]' : 'hover:bg-[#F7F7F8]'}`}
-		>
-			<div className="absolute top-2 right-2 z-10">
-				<span className={`px-3 py-1.5 bg-[#565872] text-white text-sm rounded-md flex items-center gap-2 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
-					{copied ? (
-						<>
-							<CheckIcon />
-							Copied!
-						</>
-					) : (
-						<>
-							<ClipboardIcon />
-							Click to copy
-						</>
-					)}
-				</span>
-			</div>
-			<div className={`transition-opacity duration-300 ${copied ? 'opacity-25' : 'group-hover:opacity-75'}`}>
-				{children}
-			</div>
+		<div className="relative rounded-lg bg-[#f6f8fa] border border-[#d0d7de] p-4 overflow-x-auto">
+			<button
+				onClick={copyToClipboard}
+				className="absolute right-2 top-2 rounded-md bg-[#f3f4f6] hover:bg-[#e5e7eb] border border-[#d0d7de] px-2 py-1 text-sm text-[#24292f]"
+			>
+				{copied ? "Copied!" : "Copy"}
+			</button>
+			<pre 
+				className="font-mono text-sm text-[#24292f]"
+				dangerouslySetInnerHTML={{ 
+					__html: highlighted 
+				}}
+			/>
 		</div>
 	);
 };
@@ -184,6 +139,60 @@ const GuidanceNote: FC<{show: boolean}> = ({show}) => (
 		Select your deployment environment
 	</div>
 );
+
+const getScriptVariables = (config: SelectedConfig): ScriptVariables => {
+	if (config.environment === 'cloud') {
+		return {
+			modelUrl: '',
+			libraryInstall: '# pip install moondream',
+			modelPath: '',
+			fileSize: '',
+			memoryUsage: ''
+		};
+	}
+
+	// Map of all model configurations to their details
+	const modelConfigs = {
+		'2b': {
+			'int8': {
+				url: 'https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/moondream-2b-int8.mf.gz',
+				path: 'moondream-2b-int8.mf.gz',
+				size: '1,733 MiB',
+				memory: '2,624 MiB'
+			},
+			'int4': {
+				url: 'https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/moondream-2b-int4.mf.gz',
+				path: 'moondream-2b-int4.mf.gz',
+				size: '1,167 MiB',
+				memory: '2,002 MiB'
+			}
+		},
+		'0.5b': {
+			'int8': {
+				url: 'https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/moondream-0_5b-int8.mf.gz',
+				path: 'moondream-0_5b-int8.mf.gz',
+				size: '593 MiB',
+				memory: '996 MiB'
+			},
+			'int4': {
+				url: 'https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/moondream-0_5b-int4.mf.gz',
+				path: 'moondream-0_5b-int4.mf.gz',
+				size: '422 MiB',
+				memory: '816 MiB'
+			}
+		}
+	};
+
+	const modelConfig = modelConfigs[config.moondreamModel as '2b' | '0.5b'][config.quantization as 'int8' | 'int4'];
+
+	return {
+		modelUrl: modelConfig.url,
+		libraryInstall: config.processor === 'gpu' ? '# pip install moondream-gpu' : '# pip install moondream',
+		modelPath: modelConfig.path,
+		fileSize: modelConfig.size,
+		memoryUsage: modelConfig.memory
+	};
+};
 
 const ConfigSelector: FC = () => {
 	// Add state for guidance
@@ -252,13 +261,13 @@ print("Answer:", answer)
 for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
     print(chunk, end="", flush=True)`,
 
-				detect: `# Uncomment to use object detection
-# detect_result = model.detect(image)
-# print("Detected objects:", detect_result["detections"])`,
+				detect: `# Detect objects
+detect_result = model.detect(image)
+print("Detected objects:", detect_result["detections"])`,
 
-				point: `# Uncomment to use object localization
-# point_result = model.point(image, "Where is the cat?")
-# print("Coordinates:", point_result["coordinates"])`,
+				point: `# Point at an object
+point_result = model.point(image, "Where is the cat?")
+print("Coordinates:", point_result["coordinates"])`,
 			};
 
 			const nodeSections = {
@@ -268,15 +277,15 @@ const { vl } = require('moondream');
 const fs = require('fs');
 
 async function main() {
-  // Get your API key at console.moondream.ai
-  const model = new vl({
-    apiKey: "your-api-key"
-  });
+// Get your API key at console.moondream.ai
+const model = new vl({
+	apiKey: "your-api-key"
+});
 
-  // Load an image
-  const image = fs.readFileSync("./path/to/image.jpg");`,
+// Load an image
+const image = fs.readFileSync("./path/to/image.jpg");`,
 
-				caption: `  // Generate caption
+				caption: `// Generate caption
 const caption = await model.caption(image, "normal", false);
 console.log('Caption:', caption);
 
@@ -284,27 +293,25 @@ console.log('Caption:', caption);
 console.log('\\nStreaming caption:');
 const captionStream = await model.caption(image, "normal", true);
 for await (const chunk of captionStream.caption) {
-  process.stdout.write(chunk);
+	process.stdout.write(chunk);
 }`,
 
-				query: `  // Ask questions about the image
+				query: `// Ask questions about the image
 const answer = await model.query(image, "What's in this image?");
 console.log('\\nAnswer:', answer);
 
 // Stream the answer
 console.log('\\nStreaming answer:');
 const answerStream = await model.query(image, "What's in this image?", true);
-for await (const chunk of answerStream.answer) {
-  process.stdout.write(chunk);
-}`,
+for await (const chunk of answerStream.answer) process.stdout.write(chunk);`,
 
-				detect: `  // Uncomment to use object detection
-  // const result = await model.detect(image, "car");
-  // console.log('Detected objects:', result.objects);`,
+				detect: `# Detect objects
+const result = await model.detect(image, "car");
+console.log('Detected objects:', result.objects);`,
 
-				point: `  // Uncomment to use object localization
-  // const result = await model.point(image, "person");
-  // console.log('Coordinates:', result.points);`,
+				point: `# Point at an object
+const result = await model.point(image, "person");
+console.log('Coordinates:', result.points);`,
 
 				closing: `}
 
@@ -314,45 +321,10 @@ main().catch(console.error);`
 			return (
 				<Tabs items={['Python', 'Node.js']}>
 					<Tabs.Tab>
-						<CodeBlock text={Object.values(sections).join('\n\n')}>
-							<pre className="text-sm text-gray-800 whitespace-pre-wrap pr-12">
-								{sections.setup}
-
-								{'\n'}
-								<EndpointHeader type='caption'>Image Captioning</EndpointHeader>
-								<EndpointContent type='caption'>{sections.caption}</EndpointContent>
-
-								<EndpointHeader type='query'>Visual Question Answering</EndpointHeader>
-								<EndpointContent type='query'>{sections.query}</EndpointContent>
-
-								<EndpointHeader type='detect'>Object Detection</EndpointHeader>
-								<EndpointContent type='detect'>{sections.detect}</EndpointContent>
-
-								<EndpointHeader type='point'>Object Localization</EndpointHeader>
-								<EndpointContent type='point'>{sections.point}</EndpointContent>
-							</pre>
-						</CodeBlock>
+						<CodeBlock code={Object.values(sections).join('\n\n')} />
 					</Tabs.Tab>
 					<Tabs.Tab>
-						<CodeBlock text={Object.values(nodeSections).join('\n\n')}>
-							<pre className="text-sm text-gray-800 whitespace-pre-wrap pr-12">
-								{nodeSections.setup}
-
-								<EndpointHeader type='caption'>Image Captioning</EndpointHeader>
-								<EndpointContent type='caption'>{nodeSections.caption}</EndpointContent>
-
-								<EndpointHeader type='query'>Visual Question Answering</EndpointHeader>
-								<EndpointContent type='query'>{nodeSections.query}</EndpointContent>
-
-								<EndpointHeader type='detect'>Object Detection</EndpointHeader>
-								<EndpointContent type='detect'>{nodeSections.detect}</EndpointContent>
-
-								<EndpointHeader type='point'>Object Localization</EndpointHeader>
-								<EndpointContent type='point'>{nodeSections.point}</EndpointContent>
-
-								{nodeSections.closing}
-							</pre>
-						</CodeBlock>
+						<CodeBlock code={Object.values(nodeSections).join('\n\n')} />
 					</Tabs.Tab>
 				</Tabs>
 			);
@@ -365,144 +337,116 @@ main().catch(console.error);`
 
 		const vars = getScriptVariables(selectedConfig);
 		const pythonScript = `# ===== STEP 1: Install Dependencies =====
-# Install dependencies in your project directory
-${vars.libraryInstall}
-
-${vars.libraryInstall.includes('gpu') ? `# Prerequisites for GPU support
+${vars.libraryInstall}  # Install dependencies in your project directory
+${vars.libraryInstall.includes('gpu') ? `
+# Prerequisites for GPU support
 # - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
 # - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
 
 # ===== STEP 2: Download Model =====
-# Download model - run once then comment out (${vars.fileSize})
+# Download model (${vars.fileSize} download size, ${vars.memoryUsage} memory usage)
 # Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
-curl -O ${vars.modelUrl}
+# curl -O ${vars.modelUrl}
 
 
 
 import moondream as md
 from PIL import Image
 
-# Initialize the model
-model = md.vl(model='./${vars.modelPath}')
+model = md.vl(model='./${vars.modelPath}')  # Initialize model
+image = Image.open("./path/to/image.jpg")  # Load image
+encoded_image = model.encode_image(image)  # Encode image (recommended for multiple operations)
 
-# Load your image
-image = Image.open("./path/to/image.jpg")
+# 1. Caption any image
+caption = model.caption(encoded_image, length="normal")["caption"]
+print("Caption:", caption)  # Normal length
 
-# Encode the image (recommended for multiple operations)
-print("Encoding image...")
-encoded_image = model.encode_image(image)
+long_caption = model.caption(encoded_image, length="long")["caption"]
+print("Long caption:", long_caption)  # Long caption
 
-# Generate caption with streaming output
-print("\\nGenerating caption:")
-for t in model.caption(encoded_image, stream=True)["caption"]:
-    print(t, end="", flush=True)
+print("Streaming caption:", end=" ")
+for chunk in model.caption(encoded_image, stream=True)["caption"]: print(chunk, end="")  # Stream
 
-# Ask questions about the image
-print("\\n\\nAsking question:")
-question = "What do you see in this image?"
-for t in model.query(encoded_image, question, stream=True)["answer"]:
-    print(t, end="", flush=True)`;
+# 2. Query any image
+answer = model.query(encoded_image, "What do you see in this image?")["answer"]
+print("\\nAnswer:", answer)  # Single response
+
+print("Streaming answer:", end=" ")
+for chunk in model.query(encoded_image, "What's in this image?", stream=True)["answer"]: print(chunk, end="")  # Stream
+
+# 3. Detect any object
+detect_result = model.detect(encoded_image, "subject")  # 'subject' can be any object
+print("\\nDetected:", detect_result["detections"])
+
+# 4. Point at any object
+point_result = model.point(encoded_image, "subject")  # 'subject' can be any object
+print("Coordinates:", point_result["coordinates"])`;
 
 		const nodeScript = `// ===== STEP 1: Install Dependencies =====
-// Install the Node.js client
-// npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}
-// Install the Python server (required for local inference)
-// pip install moondream
-
-${vars.libraryInstall.includes('gpu') ? `// Prerequisites for GPU support
+// npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}  # Install Node.js client
+// pip install moondream  # Install Python server (required for local inference)
+${vars.libraryInstall.includes('gpu') ? `
+// Prerequisites for GPU support
 // - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
 // - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
 
 // ===== STEP 2: Download Model =====
 // Download model - run once then comment out (${vars.fileSize})
 // Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
-curl -O ${vars.modelUrl}
-
-
+// curl -O ${vars.modelUrl}
 
 // ===== STEP 3: Start Local Server =====
-// Open a new terminal and run:
-// moondream serve --model ${vars.modelPath}
-// Keep this server running while using the Node.js client
-
-
+// moondream serve --model ${vars.modelPath}  # Run in separate terminal
 
 // ===== STEP 4: Node.js Client Code =====
-
 const { vl } = require('moondream');
 const fs = require('fs');
 
-// Initialize client to use local server
-const model = new vl({
-  apiUrl: "http://localhost:3475",  // Default local server URL
-  timeout: 300000  // 5 minutes timeout
-});
-
-// Load and encode image properly
-const image = fs.readFileSync("./path/to/image.jpg");  // Use relative path
-const imageBuffer = Buffer.from(image);
+const model = new vl({ apiUrl: "http://localhost:3475", timeout: 300000 });  // Initialize client
 
 async function main() {
-  try {
-    // Generate a caption for the image
-    console.log("Sending caption request...");
-    const caption = await model.caption({
-      image: imageBuffer,
-      length: "normal",
-      stream: false
-    });
-    console.log("Caption:", caption);
+	try {
+		const encodedImage = Buffer.from(fs.readFileSync("./path/to/image.jpg"))  // Load and encode image
 
-    // Ask a question about the image
-    console.log("\\nSending query request...");
-    const answer = await model.query({
-      image: imageBuffer,
-      question: "What's in this image?",
-      stream: false
-    });
-    console.log("Answer:", answer);
+		// 1. Caption any image
+		const caption = await model.caption({ image: encodedImage, length: "normal" })
+		console.log("Caption:", caption)  // Normal length
 
-    // Stream the caption
-    console.log("\\nStreaming caption:");
-    const captionStream = await model.caption({
-      image: imageBuffer,
-      length: "normal",
-      stream: true
-    });
-    for await (const chunk of captionStream.caption) {
-      process.stdout.write(chunk);
-    }
+		const longCaption = await model.caption({ image: encodedImage, length: "long" })
+		console.log("Long caption:", longCaption)  // Long caption
 
-    // Stream a question answer
-    console.log("\\n\\nStreaming answer:");
-    const answerStream = await model.query({
-      image: imageBuffer,
-      question: "What's in this image?",
-      stream: true
-    });
-    for await (const chunk of answerStream.answer) {
-      process.stdout.write(chunk);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
+		process.stdout.write("Streaming caption: ")
+		const captionStream = await model.caption({ image: encodedImage, stream: true })
+		for await (const chunk of captionStream.caption) process.stdout.write(chunk)
+
+		// 2. Query any image
+		const answer = await model.query({ image: encodedImage, question: "What's in this image?" })
+		console.log("\\nAnswer:", answer)  // Single response
+
+		process.stdout.write("Streaming answer: ")
+		const answerStream = await model.query({ image: encodedImage, question: "What's in this image?", stream: true })
+		for await (const chunk of answerStream.answer) process.stdout.write(chunk)
+
+		// 3. Detect any object
+		const detectResult = await model.detect({ image: encodedImage, object: "subject" })  // 'subject' can be any object
+		console.log("\\nDetected:", detectResult.detections)
+
+		// 4. Point at any object
+		const pointResult = await model.point({ image: encodedImage, object: "subject" })  // 'subject' can be any object
+		console.log("Coordinates:", pointResult.coordinates)
+
+	} catch (error) { console.error("Error:", error) }
 }
 
-main();`;
+main().catch(console.error);`;
 
 		return (
 			<Tabs items={['Python', 'Node.js']}>
 				<Tabs.Tab>
-					<div className='relative'>
-						<CopyButton text={pythonScript} />
-						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{pythonScript}</pre>
-					</div>
+					<CodeBlock code={pythonScript} />
 				</Tabs.Tab>
 				<Tabs.Tab>
-					<div className='relative'>
-						<CopyButton text={nodeScript} />
-						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{nodeScript}</pre>
-					</div>
+					<CodeBlock code={nodeScript} />
 				</Tabs.Tab>
 			</Tabs>
 		);
@@ -595,37 +539,43 @@ main();`;
 												 category.replace(/([A-Z])/g, ' $1').trim()}
 											</td>
 											<td className='flex flex-row border-t first:border-t-0 md:border-t-0' colSpan={3}>
-												{options.map((option: ConfigOption) => (
-													<div
-														key={option.id}
-														className={`px-6 py-4 cursor-pointer select-none border-r border-gray-200 flex-1 group relative
-															${selectedConfig[category as keyof SelectedConfig] === option.value
-																? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg'
-																: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
-															transition-all duration-300 ease-out
-															hover:scale-[1.02] hover:shadow-md
-															before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
-															before:transition-opacity before:content-["↳"] before:text-[#565872]
-															before:hidden before:md:block
-															border border-transparent hover:border-[#E5E5E7]
-															${option === options[0] ? 'border-l border-gray-200' : ''}
-															${option === options[options.length-1] ? 'border-r border-gray-200' : 'border-r border-gray-200'}`}
-														onClick={() => handleSelection(category as keyof SelectedConfig, option.value)}
-													>
-														<div className='pl-0 md:pl-4'>
-															{option.label}
-															{selectedConfig[category as keyof SelectedConfig] !== option.value && 
-															 selectedConfig[category as keyof SelectedConfig] === null && (
-																<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
-																	<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors flex items-center justify-center md:inline-flex hidden">
-																		<span className="block w-1.5 h-1.5 rounded-full bg-blue-400 opacity-40 group-hover:opacity-60 group-hover:animate-ping" />
-																	</span>
-																	<span className="md:inline hidden">Click to select</span>
-																</div>
-															)}
+												{options.map((option: ConfigOption) => {
+													const isDisabled = option.id === 'gpu';
+													
+													return (
+														<div
+															key={option.id}
+															className={`px-6 py-4 select-none border-r border-gray-200 flex-1 group relative
+																${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+																${selectedConfig[category as keyof SelectedConfig] === option.value
+																	? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg'
+																	: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+																transition-all duration-300 ease-out
+																${!isDisabled && 'hover:scale-[1.02] hover:shadow-md'}
+																before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
+																before:transition-opacity before:content-["↳"] before:text-[#565872]
+																before:hidden before:md:block
+																border border-transparent hover:border-[#E5E5E7]
+																${option === options[0] ? 'border-l border-gray-200' : ''}
+																${option === options[options.length-1] ? 'border-r border-gray-200' : 'border-r border-gray-200'}`}
+															onClick={() => !isDisabled && handleSelection(category as keyof SelectedConfig, option.value)}
+														>
+															<div className='pl-0 md:pl-4'>
+																{option.label}
+																{selectedConfig[category as keyof SelectedConfig] !== option.value && 
+																 selectedConfig[category as keyof SelectedConfig] === null && 
+																 !isDisabled && (
+																	<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
+																		<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors flex items-center justify-center md:inline-flex hidden">
+																			<span className="block w-1.5 h-1.5 rounded-full bg-blue-400 opacity-40 group-hover:opacity-60 group-hover:animate-ping" />
+																		</span>
+																		<span className="md:inline hidden">Click to select</span>
+																	</div>
+																)}
+															</div>
 														</div>
-													</div>
-												))}
+													);
+												})}
 											</td>
 										</tr>
 									);
