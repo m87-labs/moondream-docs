@@ -369,8 +369,8 @@ main().catch(console.error);`
 ${vars.libraryInstall}
 
 ${vars.libraryInstall.includes('gpu') ? `# Prerequisites for GPU support
-	# - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
-	# - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
+# - [CUDA 12.x](https://developer.nvidia.com/cuda-downloads)
+# - [cuDNN 9.x](https://developer.nvidia.com/cudnn)` : ''}
 
 # ===== STEP 2: Download Model =====
 # Download model - run once then comment out (${vars.fileSize})
@@ -382,17 +382,23 @@ curl -O ${vars.modelUrl}
 import moondream as md
 from PIL import Image
 
+# Initialize the model
 model = md.vl(model='./${vars.modelPath}')
-image = Image.open("path/to/image.jpg")
 
-# Encode the image (optional, but recommended for multiple queries)
+# Load your image
+image = Image.open("./path/to/image.jpg")
+
+# Encode the image (recommended for multiple operations)
+print("Encoding image...")
 encoded_image = model.encode_image(image)
 
 # Generate caption with streaming output
+print("\\nGenerating caption:")
 for t in model.caption(encoded_image, stream=True)["caption"]:
     print(t, end="", flush=True)
 
 # Ask questions about the image
+print("\\n\\nAsking question:")
 question = "What do you see in this image?"
 for t in model.query(encoded_image, question, stream=True)["answer"]:
     print(t, end="", flush=True)`;
@@ -422,36 +428,35 @@ curl -O ${vars.modelUrl}
 
 
 // ===== STEP 4: Node.js Client Code =====
-// For .js files using require (CommonJS):
-// const { vl } = require('moondream');
-// const fs = require('fs');
 
-// For .mjs files or package.json with "type": "module":
-import { vl } from 'moondream';
-import fs from 'fs';
+const { vl } = require('moondream');
+const fs = require('fs');
 
 // Initialize client to use local server
 const model = new vl({
-  apiUrl: "http://localhost:3475"  // Default local server URL
+  apiUrl: "http://localhost:3475",  // Default local server URL
+  timeout: 300000  // 5 minutes timeout
 });
 
-// Load your image
-const image = fs.readFileSync("path/to/image.jpg");
+// Load and encode image properly
+const image = fs.readFileSync("./path/to/image.jpg");  // Use relative path
+const imageBuffer = Buffer.from(image);
 
-// Basic usage examples
 async function main() {
   try {
     // Generate a caption for the image
+    console.log("Sending caption request...");
     const caption = await model.caption({
-      image: image,
+      image: imageBuffer,
       length: "normal",
       stream: false
     });
     console.log("Caption:", caption);
 
     // Ask a question about the image
+    console.log("\\nSending query request...");
     const answer = await model.query({
-      image: image,
+      image: imageBuffer,
       question: "What's in this image?",
       stream: false
     });
@@ -460,7 +465,7 @@ async function main() {
     // Stream the caption
     console.log("\\nStreaming caption:");
     const captionStream = await model.caption({
-      image: image,
+      image: imageBuffer,
       length: "normal",
       stream: true
     });
@@ -471,7 +476,7 @@ async function main() {
     // Stream a question answer
     console.log("\\n\\nStreaming answer:");
     const answerStream = await model.query({
-      image: image,
+      image: imageBuffer,
       question: "What's in this image?",
       stream: true
     });
@@ -486,20 +491,19 @@ async function main() {
 main();`;
 
 		return (
-			// <Tabs items={['Python', 'Node.js']}>
-			<Tabs items={['Python']}>
+			<Tabs items={['Python', 'Node.js']}>
 				<Tabs.Tab>
 					<div className='relative'>
 						<CopyButton text={pythonScript} />
 						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{pythonScript}</pre>
 					</div>
 				</Tabs.Tab>
-				{/* <Tabs.Tab>
+				<Tabs.Tab>
 					<div className='relative'>
 						<CopyButton text={nodeScript} />
 						<pre className='text-sm text-gray-800 whitespace-pre-wrap pr-12'>{nodeScript}</pre>
 					</div>
-				</Tabs.Tab> */}
+				</Tabs.Tab>
 			</Tabs>
 		);
 	};
