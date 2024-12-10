@@ -243,27 +243,28 @@ model = md.vl(api_key="your-api-key")
 
 # Load an image
 image = Image.open("./path/to/image.jpg")
+encoded_image = model.encode_image(image)  # Encode image (recommended for multiple operations)
 `,
 
-				caption: `# Generate a caption
-caption = model.caption(image)["caption"]
+				caption: `# Generate a caption (length options: "short" or "normal" (default))
+caption = model.caption(encoded_image)["caption"]
 print("Caption:", caption)
 
 # Stream the caption
-for chunk in model.caption(image, stream=True)["caption"]:
+for chunk in model.caption(encoded_image, stream=True)["caption"]:
     print(chunk, end="", flush=True)`,
 
 				query: `# Ask a question
-answer = model.query(image, "What's in this image?")["answer"]
+answer = model.query(encoded_image, "What's in this image?")["answer"]
 print("Answer:", answer)
 
 # Stream the answer
-for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
+for chunk in model.query(encoded_image, "What's in this image?", stream=True)["answer"]:
     print(chunk, end="", flush=True)`,
 
 				detect: `# Detect objects
-detect_result = model.detect(image)
-print("Detected objects:", detect_result["detections"])`,
+detect_result = model.detect(image, 'subject')  # change 'subject' to what you want to detect
+print("Detected objects:", detect_result["objects"])`,
 
 				point: `# Point at an object
 point_result = model.point(image, "Where is the cat?")
@@ -277,41 +278,39 @@ const { vl } = require('moondream');
 const fs = require('fs');
 
 async function main() {
-// Get your API key at console.moondream.ai
-const model = new vl({
-	apiKey: "your-api-key"
-});
+	// Get your API key at console.moondream.ai
+	const model = new vl({
+		apiKey: "your-api-key"
+	});
 
-// Load an image
-const image = fs.readFileSync("./path/to/image.jpg");`,
+	// Load an image
+	const encodedImage = Buffer.from(fs.readFileSync("./path/to/image.jpg"))  // Load and encode image`,
 
-				caption: `// Generate caption
-const caption = await model.caption(image, "normal", false);
-console.log('Caption:', caption);
+				caption: `// Generate caption (length options: "short" or "normal" (default))
+const caption = await model.caption({ image: encodedImage })
+console.log("Caption:", caption)
 
 // Stream the caption
-console.log('\\nStreaming caption:');
-const captionStream = await model.caption(image, "normal", true);
-for await (const chunk of captionStream.caption) {
-	process.stdout.write(chunk);
-}`,
+process.stdout.write("Streaming caption: ")
+const captionStream = await model.caption({ image: encodedImage, stream: true })
+for await (const chunk of captionStream.caption) process.stdout.write(chunk)`,
 
 				query: `// Ask questions about the image
-const answer = await model.query(image, "What's in this image?");
-console.log('\\nAnswer:', answer);
+const answer = await model.query({ image: encodedImage, question: "What's in this image?" })
+console.log("\\nAnswer:", answer)
 
 // Stream the answer
-console.log('\\nStreaming answer:');
-const answerStream = await model.query(image, "What's in this image?", true);
-for await (const chunk of answerStream.answer) process.stdout.write(chunk);`,
+process.stdout.write("Streaming answer: ")
+const answerStream = await model.query({ image: encodedImage, question: "What's in this image?", stream: true })
+for await (const chunk of answerStream.answer) process.stdout.write(chunk)`,
 
-				detect: `# Detect objects
-const result = await model.detect(image, "car");
-console.log('Detected objects:', result.objects);`,
+				detect: `// Detect objects
+const detectResult = await model.detect({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to detect
+console.log("Detected objects:", detectResult.objects)`,
 
-				point: `# Point at an object
-const result = await model.point(image, "person");
-console.log('Coordinates:', result.points);`,
+				point: `// Point at an object
+const pointResult = await model.point({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to detect
+console.log("Coordinates:", pointResult.coordinates)`,
 
 				closing: `}
 
@@ -348,8 +347,6 @@ ${vars.libraryInstall.includes('gpu') ? `
 # Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
 # curl -O ${vars.modelUrl}
 
-
-
 import moondream as md
 from PIL import Image
 
@@ -357,12 +354,9 @@ model = md.vl(model='./${vars.modelPath}')  # Initialize model
 image = Image.open("./path/to/image.jpg")  # Load image
 encoded_image = model.encode_image(image)  # Encode image (recommended for multiple operations)
 
-# 1. Caption any image
-caption = model.caption(encoded_image, length="normal")["caption"]
-print("Caption:", caption)  # Normal length
-
-long_caption = model.caption(encoded_image, length="long")["caption"]
-print("Long caption:", long_caption)  # Long caption
+# 1. Caption any image (length options: "short" or "normal" (default))
+caption = model.caption(encoded_image)["caption"]
+print("Caption:", caption)
 
 print("Streaming caption:", end=" ")
 for chunk in model.caption(encoded_image, stream=True)["caption"]: print(chunk, end="")  # Stream
@@ -375,12 +369,12 @@ print("Streaming answer:", end=" ")
 for chunk in model.query(encoded_image, "What's in this image?", stream=True)["answer"]: print(chunk, end="")  # Stream
 
 # 3. Detect any object
-detect_result = model.detect(encoded_image, "subject")  # 'subject' can be any object
-print("\\nDetected:", detect_result["detections"])
+detect_result = model.detect(encoded_image, "subject")  # change 'subject' to what you want to detect
+print("\\nDetected:", detect_result["objects"])
 
-# 4. Point at any object
+${selectedConfig.moondreamModel === '2b' ? `# 4. Point at any object
 point_result = model.point(encoded_image, "subject")  # 'subject' can be any object
-print("Coordinates:", point_result["coordinates"])`;
+print("Coordinates:", point_result["coordinates"])` : '# Point functionality is only available for 2B models'}`;
 
 		const nodeScript = `// ===== STEP 1: Install Dependencies =====
 // npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}  # Install Node.js client
@@ -408,12 +402,9 @@ async function main() {
 	try {
 		const encodedImage = Buffer.from(fs.readFileSync("./path/to/image.jpg"))  // Load and encode image
 
-		// 1. Caption any image
-		const caption = await model.caption({ image: encodedImage, length: "normal" })
-		console.log("Caption:", caption)  // Normal length
-
-		const longCaption = await model.caption({ image: encodedImage, length: "long" })
-		console.log("Long caption:", longCaption)  // Long caption
+		// 1. Caption any image (length options: "short" or "normal" (default))
+		const caption = await model.caption({ image: encodedImage })
+		console.log("Caption:", caption)
 
 		process.stdout.write("Streaming caption: ")
 		const captionStream = await model.caption({ image: encodedImage, stream: true })
@@ -428,12 +419,12 @@ async function main() {
 		for await (const chunk of answerStream.answer) process.stdout.write(chunk)
 
 		// 3. Detect any object
-		const detectResult = await model.detect({ image: encodedImage, object: "subject" })  // 'subject' can be any object
-		console.log("\\nDetected:", detectResult.detections)
+		const detectResult = await model.detect({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to detect
+		console.log("\\nDetected:", detectResult.objects)
 
-		// 4. Point at any object
+		${selectedConfig.moondreamModel === '2b' ? `// 4. Point at any object
 		const pointResult = await model.point({ image: encodedImage, object: "subject" })  // 'subject' can be any object
-		console.log("Coordinates:", pointResult.coordinates)
+		console.log("Coordinates:", pointResult.coordinates)` : '// Point functionality is only available for 2B models'}
 
 	} catch (error) { console.error("Error:", error) }
 }
