@@ -268,7 +268,7 @@ print("Detected objects:", detect_result["objects"])`,
 
 				point: `# Point at an object
 point_result = model.point(image, "Where is the cat?")
-print("Coordinates:", point_result["coordinates"])`,
+print("Points:", point_result["points"])`,
 			};
 
 			const nodeSections = {
@@ -310,7 +310,7 @@ console.log("Detected objects:", detectResult.objects)`,
 
 				point: `// Point at an object
 const pointResult = await model.point({ image: encodedImage, object: "subject" })  // change 'subject' to what you want to detect
-console.log("Coordinates:", pointResult.coordinates)`,
+console.log("Points:", pointResult.points)`,
 
 				closing: `}
 
@@ -374,7 +374,7 @@ print("\\nDetected:", detect_result["objects"])
 
 ${selectedConfig.moondreamModel === '2b' ? `# 4. Point at any object
 point_result = model.point(encoded_image, "subject")  # 'subject' can be any object
-print("Coordinates:", point_result["coordinates"])` : '# Point functionality is only available for 2B models'}`;
+print("Points:", point_result["points"])` : '# Point functionality is only available for 2B models'}`;
 
 		const nodeScript = `// ===== STEP 1: Install Dependencies =====
 // npm install moondream${vars.libraryInstall.includes('gpu') ? '-gpu' : ''}  # Install Node.js client
@@ -424,7 +424,7 @@ async function main() {
 
 		${selectedConfig.moondreamModel === '2b' ? `// 4. Point at any object
 		const pointResult = await model.point({ image: encodedImage, object: "subject" })  // 'subject' can be any object
-		console.log("Coordinates:", pointResult.coordinates)` : '// Point functionality is only available for 2B models'}
+		console.log("Points:", pointResult.points)` : '// Point functionality is only available for 2B models'}
 
 	} catch (error) { console.error("Error:", error) }
 }
