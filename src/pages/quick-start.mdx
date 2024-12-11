@@ -1,7 +1,54 @@
+import Head from 'next/head'
 import ConfigSelector from '../components/ConfigSelector';
 import FaqDropdown from '../components/FaqDropdown';
 import EndpointCard from '../components/EndpointCard';
 import { Callout } from 'nextra/components';
+
+<Head>
+  <title>Quick Start - Moondream Documentation</title>
+  <meta name="description" content="Get up and running with Moondream vision AI in minutes. Step-by-step guide for installation, setup, and basic usage for both local and cloud deployments." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content="Quick Start Guide - Get Started with Moondream Vision AI" />
+  <meta property="og:description" content="Get up and running with Moondream vision AI in minutes. Step-by-step guide for installation, setup, and basic usage for both local and cloud deployments." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://docs.moondream.ai/quick-start" />
+  
+  
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Quick Start Guide - Get Started with Moondream Vision AI" />
+  <meta name="twitter:description" content="Get up and running with Moondream vision AI in minutes. Step-by-step guide for installation, setup, and basic usage for both local and cloud deployments." />
+  
+  
+  {/* Schema.org for Google */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Getting Started with Moondream Vision AI",
+      "description": "Step-by-step guide for installing and setting up Moondream vision AI",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Installation",
+          "text": "Install Moondream via pip or npm"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Configuration",
+          "text": "Set up your API key and initialize the model"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "First Use",
+          "text": "Run your first image analysis with Moondream"
+        }
+      ]
+    })}
+  </script>
+</Head>
 
 # Quick Start
 

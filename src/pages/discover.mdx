@@ -1,9 +1,41 @@
+import Head from 'next/head'
 import { NotePad } from '../components/NotePad'
 import { Tabs } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
 import EndpointCard from '../components/EndpointCard'
 import FeatureCard from '../components/FeatureCard'
+
+<Head>
+  <title>Discover - Moondream Documentation</title>
+  <meta name="description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content="Discover Moondream - Vision-Language Model Capabilities & Use Cases" />
+  <meta property="og:description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://docs.moondream.ai/discover" />
+  
+  
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Discover Moondream - Vision-Language Model Capabilities & Use Cases" />
+  <meta name="twitter:description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
+  
+  
+  {/* Schema.org for Google */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Discover Moondream Vision-Language Model Capabilities",
+      "description": "Comprehensive guide to Moondream's vision AI capabilities and use cases",
+      "articleSection": "Technical Documentation",
+      "keywords": "vision AI, image understanding, machine learning, computer vision, image analysis"
+    })}
+  </script>
+</Head>
 
 # Understanding Vision Language Models (VLMs)
 
