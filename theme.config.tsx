@@ -1,5 +1,6 @@
-import type { DocsThemeConfig } from 'nextra-theme-docs';
+import type { DocsThemeConfig, ComponentProps } from 'nextra-theme-docs';
 import Image from 'next/image';
+import { CopyButton } from './src/components/CopyButton';
 
 const config: DocsThemeConfig = {
 	// Basic branding
@@ -94,6 +95,24 @@ const config: DocsThemeConfig = {
 	toc: {
 		float: true,
 		title: 'On This Page',
+	},
+
+	// Add code block configuration
+	components: {
+		code: ({ children, className, ...props }: ComponentProps['code']) => {
+			return (
+				<div className="group relative">
+					<div className="relative">
+						<pre className={`${className || ''} px-4 whitespace-pre-wrap break-words pr-12`} {...props}>
+							{children}
+						</pre>
+						<div className="absolute top-0 sm:right-3 right-12">
+							<CopyButton />
+						</div>
+					</div>
+				</div>
+			);
+		}
 	},
 };
 

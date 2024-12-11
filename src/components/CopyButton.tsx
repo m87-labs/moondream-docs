@@ -1,24 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
-interface CopyButtonProps {
-  code: string;
-}
-
-export function CopyButton({ code }: CopyButtonProps) {
+export function CopyButton() {
   const [copied, setCopied] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      const button = buttonRef.current;
+      const preElement = button?.closest('pre');
+      
+      if (!preElement) {
+        return;
+      }
+
+      const textToCopy = preElement.textContent || '';
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   return (
     <button
+      ref={buttonRef}
       onClick={copy}
-      className="absolute right-2 top-2 p-2 rounded-lg bg-[#F0EDEE] hover:bg-[#C0B7B0] text-[#585652] hover:text-[#0D0D0D] transition-colors"
+      className="p-2 rounded-lg bg-[#F0EDEE] hover:bg-[#C0B7B0] text-[#585652] hover:text-[#0D0D0D] transition-colors"
     >
       <svg
         viewBox="0 0 24 24"
