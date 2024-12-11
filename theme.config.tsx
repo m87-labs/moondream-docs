@@ -104,10 +104,10 @@ const config: DocsThemeConfig = {
 			return (
 				<div className="group relative">
 					<div className="relative">
-						<pre className={`${className || ''} px-4 whitespace-pre-wrap break-words pr-12`} {...props}>
+						<pre className={`${className || ''} px-4 break-words pr-12`} {...props}>
 							{children}
 						</pre>
-						<div className="absolute top-0 sm:right-3 right-12">
+						<div className="absolute top-0 right-2">
 							<CopyButton />
 						</div>
 					</div>
