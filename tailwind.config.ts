@@ -10,7 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'geist': ['Geist', 'sans-serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        'handwriting': ['Architects Daughter', 'cursive'],
       },
       colors: {
         background: "var(--background)",

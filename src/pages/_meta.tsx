@@ -27,29 +27,9 @@ const meta: Meta = {
     title: 'Specifications',
     description: 'Explore detailed technical specifications, memory requirements, and performance benchmarks'
   },
-  'local-deployment': {
-    title: 'Local Deployment',
-    description: 'Deploy and run Moondream locally on your own infrastructure with detailed setup instructions',
-    display: 'hidden'
-  },
   cloud: {
     title: 'Cloud',
     description: 'Access Moondream\'s capabilities through our cloud API with ready-to-use endpoints',
-    display: 'hidden'
-  },
-  'model-downloads': {
-    title: 'Model Downloads',
-    description: 'Download Moondream model variants optimized for different use cases and hardware configurations',
-    display: 'hidden'
-  },
-  advanced: {
-    title: 'Advanced',
-    description: 'Advanced topics including custom configurations, optimizations, and troubleshooting guides',
-    display: 'hidden'
-  },
-  cookbook: {
-    title: 'Cookbook',
-    description: 'Practical examples and recipes for common Moondream use cases and integrations',
     display: 'hidden'
   },
   '---': {

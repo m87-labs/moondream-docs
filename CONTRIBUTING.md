@@ -65,6 +65,7 @@ The page will still be accessible via the /contact URL, but it will not be shown
 ## 🎯 Nextra Features to Utilize
 
 ### Callouts
+
 Various types of callouts to highlight important information:
 
 ~~~mdx
@@ -82,6 +83,7 @@ Various types of callouts to highlight important information:
 ~~~
 
 ### Tabs
+
 Different installation methods:
 
 ~~~mdx
@@ -100,6 +102,7 @@ Different installation methods:
 ~~~
 
 ### Steps
+
 Guide users through complex processes:
 
 ~~~mdx
@@ -111,18 +114,23 @@ pip install moondream torch pillow
 ~~~
 
 ### Download Model
+
 The model will be downloaded automatically on first use.
 
 ### Process Images
+
 Load and process your images:
+
 ~~~bash
 from PIL import Image
 image = Image.open("image.jpg")
 ~~~
+
 </Steps>
 ~~~
 
 ### File Tree
+
 Show project structure:
 
 ~~~mdx
@@ -137,6 +145,7 @@ Show project structure:
 ~~~
 
 ### Cards
+
 Showcase different features:
 
 ~~~mdx
@@ -155,6 +164,7 @@ Showcase different features:
 ~~~
 
 ### Code Blocks
+
 With highlighting and filename:
 
 ```mdx
@@ -163,6 +173,7 @@ from moondream import vl
 model = vl()  # Initialize model
 print("Model loaded!")
 ```
+
 ```
 
 ## 🔍 Review Process
@@ -205,7 +216,8 @@ print("Model loaded!")
 
 ### Base URL
 ```
-https://api.moondream.ai
+<https://api.moondream.ai>
+
 ```
 
 ### Endpoints
@@ -238,6 +250,7 @@ class PointRequest(BaseModel):
 ### Response Models
 
 Non-Streaming:
+
 ```python
 class DetectResponse(BaseModel):
     result: List[Dict[str, float]]
@@ -253,6 +266,7 @@ class VqaResponse(BaseModel):
 ```
 
 Streaming (Same for VQA and Captioning):
+
 ```python
 # Intermediate chunks
 {
@@ -514,6 +528,7 @@ For advanced options like streaming responses, show them separately after the ba
    ~~~
 
 3. **Build Test**
+
    ~~~bash
    npm run build
    ~~~
