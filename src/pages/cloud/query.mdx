@@ -42,10 +42,10 @@ Ask questions about images and get natural language answers.
 
 First, install the package:
 
-<Tabs items={['Python', 'Node.js']}>
+<Tabs items={['Python', 'Node.js', 'Python OpenAI Compatible', 'Node.js OpenAI Compatible', 'cURL']}>
   <Tabs.Tab>
 ~~~bash
-pip install moondream
+pip install moondream pillow
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
@@ -53,138 +53,233 @@ pip install moondream
 npm install moondream
 ~~~
   </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+pip install openai pillow
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+npm install openai
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+# No installation needed
+~~~
+  </Tabs.Tab>
 </Tabs>
 
 Place an image file in your working directory, then:
 
-<Tabs items={['Python', 'Node.js']}>
+<Tabs items={['Python', 'Node.js', 'Python OpenAI Compatible', 'Node.js OpenAI Compatible', 'cURL']}>
   <Tabs.Tab>
 ~~~python
 import moondream as md
 from PIL import Image
 
+# Initialize with API key
 model = md.vl(api_key="your-api-key")
 
-# Load an image (supports PIL.Image, numpy arrays, or file paths)
-image = Image.open("./image.jpg")
+# Load an image
+image = Image.open("path/to/image.jpg")
 
-# Returns str
-answer = model.query(image, "What's in this image?")
+# Ask a question
+answer = model.query(image, "What's in this image?")["answer"]
+print("Answer:", answer)
 
-# Returns Generator[str]
-for chunk in model.query(image, "What's in this image?", stream=True):
-    print(chunk, end="")
+# Stream the response
+for chunk in model.query(image, "What's in this image?", stream=True)["answer"]:
+    print(chunk, end="", flush=True)
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
 ~~~typescript
 import { vl } from "moondream";
-import fs from 'fs';
+import fs from "fs";
 
-const model = new vl({
-  apiKey: "your-api-key" 
-});
+const model = new vl({ apiKey: "your-api-key" });
+const image = fs.readFileSync("path/to/image.jpg");
 
-// Load image (supports Buffer or Base64EncodedImage: { imageUrl: string })
-const image = fs.readFileSync('./image.jpg');  // recommended for better performance
+async function main() {
+  // Regular response
+  const answer = await model.query({
+    image,
+    question: "What's in this image?"
+  });
+  console.log(answer);
 
-// Returns Promise<string>
-const answer = await model.query(image, "What's in this image?");
+  // Streamed response
+  const stream = await model.query({
+    image,
+    question: "What's in this image?",
+    stream: true
+  });
+  for await (const chunk of stream.answer) process.stdout.write(chunk);
+}
 
-// Returns Promise<{answer: AsyncGenerator<string>}>
-const stream = await model.query(image, "What's in this image?", true);
-~~~
-  </Tabs.Tab>
-</Tabs>
-
-## Direct API Access
-
-<Tabs items={['cURL', 'Python', 'Node.js']}>
-  <Tabs.Tab>
-~~~bash
-# Convert image to base64
-IMAGE_BASE64=$(base64 -i ./image.jpg)
-
-# Make API request
-curl -X POST https://api.moondream.ai/v1/query \
-  -H "Content-Type: application/json" \
-  -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
-  -d "{
-    \"image_url\": \"data:image/jpeg;base64,$IMAGE_BASE64\",
-    \"question\": \"What's in this image?\",
-    \"stream\": false
-  }"
+main();
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
 ~~~python
-import os
-from urllib.request import Request, urlopen
-import json
+from openai import OpenAI
 import base64
 
-def get_base64_image(image_path):
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+# Load and encode image
+image_path = "path/to/image.jpg"
+with open(image_path, "rb") as image_file:
+    image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
 
-image_base64 = get_base64_image("./image.jpg")
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "question": "What's in this image?",
-    "stream": False
-}
-
-headers = {
-    "X-Moondream-Auth": os.getenv("MOONDREAM_API_KEY"),
-    "Content-Type": "application/json"
-}
-
-req = Request(
-    "https://api.moondream.ai/v1/query",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
+client = OpenAI(
+    base_url="https://api.moondream.ai/v1", 
+    api_key="your-api-key"
 )
 
-with urlopen(req) as response:
-    result = json.loads(response.read())
-    print(result["answer"])
+# For non-streaming response:
+response = client.chat.completions.create(
+    model="moondream-2B",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{image_base64}"
+                    },
+                },
+                {
+                    "type": "text",
+                    "text": "What's in this image?",
+                },
+            ],
+        }
+    ],
+    # stream=True  # Uncomment for streaming response
+)
+
+# For non-streaming response:
+print(f"ID: {response.id}")
+print(f"Created: {response.created}")
+print(f"Model: {response.model}")
+print(f"Answer: {response.choices[0].message.content}")
+print(f"Usage - Prompt tokens: {response.usage.prompt_tokens}")
+print(f"Usage - Completion tokens: {response.usage.completion_tokens}")
+print(f"Usage - Total tokens: {response.usage.total_tokens}")
+
+# For streaming response:
+"""
+# Get first chunk to access metadata
+first_chunk = next(response)
+print(f"ID: {first_chunk.id}")
+print(f"Created: {first_chunk.created}")
+print(f"Model: {first_chunk.model}")
+
+print("Answer: ", end="", flush=True)
+print(first_chunk.choices[0].delta.content or "", end="", flush=True)
+for chunk in response:
+    if chunk.choices[0].delta.content is not None:
+        print(chunk.choices[0].delta.content, end="", flush=True)
+print()
+
+# Note: Usage statistics are not available in streaming mode
+"""
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
-~~~javascript
-import fs from 'fs';
+~~~typescript
+const OpenAI = require('openai');
+const fs = require('fs');
 
-async function askQuestion() {
-  try {
-    const imageBuffer = fs.readFileSync('./image.jpg');
-    const imageBase64 = imageBuffer.toString('base64');
+// Load and encode image
+const image_path = "path/to/image.jpg";
+const image_base64 = fs.readFileSync(image_path).toString('base64');
 
-    const response = await fetch('https://api.moondream.ai/v1/query', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
-      },
-      body: JSON.stringify({
-        image_url: `data:image/jpeg;base64,${imageBase64}`,
-        question: "What's in this image?",
-        stream: false
-      })
-    });
+const client = new OpenAI({
+    baseURL: "https://api.moondream.ai/v1",
+    apiKey: "your-api-key"
+});
 
-    const data = await response.json();
-    console.log(data.answer);
-  } catch (error) {
-    console.error('Error:', error);
-  }
+async function main() {
+    try {
+        // For non-streaming response:
+        const response = await client.chat.completions.create({
+            model: "moondream-2B",
+            messages: [
+                {
+                    role: "user",
+                    content: [
+                        {
+                            type: "image_url",
+                            image_url: {
+                                url: `data:image/jpeg;base64,${image_base64}`
+                            }
+                        },
+                        {
+                            type: "text",
+                            text: "What's in this image?"
+                        }
+                    ]
+                }
+            ],
+            // stream: true  // Uncomment for streaming response
+        });
+
+        // For non-streaming response:
+        console.log(`ID: ${response.id}`);
+        console.log(`Created: ${response.created}`);
+        console.log(`Model: ${response.model}`);
+        console.log(`Answer: ${response.choices[0].message.content}`);
+        console.log(`Usage - Prompt tokens: ${response.usage.prompt_tokens}`);
+        console.log(`Usage - Completion tokens: ${response.usage.completion_tokens}`);
+        console.log(`Usage - Total tokens: ${response.usage.total_tokens}`);
+
+        // For streaming response:
+        /*
+        let isFirst = true;
+        process.stdout.write("Answer: ");
+
+        for await (const chunk of response) {
+            if (isFirst) {
+                console.log(`ID: ${chunk.id}`);
+                console.log(`Created: ${chunk.created}`);
+                console.log(`Model: ${chunk.model}`);
+                process.stdout.write("Answer: ");
+                isFirst = false;
+            }
+            
+            if (chunk.choices[0].delta.content) {
+                process.stdout.write(chunk.choices[0].delta.content);
+            }
+        }
+        console.log();
+
+        // Note: Usage statistics are not available in streaming mode
+        */
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
-askQuestion();
+main();
+~~~
+  </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+curl --location 'https://api.moondream.ai/v1/query' \
+--header 'X-Moondream-Auth: <API KEY FROM console.moondream.ai>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "image_url": "data:image/jpeg;base64,<BASE64-STRING>",
+    "question": "What is this?",
+    "stream": false
+}'
 ~~~
   </Tabs.Tab>
 </Tabs>
 
 <Callout type="info">
-  The examples above show both client library usage and direct API access patterns. The client libraries provide the simplest integration, while direct API access offers more control.
+  The client libraries provide the simplest integration for working with the Moondream API.
 </Callout>

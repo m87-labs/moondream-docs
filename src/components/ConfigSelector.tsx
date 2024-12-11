@@ -278,13 +278,13 @@ const { vl } = require('moondream');
 const fs = require('fs');
 
 async function main() {
-	// Get your API key at console.moondream.ai
-	const model = new vl({
-		apiKey: "your-api-key"
-	});
+// Get your API key at console.moondream.ai
+const model = new vl({
+	apiKey: "your-api-key"
+});
 
-	// Load an image
-	const encodedImage = Buffer.from(fs.readFileSync("./path/to/image.jpg"))  // Load and encode image`,
+// Load an image
+const encodedImage = Buffer.from(fs.readFileSync("./path/to/image.jpg"))  // Load and encode image`,
 
 				caption: `// Generate caption (length options: "short" or "normal" (default))
 const caption = await model.caption({ image: encodedImage })
@@ -358,15 +358,17 @@ encoded_image = model.encode_image(image)  # Encode image (recommended for multi
 caption = model.caption(encoded_image)["caption"]
 print("Caption:", caption)
 
-print("Streaming caption:", end=" ")
-for chunk in model.caption(encoded_image, stream=True)["caption"]: print(chunk, end="")  # Stream
+print("Streaming caption:", end=" ", flush=True)
+for chunk in model.caption(encoded_image, stream=True)["caption"]:
+    print(chunk, end="", flush=True)
 
 # 2. Query any image
 answer = model.query(encoded_image, "What do you see in this image?")["answer"]
 print("\\nAnswer:", answer)  # Single response
 
-print("Streaming answer:", end=" ")
-for chunk in model.query(encoded_image, "What's in this image?", stream=True)["answer"]: print(chunk, end="")  # Stream
+print("Streaming answer:", end=" ", flush=True)
+for chunk in model.query(encoded_image, "What's in this image?", stream=True)["answer"]:
+    print(chunk, end="", flush=True)
 
 # 3. Detect any object
 detect_result = model.detect(encoded_image, "subject")  # change 'subject' to what you want to detect

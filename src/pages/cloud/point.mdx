@@ -42,7 +42,7 @@ Locate specific objects or regions in images by getting their coordinates.
 
 First, install the package:
 
-<Tabs items={['Python', 'Node.js']}>
+<Tabs items={['Python', 'Node.js', 'cURL']}>
   <Tabs.Tab>
 ~~~bash
 pip install moondream
@@ -53,11 +53,16 @@ pip install moondream
 npm install moondream
 ~~~
   </Tabs.Tab>
+  <Tabs.Tab>
+~~~bash
+# No installation needed
+~~~
+  </Tabs.Tab>
 </Tabs>
 
 Place an image file in your working directory, then:
 
-<Tabs items={['Python', 'Node.js']}>
+<Tabs items={['Python', 'Node.js', 'cURL']}>
   <Tabs.Tab>
 ~~~python
 import moondream as md
@@ -90,93 +95,20 @@ const image = fs.readFileSync('./image.jpg');  // recommended for better perform
 const points = await model.point(image, "the red car");
 ~~~
   </Tabs.Tab>
-</Tabs>
-
-## Direct API Access
-
-<Tabs items={['cURL', 'Python', 'Node.js']}>
   <Tabs.Tab>
 ~~~bash
-# Convert image to base64
-IMAGE_BASE64=$(base64 -i ./image.jpg)
-
-# Make API request
-curl -X POST https://api.moondream.ai/v1/point \
-  -H "Content-Type: application/json" \
-  -H "X-Moondream-Auth: $MOONDREAM_API_KEY" \
-  -d "{
-    \"image_url\": \"data:image/jpeg;base64,$IMAGE_BASE64\",
-    \"object\": \"the red car\"
-  }"
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~python
-import os
-from urllib.request import Request, urlopen
-import json
-import base64
-
-def get_base64_image(image_path):
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-image_base64 = get_base64_image("./image.jpg")
-data = {
-    "image_url": f"data:image/jpeg;base64,{image_base64}",
-    "object": "the red car"
-}
-
-headers = {
-    "X-Moondream-Auth": os.getenv("MOONDREAM_API_KEY"),
-    "Content-Type": "application/json"
-}
-
-req = Request(
-    "https://api.moondream.ai/v1/point",
-    data=json.dumps(data).encode(),
-    headers=headers,
-    method="POST"
-)
-
-with urlopen(req) as response:
-    result = json.loads(response.read())
-    print(result["result"])
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~javascript
-import fs from 'fs';
-
-async function pointToObject() {
-  try {
-    const imageBuffer = fs.readFileSync('./image.jpg');
-    const imageBase64 = imageBuffer.toString('base64');
-
-    const response = await fetch('https://api.moondream.ai/v1/point', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Moondream-Auth': process.env.MOONDREAM_API_KEY
-      },
-      body: JSON.stringify({
-        image_url: `data:image/jpeg;base64,${imageBase64}`,
-        object: "the red car"
-      })
-    });
-
-    const data = await response.json();
-    console.log(data.result);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-pointToObject();
+curl --location 'https://api.moondream.ai/v1/point' \
+--header 'X-Moondream-Auth: <API KEY FROM console.moondream.ai>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "image_url": "data:image/jpeg;base64,<BASE64-STRING>",
+    "object": "<NAME OF OBJECT TO DETECT>",
+    "stream": false
+}'
 ~~~
   </Tabs.Tab>
 </Tabs>
 
 <Callout type="info">
-  The examples above show both client library usage and direct API access patterns. The client libraries provide the simplest integration, while direct API access offers more control.
+  The client libraries provide the simplest integration for working with the Moondream API.
 </Callout>
