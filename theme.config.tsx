@@ -99,6 +99,7 @@ const config: DocsThemeConfig = {
 
 	// Add code block configuration
 	components: {
+		// @ts-expect-error - Component works but has type mismatch with nextra's expectations
 		code: ({ children, className, ...props }: { children: React.ReactNode, className?: string }) => {
 			return (
 				<div className="group relative">
