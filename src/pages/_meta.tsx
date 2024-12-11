@@ -52,11 +52,6 @@ const meta: Meta = {
     description: 'Practical examples and recipes for common Moondream use cases and integrations',
     display: 'hidden'
   },
-  'old-quick-start': {
-    title: 'Quickstart',
-    description: 'Old quickstart guide for Moondream',
-    display: 'hidden'
-  },
   '---': {
     type: 'separator'
   },
