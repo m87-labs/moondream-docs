@@ -1,4 +1,4 @@
-import type { DocsThemeConfig, ComponentProps } from 'nextra-theme-docs';
+import type { DocsThemeConfig } from 'nextra-theme-docs';
 import Image from 'next/image';
 import { CopyButton } from './src/components/CopyButton';
 
@@ -99,7 +99,7 @@ const config: DocsThemeConfig = {
 
 	// Add code block configuration
 	components: {
-		code: ({ children, className, ...props }: ComponentProps['code']) => {
+		code: ({ children, className, ...props }: { children: React.ReactNode, className?: string }) => {
 			return (
 				<div className="group relative">
 					<div className="relative">
