@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Universal color overrides */
+  * {
+    --tw-text-opacity: 1;
+    --tw-bg-opacity: 1;
+    --nextra-primary-hue: 230;   /* #4363CC hue */
+    --nextra-primary-saturation: 65%;
+    
+    /* Override default black/white */
+    --black: 13 13 13;           /* #0D0D0D */
+    --white: 250 250 249;        /* #FAFAF9 */
+    --primary-blue: 67 99 204;   /* #4363CC */
+  }
+
+  /* Component-specific variables */
+  :root {
+    --background: var(--white);
+    --foreground: var(--black);
+    
+    --card: 240 237 238;  /* #F0EDEE */
+    --card-foreground: var(--black);
+    
+    --popover: var(--white);
+    --popover-foreground: var(--black);
+    
+    --primary: var(--primary-blue);
+    --primary-foreground: var(--white);
+    
+    --secondary: 159 182 235; /* #9FB6EB */
+    --secondary-foreground: var(--black);
+    
+    --muted: 192 183 176; /* #C0B7B0 */
+    --muted-foreground: 88 86 82; /* #585652 */
+    
+    --accent: 159 182 235; /* #9FB6EB */
+    --accent-foreground: var(--black);
+    
+    --border: 240 237 238; /* #F0EDEE */
+    --ring: var(--primary-blue);
+  }
+}
+
 @layer utilities {
   .font-handwriting {
     font-family: 'Architects Daughter', cursive;

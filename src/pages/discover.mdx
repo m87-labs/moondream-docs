@@ -242,73 +242,129 @@ import FeatureCard from '../components/FeatureCard'
 Moondream provides a comprehensive set of visual understanding capabilities through a single, efficient model
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <FeatureCard
-    icon="❓"
-    title="Visual Question Answering"
-    description="Ask natural questions about any image and receive detailed answers"
-    features={[
-      "Extract specific information from visual content",
-      "Analyze complex scenes and relationships",
-      "Understand context and details in images",
-      "Support interactive visual learning",
-      "Enable visual data validation"
-    ]}
-    href="/cloud/query"
-  />
+  <div className="grid grid-cols-1 h-full">
+    <FeatureCard
+      icon="❓"
+      title="Visual Question Answering"
+      description="Ask natural questions about any image and receive detailed answers"
+      features={[
+        "Extract specific information from visual content",
+        "Analyze complex scenes and relationships", 
+        "Understand context and details in images",
+        "Support interactive visual learning",
+        "Enable visual data validation"
+      ]}
+      href="/cloud/query"
+    />
+  </div>
 
-  <FeatureCard
-    icon="📝"
-    title="Image Captioning"
-    description="Generate accurate, detailed descriptions of image content"
-    features={[
-      "Create alt text for accessibility",
-      "Generate search-optimized descriptions",
-      "Create image embeddings for similarity search",
-      "Index visual content for search engines",
-      "Generate metadata tags automatically"
-    ]}
-    href="/cloud/caption"
-  />
+  <div className="grid grid-cols-1 h-full">
+    <FeatureCard
+      icon="📝"
+      title="Image Captioning"
+      description="Generate accurate, detailed descriptions of image content"
+      features={[
+        "Create alt text for accessibility",
+        "Generate search-optimized descriptions",
+        "Create image embeddings for similarity search",
+        "Index visual content for search engines",
+        "Generate metadata tags automatically"
+      ]}
+      href="/cloud/caption"
+    />
+  </div>
 
-  <FeatureCard
-    icon="🎯"
-    title="Object Detection"
-    description="Locate and identify objects within images"
-    features={[
-      "Track object positions and relationships",
-      "Analyze scene composition and layout",
-      "Enable visual inventory management",
-      "Support automated quality control",
-      "Power visual search features"
-    ]}
-    href="/cloud/detect"
-  />
+  <div className="grid grid-cols-1 h-full">
+    <FeatureCard
+      icon="🎯"
+      title="Object Detection"
+      description="Locate and identify objects within images"
+      features={[
+        "Track object positions and relationships",
+        "Analyze scene composition and layout",
+        "Enable visual inventory management",
+        "Support automated quality control",
+        "Power visual search features"
+      ]}
+      href="/cloud/detect"
+    />
+  </div>
 
-  <FeatureCard
-    icon="📍"
-    title="Visual Pointing"
-    description="Get precise coordinates for objects in images"
-    features={[
-      "Enable spatial reasoning about content",
-      "Support interactive visual applications",
-      "Power precise object localization",
-      "Create visual annotation tools",
-      "Enable region-based image analysis"
-    ]}
-    href="/cloud/point"
-  />
+  <div className="grid grid-cols-1 h-full">
+    <FeatureCard
+      icon="📍"
+      title="Visual Pointing"
+      description="Get precise coordinates for objects in images"
+      features={[
+        "Enable spatial reasoning about content",
+        "Support interactive visual applications",
+        "Power precise object localization",
+        "Create visual annotation tools",
+        "Enable region-based image analysis",
+        "Support visual data validation"
+      ]}
+      href="/cloud/point"
+    />
+  </div>
+
 </div>
+<div className="bg-[#FAFAF9] border-2 border-[#0D0D0D]/40 rounded-lg p-4 sm:p-8 my-8 hover:border-[#0D0D0D]/60 transition-all duration-200">
+  <h2 className="text-2xl font-semibold text-black mb-4 sm:mb-6">Common Use Cases</h2>
+  
+  <div className="text-[#585652] mb-4 sm:mb-6">
+    VLMs are transforming how we work with visual data across industries:
+  </div>
 
-## Common Use Cases
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🛍️</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">E-commerce</h3>
+        <p className="text-[#585652]">Product tagging, visual search, and automated catalog management</p>
+      </div>
+    </div>
 
-VLMs are transforming how we work with visual data across industries:
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">⚕️</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Healthcare</h3>
+        <p className="text-[#585652]">Medical image analysis and report generation</p>
+      </div>
+    </div>
 
-- **E-commerce**: Product tagging, visual search, and automated catalog management
-- **Healthcare**: Medical image analysis and report generation
-- **Accessibility**: Automated alt text and image descriptions
-- **Content Moderation**: Visual content understanding and filtering
-- **Education**: Interactive visual learning tools
-- **Manufacturing**: Quality control and visual inspection
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">♿</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Accessibility</h3>
+        <p className="text-[#585652]">Automated alt text and image descriptions</p>
+      </div>
+    </div>
+
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🛡️</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Content Moderation</h3>
+        <p className="text-[#585652]">Visual content understanding and filtering</p>
+      </div>
+    </div>
+
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">📚</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Education</h3>
+        <p className="text-[#585652]">Interactive visual learning tools</p>
+      </div>
+    </div>
+
+    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
+      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🏭</div>
+      <div>
+        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Manufacturing</h3>
+        <p className="text-[#585652]">Quality control and visual inspection</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <Callout type="info">
 The flexibility of VLMs means new use cases are constantly emerging as developers find innovative ways to apply the technology.
@@ -333,5 +389,5 @@ The flexibility of VLMs means new use cases are constantly emerging as developer
 </div>
 
 <Callout type="info">
-  New to machine learning? Don't worry! Moondream is designed to be accessible while providing powerful capabilities. Start with our [quickstart guide](/quick-start) to see how easy it is to integrate vision AI into your applications.
+  New to computer vision? Don't worry! Moondream is designed to be accessible while providing powerful capabilities. Start with our [quickstart guide](/quick-start) to see how easy it is to integrate vision AI into your applications.
 </Callout>

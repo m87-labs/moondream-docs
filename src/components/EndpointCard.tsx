@@ -21,7 +21,7 @@ const HighlightedText = ({ text }: { text: string }) => {
         return (
           <span key={index}>
             {keywords.includes(cleanWord.toLowerCase()) ? (
-              <span className="border-b-2 border-blue-300 border-opacity-50">
+              <span className="border-b-2 border-[#9FB6EB] border-opacity-50">
                 {cleanWord}
               </span>
             ) : (
@@ -50,18 +50,18 @@ export default function EndpointCard({ icon, title, description, href }: Endpoin
           y: -2,
           transition: { duration: 0.1 }
         }}
-        className="group flex flex-col h-full p-6 bg-white rounded-lg shadow hover:shadow-md transition-all duration-150 cursor-pointer"
+        className="group flex flex-col h-full p-6 bg-[#FAFAF9] border border-black/40 rounded-lg hover:border-black/90 transition-all duration-150 cursor-pointer"
       >
         <div className="text-2xl mb-2">
           {icon}
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-900">
+        <h3 className="text-xl font-semibold mb-2 text-[#0D0D0D]">
           {title}
         </h3>
-        <p className="text-gray-600 mb-4 flex-grow">
+        <p className="text-[#585652] mb-4 flex-grow">
           <HighlightedText text={description} />
         </p>
-        <div className="text-blue-500 group-hover:text-blue-600 inline-flex items-center">
+        <div className="text-[#4363CC] group-hover:text-[#9FB6EB] inline-flex items-center">
           <span>Learn more</span>
           <motion.span
             className="ml-1"

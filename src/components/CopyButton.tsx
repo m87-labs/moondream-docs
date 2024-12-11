@@ -9,27 +9,33 @@ interface CopyButtonProps {
 export function CopyButton({ code }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
+  const copy = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <button
-      onClick={() => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }}
-      className="opacity-0 group-hover:opacity-100 transition-opacity absolute right-4 top-0 rounded-lg border border-gray-200 dark:border-gray-700 p-2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
-      title="Copy code"
+      onClick={copy}
+      className="absolute right-2 top-2 p-2 rounded-lg bg-[#F0EDEE] hover:bg-[#C0B7B0] text-[#585652] hover:text-[#0D0D0D] transition-colors"
     >
       <svg
         viewBox="0 0 24 24"
-        className="h-4 w-4 fill-current text-gray-600 dark:text-gray-400"
+        fill="none"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="w-4 h-4"
       >
         {copied ? (
-          <path d="M20 6H10C8.89543 6 8 6.89543 8 8V20C8 21.1046 8.89543 22 10 22H20C21.1046 22 22 21.1046 22 20V8C22 6.89543 21.1046 6 20 6ZM10 20V8H20V20H10ZM4 2H14V4H4V16H2V4C2 2.89543 2.89543 2 4 2Z" />
+          <path d="M20 6L9 17L4 12" />
         ) : (
-          <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5" />
+          <>
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z" />
+          </>
         )}
       </svg>
     </button>

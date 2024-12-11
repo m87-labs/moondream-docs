@@ -447,7 +447,9 @@ main().catch(console.error);`;
 
 	return (
 		<div className='w-full mt-8 relative'>
-			<GuidanceNote show={showGuidance} />
+			<div className='py-4'>
+			<GuidanceNote show={showGuidance}  />
+			</div>
 			
 			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD] relative'>
 				<div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -486,7 +488,7 @@ main().catch(console.error);`;
 										{selectedConfig.environment !== option.value && (
 											<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
 												<span className="w-4 h-4 rounded-full bg-blue-100 group-hover:bg-blue-200 transition-colors flex items-center justify-center md:inline-flex hidden">
-													<span className="block w-1.5 h-1.5 rounded-full bg-blue-500 group-hover:animate-ping" />
+													<span className="block w-1.5 h-1.5 rounded-full bg-blue group-hover:animate-ping" />
 												</span>
 												<span className="md:inline hidden">Click to select</span>
 											</div>
@@ -560,7 +562,7 @@ main().catch(console.error);`;
 																 !isDisabled && (
 																	<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
 																		<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors flex items-center justify-center md:inline-flex hidden">
-																			<span className="block w-1.5 h-1.5 rounded-full bg-blue-400 opacity-40 group-hover:opacity-60 group-hover:animate-ping" />
+																			<span className="block w-1.5 h-1.5 rounded-full bg-blue opacity-80 group-hover:opacity-60 group-hover:animate-ping" />
 																		</span>
 																		<span className="md:inline hidden">Click to select</span>
 																	</div>

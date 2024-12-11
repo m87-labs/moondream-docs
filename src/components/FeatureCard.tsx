@@ -18,7 +18,7 @@ const HighlightedText = ({ text }: { text: string }) => {
       {words.map((word, index) => (
         <>
           {keywords.includes(word.toLowerCase()) ? (
-            <span key={index} className="bg-blue-100 text-blue-900 px-1 rounded">
+            <span key={index} className="bg-[#9FB6EB]/20 text-[#4363CC] px-1 rounded">
               {word}
             </span>
           ) : (
@@ -40,14 +40,14 @@ export default function FeatureCard({ icon, title, description, features, href }
         duration: 0.15,
         ease: "easeOut"
       }}
-      className={`flex flex-col p-6 bg-white rounded-lg shadow hover:shadow-md transition-all duration-150 ${
+      className={`flex flex-col p-6 bg-[#FAFAF9] border border-black/40 rounded-lg hover:border-black/90 transition-all duration-150 sm:min-h-[460px] md:min-h-[360px] ${
         href ? 'cursor-pointer' : ''
       }`}
     >
-      <div className="text-2xl mb-2">{icon}</div>
-      <h3 className="text-xl font-semibold mb-2 text-gray-900">{title}</h3>
-      <p className="text-gray-600 mb-4">{description}</p>
-      <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
+      <div className="text-3xl sm:text-2xl mb-2">{icon}</div>
+      <h3 className="text-2xl sm:text-xl font-semibold mb-2 text-[#0D0D0D]">{title}</h3>
+      <p className="text-lg sm:text-base text-[#585652] mb-4">{description}</p>
+      <ul className="text-base sm:text-sm text-[#585652] list-disc list-inside space-y-2 sm:space-y-1">
         {features.map((feature, index) => (
           <li key={index}>
             <HighlightedText text={feature} />
