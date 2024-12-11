@@ -102,12 +102,12 @@ const config: DocsThemeConfig = {
 		// @ts-expect-error - Component works but has type mismatch with nextra's expectations
 		code: ({ children, className, ...props }: { children: React.ReactNode, className?: string }) => {
 			return (
-				<div className="group relative">
-					<div className="relative">
-						<pre className={`${className || ''} px-4 break-words pr-12`} {...props}>
+				<div className="px-2">
+					<div className="group relative flex items-start">
+						<pre className={`${className || ''}  break-words flex-1`} {...props}>
 							{children}
 						</pre>
-						<div className="absolute top-0 right-2">
+						<div>
 							<CopyButton />
 						</div>
 					</div>
