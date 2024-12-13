@@ -36,22 +36,22 @@ const meta: Meta = {
     type: 'separator'
   },
   playground_link: {
-    title: 'Interactive Playground',
+    title: '→ Interactive Playground',
     href: 'https://moondream.ai/playground',
     newWindow: true
   },
   discord_link: {
-    title: 'Join the Moondream Community',
+    title: '→ Join the Moondream Community',
     href: 'https://discord.com/invite/tRUdpjDQfH',
     newWindow: true
   },
   github_link: {
-    title: 'GitHub',
+    title: '→ GitHub',
     href: 'https://github.com/vikhyat/moondream',
     newWindow: true
   },
   huggingface_link: {
-    title: 'HuggingFace Model',
+    title: '→ HuggingFace Model',
     href: 'https://huggingface.co/vikhyatk/moondream2',
     newWindow: true,
     display: 'hidden'

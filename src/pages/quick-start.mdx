@@ -52,43 +52,7 @@ import { Callout } from 'nextra/components';
 
 # Quick Start
 
-Get started with Moondream in minutes.
-
-## Setup Options
-
-<div className="relative">
-  <div className="bg-gradient-to-b from-blue-50/50 to-transparent pb-10 rounded-2xl mb-8">
-    <div className="flex items-start gap-8">
-      <div className="flex-1">
-        <div className="text-gray-600 mt-6">
-          Follow these steps...
-          <div className="mt-6 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
-                1
-              </div>
-              <div>Choose your deployment environment (Cloud API or Local)</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
-                2
-              </div>
-              <div>Select hardware specifications if running locally</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-500 font-medium flex items-center justify-center">
-                3
-              </div>
-              <div>Get your personalized installation instructions</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <ConfigSelector />
-</div>
+<ConfigSelector />
 
 ## Explore Our Cloud Endpoints
 
@@ -129,7 +93,7 @@ Get started with Moondream in minutes.
 ### Common Questions
 
 <FaqDropdown question='Do I need to encode images before using them with `vl`?'>
-  No, the client libraries handle encoding automatically. You can pass image file paths, PIL Images, or raw buffers directly. However, if you plan to make multiple API calls with the same image, encoding it once beforehand will improve performance by avoiding repeated encoding operations.
+  No, the client libraries handle encoding automatically. However, if you plan to make multiple API calls with the same image, encoding it once beforehand will improve performance by avoiding repeated encoding operations.
 </FaqDropdown>
 
 <FaqDropdown question='What image formats does Moondream support?'>
@@ -143,7 +107,7 @@ Get started with Moondream in minutes.
 <FaqDropdown question="How do I handle API rate limits? What are the limits for the free tier?">
   The free tier has the following limits:
   - 60 requests per minute
-  - 5,000 requests per month
+  - 5,000 requests per day
 
   For higher rate limits and production use cases, please contact us to discuss upgrade options.
 </FaqDropdown>

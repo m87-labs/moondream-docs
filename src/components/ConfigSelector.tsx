@@ -131,7 +131,7 @@ const CodeBlock: FC<{ code: string }> = ({ code }) => {
 // Update the GuidanceNote component to hide on mobile
 const GuidanceNote: FC<{show: boolean}> = ({show}) => (
 	<div className={`
-		hidden md:flex absolute -top-12 left-1/2 -translate-x-1/2 
+		hidden md:flex absolute -top-8 left-1/2 -translate-x-1/2 
 		bg-blue-50 text-blue-600 px-4 py-2 rounded-full shadow-sm
 		border border-blue-100 text-sm font-medium
 		items-center gap-2
