@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { Tabs } from 'nextra/components';
+import Link from 'next/link';
 
 interface ConfigOption {
 	id: string;
@@ -32,6 +33,10 @@ interface ScriptVariables {
 interface TooltipProps {
 	text: string;
 	children: React.ReactNode;
+}
+
+interface ConsoleCardProps {
+	show: boolean;
 }
 
 const Tooltip: FC<TooltipProps> = ({ text, children }) => (
@@ -140,6 +145,26 @@ const GuidanceNote: FC<{show: boolean}> = ({show}) => (
 	</div>
 );
 
+// Update the ConsoleCard component to use conditional rendering
+const ConsoleCard: FC<ConsoleCardProps> = ({ show }) => {
+	if (!show) return null;
+	
+	return (
+		<div className="mt-8 transition-all duration-300 ease-out transform translate-y-0">
+			<div className="rounded-xl overflow-hidden border border-blue-200 bg-gradient-to-b from-blue-50/50 to-blue-50/30">
+				<div className="px-6 py-4">
+					<div>
+						<h3 className="text-blue-900 font-medium">Get Your API Key</h3>
+						<p className="text-blue-700 text-sm mt-1">
+							Visit <Link href="https://console.moondream.ai" target="_blank" rel="noopener noreferrer" className='border-b border-blue-700'>console.moondream.ai</Link> to create an account and get your API key
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
 const getScriptVariables = (config: SelectedConfig): ScriptVariables => {
 	if (config.environment === 'cloud') {
 		return {
@@ -234,7 +259,6 @@ const ConfigSelector: FC = () => {
 				setup: `# Install dependencies in your project directory
 # pip install moondream
 
-# Get your API key at console.moondream.ai
 import moondream as md
 from PIL import Image
 
@@ -278,7 +302,6 @@ const { vl } = require('moondream');
 const fs = require('fs');
 
 async function main() {
-// Get your API key at console.moondream.ai
 const model = new vl({
 	apiKey: "your-api-key"
 });
@@ -448,7 +471,7 @@ main().catch(console.error);`;
 	return (
 		<div className='w-full mt-8 relative'>
 			<div className='py-4'>
-			<GuidanceNote show={showGuidance}  />
+				<GuidanceNote show={showGuidance} />
 			</div>
 			
 			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD] relative'>
@@ -470,10 +493,9 @@ main().catch(console.error);`;
 									className={`
 										w-1/2 px-6 py-4 cursor-pointer select-none group relative
 										${selectedConfig.environment === option.value 
-											? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg' 
+											? 'bg-[#565872] text-white font-medium shadow-lg' 
 											: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
 										transition-all duration-300 ease-out
-										hover:scale-[1.02] hover:shadow-md
 										before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
 										before:transition-opacity before:content-["↳"] before:text-[#565872]
 										before:hidden before:md:block
@@ -500,6 +522,8 @@ main().catch(console.error);`;
 					</tbody>
 				</table>
 			</div>
+
+			<ConsoleCard show={selectedConfig.environment === 'cloud'} />
 
 			{selectedConfig.environment === 'local' && (
 				<div className='mt-4 rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
@@ -543,10 +567,10 @@ main().catch(console.error);`;
 															className={`px-6 py-4 select-none border-r border-gray-200 flex-1 group relative
 																${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}
 																${selectedConfig[category as keyof SelectedConfig] === option.value
-																	? 'bg-[#565872] text-white font-medium scale-[1.02] shadow-lg'
+																	? 'bg-[#565872] text-white font-medium shadow-lg'
 																	: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
 																transition-all duration-300 ease-out
-																${!isDisabled && 'hover:scale-[1.02] hover:shadow-md'}
+																${!isDisabled && 'hover:shadow-md'}
 																before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
 																before:transition-opacity before:content-["↳"] before:text-[#565872]
 																before:hidden before:md:block
