@@ -66,7 +66,7 @@ const configOptions: ConfigOptions = {
 				GPU
 				<Tooltip text="Coming soon">
 					<span className="bg-yellow-100 text-yellow-800 text-xs px-1.5 py-0.5 rounded">
-						WIP
+						Coming Soon
 					</span>
 				</Tooltip>
 			</div>
@@ -156,7 +156,7 @@ const ConsoleCard: FC<ConsoleCardProps> = ({ show }) => {
 					<div>
 						<h3 className="text-blue-900 font-medium">Get Your API Key</h3>
 						<p className="text-blue-700 text-sm mt-1">
-							Visit <Link href="https://console.moondream.ai" target="_blank" rel="noopener noreferrer" className='border-b border-blue-700'>console.moondream.ai</Link> to create an account and get your API key
+							Visit <Link href="https://console.moondream.ai" target="_blank" rel="noopener noreferrer" className='border-b border-blue-700'>console.moondream.ai</Link> to create an account and get your API key.
 						</p>
 					</div>
 				</div>
