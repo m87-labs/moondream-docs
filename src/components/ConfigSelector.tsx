@@ -367,8 +367,8 @@ ${vars.libraryInstall.includes('gpu') ? `
 
 # ===== STEP 2: Download Model =====
 # Download model (${vars.fileSize} download size, ${vars.memoryUsage} memory usage)
-# Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
-# curl -O ${vars.modelUrl}
+# Use: wget (Linux and Mac) or curl.exe -O (Windows)
+# wget ${vars.modelUrl}
 
 import moondream as md
 from PIL import Image
@@ -411,8 +411,8 @@ ${vars.libraryInstall.includes('gpu') ? `
 
 // ===== STEP 2: Download Model =====
 // Download model - run once then comment out (${vars.fileSize})
-// Use: curl -O (macOS) or wget (Linux) or curl.exe -O (Windows)
-// curl -O ${vars.modelUrl}
+// Use: wget (Linux and Mac) or curl.exe -O (Windows)
+// wget ${vars.modelUrl}
 
 // ===== STEP 3: Start Local Server =====
 // moondream serve --model ${vars.modelPath}  # Run in separate terminal
