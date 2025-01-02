@@ -1,6 +1,9 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Tabs } from 'nextra/components';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
+import type { BundledLanguage } from 'shiki'
+import { codeToHtml } from 'shiki'
 
 interface ConfigOption {
 	id: string;
@@ -85,6 +88,22 @@ const configOptions: ConfigOptions = {
 // Update the CodeBlock component to use the new syntax highlighting while preserving the Node.js code
 const CodeBlock: FC<{ code: string }> = ({ code }) => {
 	const [copied, setCopied] = useState(false);
+	const [highlighted, setHighlighted] = useState('');
+	const { resolvedTheme } = useTheme();
+	const isDark = resolvedTheme === 'dark';
+
+	useEffect(() => {
+		async function highlight() {
+			const lang: BundledLanguage = code.includes('pip install') ? 'python' : 'javascript';
+			const html = await codeToHtml(code, {
+				lang,
+				theme: isDark ? 'github-dark' : 'github-light'
+			});
+			setHighlighted(html);
+		}
+
+		highlight();
+	}, [code, isDark]);
 
 	const copyToClipboard = async () => {
 		await navigator.clipboard.writeText(code);
@@ -92,34 +111,20 @@ const CodeBlock: FC<{ code: string }> = ({ code }) => {
 		setTimeout(() => setCopied(false), 2000);
 	};
 
-	// First escape HTML to prevent XSS and formatting issues
-	const escaped = code
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;');
-
-	const highlighted = escaped
-		// Strings - handle both single and double quotes
-		.replace(/(['"])(.*?)\1/g, '<span style="color: #032f62">$1$2$1</span>')
-		// Keywords
-		.replace(/\b(import|from|const|let|var|function|async|await|try|catch|for|if|else|return)\b/g, 
-			'<span style="color: #d73a49">$1</span>')
-		// Constants
-		.replace(/\b(true|false|null|undefined)\b/g, 
-			'<span style="color: #005cc5">$1</span>')
-		// Function calls - avoid matching already colored text
-		.replace(/(?<!<[^>]*)\b(\w+)(?=\()/g, '<span style="color: #6f42c1">$1</span>');
-
 	return (
-		<div className="relative rounded-lg bg-[#f6f8fa] border border-[#d0d7de] p-4 overflow-x-auto">
+		<div className={`relative rounded-lg ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-[#f6f8fa] border-[#d0d7de]'} border p-4 overflow-x-auto`}>
 			<button
 				onClick={copyToClipboard}
-				className="absolute right-2 top-2 rounded-md bg-[#f3f4f6] hover:bg-[#e5e7eb] border border-[#d0d7de] px-2 py-1 text-sm text-[#24292f]"
+				className={`absolute right-2 top-2 rounded-md ${
+					isDark 
+						? 'bg-gray-700 hover:bg-gray-600 border-gray-600 text-gray-200' 
+						: 'bg-[#f3f4f6] hover:bg-[#e5e7eb] border-[#d0d7de] text-[#24292f]'
+				} border px-2 py-1 text-sm`}
 			>
 				{copied ? "Copied!" : "Copy"}
 			</button>
-			<pre 
-				className="font-mono text-sm text-[#24292f]"
+			<div 
+				className={`font-mono text-sm ${isDark ? 'text-gray-200' : 'text-[#24292f]'}`}
 				dangerouslySetInnerHTML={{ 
 					__html: highlighted 
 				}}
@@ -230,6 +235,17 @@ const ConfigSelector: FC = () => {
 		moondreamModel: 'none',
 		quantization: 'none',
 	});
+
+	const { resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) return null;
+
+	const isDark = resolvedTheme === 'dark';
 
 	const handleSelection = (category: keyof SelectedConfig, value: string) => {
 		setShowGuidance(false);
@@ -474,14 +490,14 @@ main().catch(console.error);`;
 				<GuidanceNote show={showGuidance} />
 			</div>
 			
-			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD] relative'>
+			<div className={`rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'} relative`}>
 				<div className="absolute inset-0 bg-grid-pattern opacity-5" />
 				<table className='w-full border-collapse relative'>
-					<thead className='bg-[#F7F7F8]'>
+					<thead className={`${isDark ? 'bg-gray-700' : 'bg-[#F7F7F8]'}`}>
 						<tr>
-							<th colSpan={2} className='px-6 py-4 text-left font-medium text-[#565872]'>
+							<th colSpan={2} className={`px-6 py-4 text-left font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'}`}>
 								Environment
-								<div className="text-xs font-normal text-gray-500 mt-1">Choose your deployment method</div>
+								<div className={`text-xs font-normal ${isDark ? 'text-gray-400' : 'text-gray-500'} mt-1`}>Choose your deployment method</div>
 							</th>
 						</tr>
 					</thead>
@@ -493,8 +509,8 @@ main().catch(console.error);`;
 									className={`
 										w-1/2 px-6 py-4 cursor-pointer select-none group relative
 										${selectedConfig.environment === option.value 
-											? 'bg-[#565872] text-white font-medium shadow-lg' 
-											: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+													? 'bg-[#565872] text-white font-medium shadow-lg' 
+													: `${isDark ? 'hover:bg-gray-600 text-gray-300' : 'hover:bg-[#F7F7F8] text-[#565872]'} hover:text-[#454654]`}
 										transition-all duration-300 ease-out
 										before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
 										before:transition-opacity before:content-["↳"] before:text-[#565872]
@@ -509,7 +525,7 @@ main().catch(console.error);`;
 										{option.label}
 										{selectedConfig.environment !== option.value && (
 											<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
-												<span className="w-4 h-4 rounded-full bg-blue-100 group-hover:bg-blue-200 transition-colors flex items-center justify-center md:inline-flex hidden">
+												<span className="w-4 h-4 rounded-full bg-blue-100 group-hover:bg-blue-200 transition-colors hidden md:flex items-center justify-center">
 													<span className="block w-1.5 h-1.5 rounded-full bg-blue group-hover:animate-ping" />
 												</span>
 												<span className="md:inline hidden">Click to select</span>
@@ -526,15 +542,15 @@ main().catch(console.error);`;
 			<ConsoleCard show={selectedConfig.environment === 'cloud'} />
 
 			{selectedConfig.environment === 'local' && (
-				<div className='mt-4 rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
-					<div className='bg-[#F7F7F8] px-6 py-4 text-left font-medium text-[#565872] md:hidden'>
+				<div className={`mt-4 rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'}`}>
+					<div className={`px-6 py-4 text-left font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'} md:hidden`}>
 						Modifiers
 					</div>
 					<table className='w-full border-collapse'>
-						<thead className='bg-[#F7F7F8] hidden md:table-header-group'>
+						<thead className={`${isDark ? 'bg-gray-700' : 'bg-[#F7F7F8]'} hidden md:table-header-group`}>
 							<tr className='border-b border-gray-200'>
-								<th className='px-6 py-4 text-left font-medium text-[#565872] w-1/4 border-r border-gray-200'>Configuration</th>
-								<th className='px-6 py-4 text-left font-medium text-[#565872]' colSpan={3}>
+								<th className={`px-6 py-4 text-left font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'} w-1/4 border-r border-gray-200`}>Configuration</th>
+								<th className={`px-6 py-4 text-left font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'}`} colSpan={3}>
 									Options
 								</th>
 							</tr>
@@ -551,7 +567,7 @@ main().catch(console.error);`;
 
 									return (
 										<tr key={category} className={`flex flex-col md:table-row transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-											<td className='px-6 py-4 text-gray-900 font-medium bg-[#F7F7F8] md:bg-transparent border-r border-gray-200'>
+											<td className={`px-6 py-4 ${isDark ? 'text-gray-300' : 'text-gray-900'} font-medium ${isDark ? 'bg-gray-700' : 'bg-[#F7F7F8]'} md:bg-transparent border-r border-gray-200`}>
 												{category === 'processor' ? 'Processor' :
 												 category === 'moondreamModel' ? 'Moondream Model' :
 												 category === 'quantization' ? 'Quantization' :
@@ -567,8 +583,8 @@ main().catch(console.error);`;
 															className={`px-6 py-4 select-none border-r border-gray-200 flex-1 group relative
 																${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}
 																${selectedConfig[category as keyof SelectedConfig] === option.value
-																	? 'bg-[#565872] text-white font-medium shadow-lg'
-																	: 'hover:bg-[#F7F7F8] text-[#565872] hover:text-[#454654]'}
+																		? 'bg-[#565872] text-white font-medium shadow-lg'
+																		: `${isDark ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-[#F7F7F8] text-[#565872]'} hover:text-[#454654]`}
 																transition-all duration-300 ease-out
 																${!isDisabled && 'hover:shadow-md'}
 																before:absolute before:left-4 before:opacity-0 hover:before:opacity-100 
@@ -585,7 +601,7 @@ main().catch(console.error);`;
 																 selectedConfig[category as keyof SelectedConfig] === null && 
 																 !isDisabled && (
 																	<div className='text-xs text-gray-400 mt-1 group-hover:text-[#565872] flex items-center gap-1'>
-																		<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors flex items-center justify-center md:inline-flex hidden">
+																		<span className="w-4 h-4 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors hidden md:flex items-center justify-center">
 																			<span className="block w-1.5 h-1.5 rounded-full bg-blue opacity-80 group-hover:opacity-60 group-hover:animate-ping" />
 																		</span>
 																		<span className="md:inline hidden">Click to select</span>
@@ -605,8 +621,8 @@ main().catch(console.error);`;
 			)}
 
 			<div className='mt-8'>
-				<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'>
-					<div className='bg-[#F7F7F8] px-6 py-3 text-sm font-medium text-[#565872] border-b border-gray-200'>Installation Script</div>
+				<div className={`rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'}`}>
+					<div className={`px-6 py-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'} border-b border-gray-200`}>Installation Script</div>
 					<div className='p-6 overflow-x-auto'>{generateScript()}</div>
 				</div>
 			</div>

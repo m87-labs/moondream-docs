@@ -1,4 +1,5 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import cn from 'classnames'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -48,6 +49,16 @@ function truncateText(text: string, maxLength: number = 500): string {
 
 export function NotePad({ children, readingTime, preview }: NotePadProps) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <motion.div 
@@ -57,10 +68,17 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
         duration: 0.15,
         ease: "easeOut"
       }}
-      className="my-4 sm:my-8 p-4 sm:p-8 bg-white rounded-xl border border-gray-200 relative hover:border-gray-300 transition-colors"
+      className={cn(
+        "my-4 sm:my-8 p-4 sm:p-8 rounded-xl relative transition-colors",
+        isDark ? "bg-gray-900 border-gray-800 hover:border-gray-700" : "bg-white border-gray-200 hover:border-gray-300",
+        "border"
+      )}
     >
       {readingTime && (
-        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5 text-sm text-gray-500 font-geist">
+        <div className={cn(
+          "absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1.5 text-sm font-geist",
+          isDark ? "text-gray-400" : "text-gray-500"
+        )}>
           <span className="hidden sm:inline font-mono">⌚</span>
           <span className="font-mono">{readingTime}</span>
         </div>
@@ -69,7 +87,8 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
         <div 
           className={cn(
             "prose prose-sm sm:prose max-w-none notepad-content font-geist tracking-wide",
-            !isExpanded && "max-h-[250px] overflow-hidden py-4"
+            !isExpanded && "max-h-[250px] overflow-hidden py-4",
+            isDark && "prose-invert"
           )}
         >
           {isExpanded ? children : (
@@ -88,16 +107,22 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
               transition={{ duration: 0.15 }}
               className="absolute bottom-0 left-0 right-0"
             >
-              <div className="h-24 bg-gradient-to-t from-white to-transparent" />
+              <div className={cn(
+                "h-24 bg-gradient-to-t",
+                isDark ? "from-gray-900" : "from-white",
+                "to-transparent"
+              )} />
               <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-2">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm bg-white 
-                    text-gray-600 hover:text-gray-900 
-                    rounded-full shadow-sm hover:shadow-md transition-all border border-gray-200
-                    hover:border-gray-300"
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 text-sm rounded-full shadow-sm hover:shadow-md transition-all border",
+                    isDark ? 
+                      "bg-gray-800 text-gray-300 hover:text-white border-gray-700 hover:border-gray-600" :
+                      "bg-white text-gray-600 hover:text-gray-900 border-gray-200 hover:border-gray-300"
+                  )}
                 >
                   <span>Read more</span>
                   <svg
@@ -132,10 +157,12 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setIsExpanded(false)}
-                className="flex items-center gap-2 px-4 py-2 text-sm bg-white 
-                  text-gray-600 hover:text-gray-900 
-                  rounded-full shadow-sm hover:shadow-md transition-all border border-gray-200
-                  hover:border-gray-300"
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 text-sm rounded-full shadow-sm hover:shadow-md transition-all border",
+                  isDark ? 
+                    "bg-gray-800 text-gray-300 hover:text-white border-gray-700 hover:border-gray-600" :
+                    "bg-white text-gray-600 hover:text-gray-900 border-gray-200 hover:border-gray-300"
+                )}
               >
                 <span>Show less</span>
                 <svg
@@ -198,16 +225,28 @@ NotePad.TimelineItem = function TimelineItem({ era, title, children }: TimelineI
 }
 
 NotePad.Note = function Note({ type = 'info', children }: NoteProps) {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
   return (
     <div className={cn(
       'p-4 rounded-lg my-4',
       {
-        'bg-blue-50 border border-blue-200': type === 'info',
-        'bg-amber-50 border border-amber-200': type === 'warning',
-        'bg-gray-50 border border-gray-200': type === 'highlight'
-      }
+        'bg-blue-900/20 border-blue-800/30': type === 'info' && isDark,
+        'bg-amber-900/20 border-amber-800/30': type === 'warning' && isDark,
+        'bg-gray-800/50 border-gray-700': type === 'highlight' && isDark,
+        'bg-blue-50 border-blue-200': type === 'info' && !isDark,
+        'bg-amber-50 border-amber-200': type === 'warning' && !isDark,
+        'bg-gray-50 border-gray-200': type === 'highlight' && !isDark
+      },
+      'border'
     )}>
-      <div className="text-gray-700 font-geist tracking-wide">{children}</div>
+      <div className={cn(
+        "font-geist tracking-wide",
+        isDark ? "text-gray-300" : "text-gray-700"
+      )}>
+        {children}
+      </div>
     </div>
   )
 }

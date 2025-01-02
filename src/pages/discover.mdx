@@ -1,38 +1,54 @@
-import Head from 'next/head'
-import { NotePad } from '../components/NotePad'
-import { Tabs } from 'nextra/components'
-import { Callout } from 'nextra/components'
-import { Cards, Card } from 'nextra/components'
-import EndpointCard from '../components/EndpointCard'
-import FeatureCard from '../components/FeatureCard'
+import Head from "next/head";
+import { NotePad } from "../components/NotePad";
+import { Tabs } from "nextra/components";
+import { Callout } from "nextra/components";
+import { Cards, Card } from "nextra/components";
+import EndpointCard from "../components/EndpointCard";
+import FeatureCard from "../components/FeatureCard";
+import CommonUseCases from "../components/CommonUseCases";
 
 <Head>
   <title>Discover - Moondream Documentation</title>
-  <meta name="description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
+  <meta
+    name="description"
+    content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project."
+  />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+
   {/* Open Graph */}
-  <meta property="og:title" content="Discover Moondream - Vision-Language Model Capabilities & Use Cases" />
-  <meta property="og:description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
+  <meta
+    property="og:title"
+    content="Discover Moondream - Vision-Language Model Capabilities & Use Cases"
+  />
+  <meta
+    property="og:description"
+    content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project."
+  />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://docs.moondream.ai/discover" />
-  
-  
+
   {/* Twitter */}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Discover Moondream - Vision-Language Model Capabilities & Use Cases" />
-  <meta name="twitter:description" content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project." />
-  
-  
+  <meta
+    name="twitter:title"
+    content="Discover Moondream - Vision-Language Model Capabilities & Use Cases"
+  />
+  <meta
+    name="twitter:description"
+    content="Learn about Moondream's vision-language capabilities including image captioning, visual Q&A, object detection, and visual pointing. Explore use cases and find out if Moondream is right for your project."
+  />
+
   {/* Schema.org for Google */}
   <script type="application/ld+json">
     {JSON.stringify({
       "@context": "https://schema.org",
       "@type": "TechArticle",
-      "headline": "Discover Moondream Vision-Language Model Capabilities",
-      "description": "Comprehensive guide to Moondream's vision AI capabilities and use cases",
-      "articleSection": "Technical Documentation",
-      "keywords": "vision AI, image understanding, machine learning, computer vision, image analysis"
+      headline: "Discover Moondream Vision-Language Model Capabilities",
+      description:
+        "Comprehensive guide to Moondream's vision AI capabilities and use cases",
+      articleSection: "Technical Documentation",
+      keywords:
+        "vision AI, image understanding, machine learning, computer vision, image analysis",
     })}
   </script>
 </Head>
@@ -40,6 +56,7 @@ import FeatureCard from '../components/FeatureCard'
 # Understanding Vision Language Models (VLMs)
 
 ## What are VLMs?
+
 <NotePad 
   readingTime="~5 min read"
   preview="Vision Language Models (VLMs) are multimodal AI systems that combine large language models with vision encoders, enabling them to understand and reason about both text and images through natural language interaction..."
@@ -48,11 +65,11 @@ import FeatureCard from '../components/FeatureCard'
     Vision Language Models (VLMs) are multimodal AI systems that combine large language models with vision encoders, 
     enabling them to <NotePad.Highlight>understand and reason about both text and images through natural language interaction</NotePad.Highlight>.
 
-    The key breakthrough is that VLMs can process both text and image inputs, similar to having a conversation about what you see. 
+    The key breakthrough is that VLMs can process both text and image inputs, similar to having a conversation about what you see.
     This opens up entirely new possibilities for building visual AI applications.
 
     <NotePad.SideNote>
-      Moondream builds on these foundations using advanced architectures like SigLIP and Phi-1.5, combined with 
+      Moondream builds on these foundations using advanced architectures like SigLIP and Phi-1.5, combined with
       proprietary innovations to deliver state-of-the-art performance in a compact model.
     </NotePad.SideNote>
 
@@ -63,6 +80,7 @@ import FeatureCard from '../components/FeatureCard'
       <NotePad.Bullet>Generalize to nearly any vision task</NotePad.Bullet>
       <NotePad.Bullet>Generate detailed text responses about visual content</NotePad.Bullet>
     </NotePad.BulletList>
+
   </NotePad.Section>
 
   <NotePad.Section title="How Do VLMs Work?">
@@ -80,9 +98,10 @@ import FeatureCard from '../components/FeatureCard'
     </NotePad.BulletList>
 
     <NotePad.SideNote>
-      Through vertical integration and proprietary innovations in each component, Moondream achieves 7B-level performance 
+      Through vertical integration and proprietary innovations in each component, Moondream achieves 7B-level performance
       with just 0.5B-2B parameters, enabling deployment on resource-constrained devices like Raspberry Pis and old phones.
     </NotePad.SideNote>
+
   </NotePad.Section>
 
   <NotePad.Section title="The Journey">
@@ -141,6 +160,7 @@ import FeatureCard from '../components/FeatureCard'
         </NotePad.SideNote>
       </NotePad.TimelineItem>
     </NotePad.Timeline>
+
   </NotePad.Section>
 
   <NotePad.Section title="Current Challenges">
@@ -152,9 +172,10 @@ import FeatureCard from '../components/FeatureCard'
     </NotePad.BulletList>
 
     <NotePad.Note type="info">
-      Moondream addresses these challenges through innovative techniques like efficient tiling, 
+      Moondream addresses these challenges through innovative techniques like efficient tiling,
       optimized spatial reasoning, and advanced context handling - all while maintaining a small footprint.
     </NotePad.Note>
+
   </NotePad.Section>
 
   <NotePad.Section title="The Breakthrough">
@@ -167,28 +188,30 @@ import FeatureCard from '../components/FeatureCard'
       Moondream makes this technology even more accessible by providing tiny, efficient models that run anywhere,
       from cloud servers to edge devices.
     </NotePad.Note>
+
   </NotePad.Section>
 
-  <NotePad.Section title="Why This Matters">
-    <NotePad.Columns>
-      <NotePad.Column title="Traditional CV Limitations">
-        <NotePad.BulletList>
-          <NotePad.Bullet>Fixed set of classes</NotePad.Bullet>
-          <NotePad.Bullet>Task-specific training required</NotePad.Bullet>
-          <NotePad.Bullet>Expensive retraining process</NotePad.Bullet>
-          <NotePad.Bullet>No natural language understanding</NotePad.Bullet>
-        </NotePad.BulletList>
-      </NotePad.Column>
-      <NotePad.Column title="VLM Advantages">
-        <NotePad.BulletList>
-          <NotePad.Bullet>Flexible, task-agnostic approach</NotePad.Bullet>
-          <NotePad.Bullet>Natural language interaction</NotePad.Bullet>
-          <NotePad.Bullet>Zero-shot capabilities</NotePad.Bullet>
-          <NotePad.Bullet>Multimodal understanding</NotePad.Bullet>
-        </NotePad.BulletList>
-      </NotePad.Column>
-    </NotePad.Columns>
-  </NotePad.Section>
+{" "}
+<NotePad.Section title="Why This Matters">
+  <NotePad.Columns>
+    <NotePad.Column title="Traditional CV Limitations">
+      <NotePad.BulletList>
+        <NotePad.Bullet>Fixed set of classes</NotePad.Bullet>
+        <NotePad.Bullet>Task-specific training required</NotePad.Bullet>
+        <NotePad.Bullet>Expensive retraining process</NotePad.Bullet>
+        <NotePad.Bullet>No natural language understanding</NotePad.Bullet>
+      </NotePad.BulletList>
+    </NotePad.Column>
+    <NotePad.Column title="VLM Advantages">
+      <NotePad.BulletList>
+        <NotePad.Bullet>Flexible, task-agnostic approach</NotePad.Bullet>
+        <NotePad.Bullet>Natural language interaction</NotePad.Bullet>
+        <NotePad.Bullet>Zero-shot capabilities</NotePad.Bullet>
+        <NotePad.Bullet>Multimodal understanding</NotePad.Bullet>
+      </NotePad.BulletList>
+    </NotePad.Column>
+  </NotePad.Columns>
+</NotePad.Section>
 
   <NotePad.Section title="Small Models, Big Impact">
     <NotePad.Note type="info">
@@ -214,6 +237,7 @@ import FeatureCard from '../components/FeatureCard'
         <NotePad.Bullet>Limited deployment flexibility</NotePad.Bullet>
       </NotePad.BulletList>
     </NotePad.Note>
+
   </NotePad.Section>
 
     <NotePad.Columns>
@@ -234,6 +258,7 @@ import FeatureCard from '../components/FeatureCard'
         </NotePad.BulletList>
       </NotePad.Column>
     </NotePad.Columns>
+
   </NotePad.Section>
 </NotePad>
 
@@ -258,116 +283,65 @@ Moondream provides a comprehensive set of visual understanding capabilities thro
     />
   </div>
 
-  <div className="grid grid-cols-1 h-full">
-    <FeatureCard
-      icon="📝"
-      title="Image Captioning"
-      description="Generate accurate, detailed descriptions of image content"
-      features={[
-        "Create alt text for accessibility",
-        "Generate search-optimized descriptions",
-        "Create image embeddings for similarity search",
-        "Index visual content for search engines",
-        "Generate metadata tags automatically"
-      ]}
-      href="/cloud/caption"
-    />
-  </div>
+{" "}
+<div className="grid grid-cols-1 h-full">
+  <FeatureCard
+    icon="📝"
+    title="Image Captioning"
+    description="Generate accurate, detailed descriptions of image content"
+    features={[
+      "Create alt text for accessibility",
+      "Generate search-optimized descriptions",
+      "Create image embeddings for similarity search",
+      "Index visual content for search engines",
+      "Generate metadata tags automatically",
+    ]}
+    href="/cloud/caption"
+  />
+</div>
 
-  <div className="grid grid-cols-1 h-full">
-    <FeatureCard
-      icon="🎯"
-      title="Object Detection"
-      description="Locate and identify objects within images"
-      features={[
-        "Track object positions and relationships",
-        "Analyze scene composition and layout",
-        "Enable visual inventory management",
-        "Support automated quality control",
-        "Power visual search features"
-      ]}
-      href="/cloud/detect"
-    />
-  </div>
+{" "}
+<div className="grid grid-cols-1 h-full">
+  <FeatureCard
+    icon="🎯"
+    title="Object Detection"
+    description="Locate and identify objects within images"
+    features={[
+      "Track object positions and relationships",
+      "Analyze scene composition and layout",
+      "Enable visual inventory management",
+      "Support automated quality control",
+      "Power visual search features",
+    ]}
+    href="/cloud/detect"
+  />
+</div>
 
-  <div className="grid grid-cols-1 h-full">
-    <FeatureCard
-      icon="📍"
-      title="Visual Pointing"
-      description="Get precise coordinates for objects in images"
-      features={[
-        "Enable spatial reasoning about content",
-        "Support interactive visual applications",
-        "Power precise object localization",
-        "Create visual annotation tools",
-        "Enable region-based image analysis",
-        "Support visual data validation"
-      ]}
-      href="/cloud/point"
-    />
-  </div>
+{" "}
+<div className="grid grid-cols-1 h-full">
+  <FeatureCard
+    icon="📍"
+    title="Visual Pointing"
+    description="Get precise coordinates for objects in images"
+    features={[
+      "Enable spatial reasoning about content",
+      "Support interactive visual applications",
+      "Power precise object localization",
+      "Create visual annotation tools",
+      "Enable region-based image analysis",
+      "Support visual data validation",
+    ]}
+    href="/cloud/point"
+  />
+</div>
 
 </div>
-<div className="bg-[#FAFAF9] border-2 border-[#0D0D0D]/40 rounded-lg p-4 sm:p-8 my-8 hover:border-[#0D0D0D]/60 transition-all duration-200">
-  <h2 className="text-2xl font-semibold text-black mb-4 sm:mb-6">Common Use Cases</h2>
-  
-  <div className="text-[#585652] mb-4 sm:mb-6">
-    VLMs are transforming how we work with visual data across industries:
-  </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🛍️</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">E-commerce</h3>
-        <p className="text-[#585652]">Product tagging, visual search, and automated catalog management</p>
-      </div>
-    </div>
-
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">⚕️</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Healthcare</h3>
-        <p className="text-[#585652]">Medical image analysis and report generation</p>
-      </div>
-    </div>
-
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">♿</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Accessibility</h3>
-        <p className="text-[#585652]">Automated alt text and image descriptions</p>
-      </div>
-    </div>
-
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🛡️</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Content Moderation</h3>
-        <p className="text-[#585652]">Visual content understanding and filtering</p>
-      </div>
-    </div>
-
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">📚</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Education</h3>
-        <p className="text-[#585652]">Interactive visual learning tools</p>
-      </div>
-    </div>
-
-    <div className="group flex items-start space-x-4 p-3 rounded-lg hover:bg-white/50 transition-colors duration-200 cursor-pointer">
-      <div className="text-2xl group-hover:scale-110 transition-transform duration-200">🏭</div>
-      <div>
-        <h3 className="font-semibold text-black border-b-2 border-[#4363CC]/60 inline-block mb-1">Manufacturing</h3>
-        <p className="text-[#585652]">Quality control and visual inspection</p>
-      </div>
-    </div>
-  </div>
-</div>
+<CommonUseCases />
 
 <Callout type="info">
-The flexibility of VLMs means new use cases are constantly emerging as developers find innovative ways to apply the technology.
+  The flexibility of VLMs means new use cases are constantly emerging as
+  developers find innovative ways to apply the technology.
 </Callout>
 
 ## Getting Started
@@ -389,5 +363,8 @@ The flexibility of VLMs means new use cases are constantly emerging as developer
 </div>
 
 <Callout type="info">
-  New to computer vision? Don't worry! Moondream is designed to be accessible while providing powerful capabilities. Start with our [quickstart guide](/quick-start) to see how easy it is to integrate vision AI into your applications.
+  New to computer vision? Don't worry! Moondream is designed to be accessible
+  while providing powerful capabilities. Start with our [quickstart
+  guide](/quick-start) to see how easy it is to integrate vision AI into your
+  applications.
 </Callout>

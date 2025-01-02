@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 interface EndpointCardProps {
   icon: string;
@@ -37,6 +39,19 @@ const HighlightedText = ({ text }: { text: string }) => {
 };
 
 export default function EndpointCard({ icon, title, description, href }: EndpointCardProps) {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent hydration mismatch
+  }
+
+  const isDark = resolvedTheme === 'dark';
+
   return (
     <Link href={href} className="h-full">
       <motion.div
@@ -50,15 +65,23 @@ export default function EndpointCard({ icon, title, description, href }: Endpoin
           y: -2,
           transition: { duration: 0.1 }
         }}
-        className="group flex flex-col h-full p-6 bg-[#FAFAF9] border border-black/40 rounded-lg hover:border-black/90 transition-all duration-150 cursor-pointer"
+        className={`group flex flex-col h-full p-6 ${
+          isDark 
+            ? 'bg-[#1A1A1A] border-white/20 hover:border-white/60' 
+            : 'bg-[#FAFAF9] border-black/40 hover:border-black/90'
+        } border rounded-lg transition-all duration-150 cursor-pointer`}
       >
         <div className="text-2xl mb-2">
           {icon}
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-[#0D0D0D]">
+        <h3 className={`text-xl font-semibold mb-2 ${
+          isDark ? 'text-white' : 'text-[#0D0D0D]'
+        }`}>
           {title}
         </h3>
-        <p className="text-[#585652] mb-4 flex-grow">
+        <p className={`mb-4 flex-grow ${
+          isDark ? 'text-gray-300' : 'text-[#585652]'
+        }`}>
           <HighlightedText text={description} />
         </p>
         <div className="text-[#4363CC] group-hover:text-[#9FB6EB] inline-flex items-center">
@@ -76,4 +99,4 @@ export default function EndpointCard({ icon, title, description, href }: Endpoin
       </motion.div>
     </Link>
   );
-} 
+}
