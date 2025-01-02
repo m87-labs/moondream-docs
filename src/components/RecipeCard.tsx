@@ -27,13 +27,13 @@ export default function RecipeCard({ title, description, tags, demoUrl, sourceUr
     <div className={cn(
       "w-full p-6 border rounded-lg transition-all duration-150",
       isDark 
-        ? "bg-gray-900 border-white/20 hover:border-white/40" 
+        ? "bg-[#1A1A1A] border-white/20 hover:border-white/40" 
         : "bg-[#FAFAF9] border-black/40 hover:border-black/90"
     )}>
       <div className="flex flex-col h-full">
         <h2 className={cn(
           "text-2xl font-semibold mb-4",
-          isDark ? "text-white" : "text-[#0D0D0D]"
+          isDark ? "text-gray-100" : "text-[#0D0D0D]"
         )}>{title}</h2>
         <p className={cn(
           "mb-6",

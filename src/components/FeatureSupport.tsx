@@ -73,8 +73,8 @@ export default function FeatureSupport() {
   return (
     <div className="mt-8">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className={isDark ? 'bg-gray-800' : 'bg-gray-50'}>
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-white/20">
+          <thead className={isDark ? 'bg-[#1A1A1A]' : 'bg-gray-50'}>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Feature</th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
@@ -82,9 +82,9 @@ export default function FeatureSupport() {
               <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">0.5B Model</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y divide-gray-200 dark:divide-white/20">
             {features.map((feature) => (
-              <tr key={feature.name} className={isDark ? 'bg-gray-900' : 'bg-white'}>
+              <tr key={feature.name} className={isDark ? 'bg-[#1A1A1A]' : 'bg-white'}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{feature.name}</td>
                 <td className="px-6 py-4 text-sm">{feature.description}</td>
                 <td className="px-6 py-4 text-center text-sm">{getStatusIcon(feature.modelSupport['2b'])}</td>

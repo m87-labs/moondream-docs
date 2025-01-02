@@ -55,8 +55,8 @@ export default function CommonUseCases() {
   return (
     <div className={`rounded-lg p-4 sm:p-8 my-8 border-2 transition-all duration-200 ${
       isDark 
-        ? 'bg-gray-900 border-white/20 hover:border-white/40'
-        : 'bg-[#FAFAF9] border-[#0D0D0D]/40 hover:border-[#0D0D0D]/60'
+        ? 'bg-[#1A1A1A] border-white/20 hover:border-white/40'
+        : 'bg-[#FAFAF9] border-black/40 hover:border-black/90'
     }`}>
       <h2 className={`text-2xl font-semibold mb-4 sm:mb-6 ${
         isDark ? 'text-gray-100' : 'text-black'

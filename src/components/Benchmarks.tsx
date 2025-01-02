@@ -60,26 +60,26 @@ const BenchmarkTable = ({ data, type }: { data: BenchmarkData[], type: '2b' | '0
 
   return (
     <div className={`rounded-lg border ${
-      isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+      isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-white border-gray-200'
     } p-6 mt-6`}>
       <div className='overflow-x-auto -mx-6 px-6' style={{ WebkitOverflowScrolling: 'touch' }}>
         <div className={type === '2b' ? 'min-w-[800px]' : ''}>
           <table className='w-full'>
             <thead>
-              <tr className={`border-b-0 ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
-                <th className={`text-left py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>Release</th>
-                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>VQAv2</th>
-                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>GQA</th>
+              <tr className={`border-b-0 ${isDark ? 'border-white/20' : 'border-gray-200'}`}>
+                <th className={`text-left py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>Release</th>
+                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>VQAv2</th>
+                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>GQA</th>
                 {type === '2b' && (
                   <>
-                    <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>TextVQA</th>
-                    <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>DocVQA</th>
+                    <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>TextVQA</th>
+                    <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>DocVQA</th>
                   </>
                 )}
-                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>TallyQA</th>
-                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>POPE</th>
+                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>TallyQA</th>
+                <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>POPE</th>
                 {type === '0.5b' && (
-                  <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>Natural Bench</th>
+                  <th className={`text-right py-2 px-4 font-semibold ${isDark ? 'text-gray-100' : 'text-gray-700'}`}>Natural Bench</th>
                 )}
               </tr>
             </thead>

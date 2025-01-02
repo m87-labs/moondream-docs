@@ -45,6 +45,7 @@ const Feature: FC<FeatureProps> = ({ icon = "✨", title, children }) => {
   )
 }
 
+// Update CodePreview component colors
 const CodePreview: FC<CodePreviewProps> = ({ filename, sourceUrl, children }) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
@@ -63,7 +64,7 @@ const CodePreview: FC<CodePreviewProps> = ({ filename, sourceUrl, children }) =>
       )}>
         <div className={cn(
           "text-sm px-4 py-2 font-mono border-b",
-          isDark ? "bg-gray-900 text-gray-300 border-white/20" : "bg-[#FAFAF9] text-[#585652] border-[#F0EDEE]"
+          isDark ? "bg-[#1A1A1A] text-gray-300 border-white/20" : "bg-[#FAFAF9] text-[#585652] border-[#F0EDEE]"
         )}>
           {filename}
         </div>
@@ -173,7 +174,7 @@ const Recipe: FC<RecipeProps> & {
         <motion.div 
           className={cn(
             "mt-4 mb-4 border rounded-xl overflow-hidden transition-all duration-150",
-            isDark ? "bg-gray-900 border-white/20 hover:border-white/40" : "bg-[#FAFAF9] border-black/40 hover:border-black/90"
+            isDark ? "bg-[#1A1A1A] border-white/20 hover:border-white/40" : "bg-[#FAFAF9] border-black/40 hover:border-black/90"
           )}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}

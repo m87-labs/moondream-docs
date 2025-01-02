@@ -105,7 +105,7 @@ const ModelCard = ({ model, isDark }: { model: ModelInfo, isDark: boolean }) => 
   
   return (
     <div className={`relative rounded-lg border overflow-hidden ${
-      isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+      isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-white border-gray-200'
     }`}>
       <div className="p-6">
         <div className="flex flex-col md:flex-row justify-between items-start mb-4">
@@ -113,7 +113,7 @@ const ModelCard = ({ model, isDark }: { model: ModelInfo, isDark: boolean }) => 
             <h3 className={`text-2xl font-semibold ${isDark ? 'text-gray-100' : ''}`}>{model.name}</h3>
             <div className={isDark ? 'text-gray-300' : 'text-gray-600'}>{model.description}</div>
             <div className={`font-mono ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              Requires <span className={isDark ? 'bg-yellow-900/30' : 'bg-yellow-50'}>{model.memoryRequired}</span> runtime memory
+              Requires <span className={isDark ? 'bg-[#4363CC]/20' : 'bg-yellow-50'}>{model.memoryRequired}</span> runtime memory
             </div>
           </div>
           <div className="text-left md:text-right mt-2 md:mt-0">

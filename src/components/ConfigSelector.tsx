@@ -2,8 +2,9 @@ import { FC, useState, useEffect } from 'react';
 import { Tabs } from 'nextra/components';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import type { BundledLanguage } from 'shiki'
-import { codeToHtml } from 'shiki'
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/github-dark.css';
 
 interface ConfigOption {
 	id: string;
@@ -88,22 +89,12 @@ const configOptions: ConfigOptions = {
 // Update the CodeBlock component to use the new syntax highlighting while preserving the Node.js code
 const CodeBlock: FC<{ code: string }> = ({ code }) => {
 	const [copied, setCopied] = useState(false);
-	const [highlighted, setHighlighted] = useState('');
 	const { resolvedTheme } = useTheme();
 	const isDark = resolvedTheme === 'dark';
 
-	useEffect(() => {
-		async function highlight() {
-			const lang: BundledLanguage = code.includes('pip install') ? 'python' : 'javascript';
-			const html = await codeToHtml(code, {
-				lang,
-				theme: isDark ? 'github-dark' : 'github-light'
-			});
-			setHighlighted(html);
-		}
-
-		highlight();
-	}, [code, isDark]);
+	// Determine language based on content
+	const language = code.includes('pip install') ? 'python' : 'javascript';
+	const highlighted = hljs.highlight(code, { language }).value;
 
 	const copyToClipboard = async () => {
 		await navigator.clipboard.writeText(code);
@@ -123,12 +114,14 @@ const CodeBlock: FC<{ code: string }> = ({ code }) => {
 			>
 				{copied ? "Copied!" : "Copy"}
 			</button>
-			<div 
-				className={`font-mono text-sm ${isDark ? 'text-gray-200' : 'text-[#24292f]'}`}
-				dangerouslySetInnerHTML={{ 
-					__html: highlighted 
-				}}
-			/>
+			<pre className={`font-mono text-sm ${isDark ? 'text-gray-200' : 'text-[#24292f]'}`}>
+				<code 
+					className={`language-${language}`}
+					dangerouslySetInnerHTML={{ 
+						__html: highlighted
+					}}
+				/>
+			</pre>
 		</div>
 	);
 };
@@ -490,7 +483,7 @@ main().catch(console.error);`;
 				<GuidanceNote show={showGuidance} />
 			</div>
 			
-			<div className={`rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'} relative`}>
+			<div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-[#FAFAF9] border-black/40'} relative`}>
 				<div className="absolute inset-0 bg-grid-pattern opacity-5" />
 				<table className='w-full border-collapse relative'>
 					<thead className={`${isDark ? 'bg-gray-700' : 'bg-[#F7F7F8]'}`}>
@@ -542,7 +535,7 @@ main().catch(console.error);`;
 			<ConsoleCard show={selectedConfig.environment === 'cloud'} />
 
 			{selectedConfig.environment === 'local' && (
-				<div className={`mt-4 rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'}`}>
+				<div className={`mt-4 rounded-xl overflow-hidden border ${isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-[#FAFAF9] border-black/40'}`}>
 					<div className={`px-6 py-4 text-left font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'} md:hidden`}>
 						Modifiers
 					</div>
@@ -621,7 +614,7 @@ main().catch(console.error);`;
 			)}
 
 			<div className='mt-8'>
-				<div className={`rounded-xl overflow-hidden border ${isDark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD]'}`}>
+				<div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-[#FAFAF9] border-black/40'}`}>
 					<div className={`px-6 py-3 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-[#565872]'} border-b border-gray-200`}>Installation Script</div>
 					<div className='p-6 overflow-x-auto'>{generateScript()}</div>
 				</div>

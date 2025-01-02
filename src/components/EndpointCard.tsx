@@ -67,7 +67,7 @@ export default function EndpointCard({ icon, title, description, href }: Endpoin
         }}
         className={`group flex flex-col h-full p-6 ${
           isDark 
-            ? 'bg-[#1A1A1A] border-white/20 hover:border-white/60' 
+            ? 'bg-[#1A1A1A] border-white/20 hover:border-white/40' 
             : 'bg-[#FAFAF9] border-black/40 hover:border-black/90'
         } border rounded-lg transition-all duration-150 cursor-pointer`}
       >

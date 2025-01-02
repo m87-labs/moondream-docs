@@ -70,7 +70,7 @@ export function NotePad({ children, readingTime, preview }: NotePadProps) {
       }}
       className={cn(
         "my-4 sm:my-8 p-4 sm:p-8 rounded-xl relative transition-colors",
-        isDark ? "bg-gray-900 border-gray-800 hover:border-gray-700" : "bg-white border-gray-200 hover:border-gray-300",
+        isDark ? "bg-[#1A1A1A] border-white/20 hover:border-white/40" : "bg-white border-gray-200 hover:border-gray-300",
         "border"
       )}
     >
@@ -232,9 +232,9 @@ NotePad.Note = function Note({ type = 'info', children }: NoteProps) {
     <div className={cn(
       'p-4 rounded-lg my-4',
       {
-        'bg-blue-900/20 border-blue-800/30': type === 'info' && isDark,
+        'bg-[#4363CC]/20 border-[#4363CC]/30': type === 'info' && isDark,
         'bg-amber-900/20 border-amber-800/30': type === 'warning' && isDark,
-        'bg-gray-800/50 border-gray-700': type === 'highlight' && isDark,
+        'bg-[#1A1A1A] border-white/20': type === 'highlight' && isDark,
         'bg-blue-50 border-blue-200': type === 'info' && !isDark,
         'bg-amber-50 border-amber-200': type === 'warning' && !isDark,
         'bg-gray-50 border-gray-200': type === 'highlight' && !isDark
