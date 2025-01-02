@@ -1,6 +1,16 @@
 import { Tabs } from "nextra/components";
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/github-dark.css';
+
+// Add style override to remove hljs backgrounds
+const codeStyle = `
+  .hljs {
+    background: transparent !important;
+  }
+`;
 
 interface ModelInfo {
   name: string;
@@ -70,35 +80,81 @@ const model05bVariants: ModelInfo[] = [
   }
 ];
 
-const DownloadTabs = ({ filename }: { filename: string }) => (
-  <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
-    <Tabs.Tab>
-      <div className="rounded-md bg-gray-900 p-4">
-        <pre><code className="language-bash">wget https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/{filename}</code></pre>
-      </div>
-    </Tabs.Tab>
-    <Tabs.Tab>
-      <div className="rounded-md bg-gray-900 p-4">
-        <pre><code className="language-bash">curl -L -o {filename} https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/{filename}</code></pre>
-      </div>
-    </Tabs.Tab>
-    <Tabs.Tab>
-      <div className="rounded-md bg-gray-900 p-4">
-        <pre><code className="language-powershell">curl.exe -L -o {filename} https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/{filename}</code></pre>
-      </div>
-    </Tabs.Tab>
-    <Tabs.Tab>
-      <div className="rounded-md bg-gray-900 p-4">
-        <pre><code className="language-python">{`import requests
+
+
+const DownloadTabs = ({ filename }: { filename: string }) => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  
+  useEffect(() => {
+    hljs.highlightAll();
+  }, []);
+
+  // Generate code snippets and highlight them
+  const wgetCode = `wget https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/${filename}`;
+  const curlCode = `curl -L -o ${filename} https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/${filename}`;
+  const powershellCode = `curl.exe -L -o ${filename} https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/${filename}`;
+  const pythonCode = `import requests
 
 url = "https://huggingface.co/vikhyatk/moondream2/resolve/9dddae84d54db4ac56fe37817aeaeb502ed083e2/${filename}"
 response = requests.get(url)
 with open("${filename}", "wb") as f:
-    f.write(response.content)`}</code></pre>
+    f.write(response.content)`;
+
+  const CodeBlock = ({ code, language }: { code: string, language: string }) => {
+    const [copied, setCopied] = useState(false);
+    const highlighted = hljs.highlight(code, { language }).value;
+
+    const copyToClipboard = async () => {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+      <div className={`rounded-xl overflow-hidden border relative ${isDark ? 'bg-[#1A1A1A] border-white/20' : 'bg-[#FAFAF9] border-black/40'}`}>
+        <div className="absolute right-2 top-2">
+          <button
+            onClick={copyToClipboard}
+            className={`rounded-md px-2 py-1 text-sm ${
+              isDark 
+                ? 'bg-gray-700 hover:bg-gray-600 border-gray-600 text-gray-200' 
+                : 'bg-[#f3f4f6] hover:bg-[#e5e7eb] border-[#d0d7de] text-[#24292f]'
+            } border transition-colors`}
+          >
+            {copied ? "Copied!" : "Copy"}
+          </button>
+        </div>
+        <pre className={`p-4 font-mono ${isDark ? 'text-gray-200' : 'text-[#24292f]'}`}>
+          <code 
+            className={`language-${language}`}
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+          />
+        </pre>
       </div>
-    </Tabs.Tab>
-  </Tabs>
-);
+    );
+  };
+
+  return (
+    <>
+      <style>{codeStyle}</style>
+      <Tabs items={['Linux', 'Mac', 'Windows', 'Python']}>
+        <Tabs.Tab>
+          <CodeBlock code={wgetCode} language="bash" />
+        </Tabs.Tab>
+        <Tabs.Tab>
+          <CodeBlock code={curlCode} language="bash" />
+        </Tabs.Tab>
+        <Tabs.Tab>
+          <CodeBlock code={powershellCode} language="powershell" />
+        </Tabs.Tab>
+        <Tabs.Tab>
+          <CodeBlock code={pythonCode} language="python" />
+        </Tabs.Tab>
+      </Tabs>
+    </>
+  );
+};
 
 const ModelCard = ({ model, isDark }: { model: ModelInfo, isDark: boolean }) => {
   const filename = model.downloadUrl.split('/').pop() || '';
