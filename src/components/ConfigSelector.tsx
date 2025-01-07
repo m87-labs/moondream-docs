@@ -342,6 +342,7 @@ main().catch(console.error);`
 
 			const curlSections = {
 				setup: `# Replace \${process.env.MOONDREAM_API_KEY} with your API key from console.moondream.ai
+# /query and /caption endpoints support streaming
 `,
 
 				query: `# Replace {endpoint} with: query, caption, detect, or point
