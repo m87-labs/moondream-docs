@@ -342,7 +342,6 @@ main().catch(console.error);`
 
 			const curlSections = {
 				setup: `# Replace \${process.env.MOONDREAM_API_KEY} with your API key from console.moondream.ai
-# /query and /caption endpoints support streaming
 `,
 
 				query: `# Replace {endpoint} with: query, caption, detect, or point
@@ -351,6 +350,7 @@ curl --location 'https://api.moondream.ai/v1/{endpoint}' \\
 --header 'Content-Type: application/json' \\
 --data '{
     "image_url": "data:image/jpeg;base64,<BASE64-STRING>",
+	# /query and /caption endpoints support streaming
     "stream": false,
     # Additional parameters per endpoint:
     # query:   "question": "What is this?" # Question to ask
