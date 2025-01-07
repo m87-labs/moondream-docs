@@ -340,13 +340,35 @@ console.log("Points:", pointResult.points)`,
 main().catch(console.error);`
 			};
 
+			const curlSections = {
+				setup: `# Replace \${process.env.MOONDREAM_API_KEY} with your API key from console.moondream.ai
+`,
+
+				query: `# Replace {endpoint} with: query, caption, detect, or point
+curl --location 'https://api.moondream.ai/v1/{endpoint}' \\
+--header 'X-Moondream-Auth: \${process.env.MOONDREAM_API_KEY}' \\
+--header 'Content-Type: application/json' \\
+--data '{
+    "image_url": "data:image/jpeg;base64,<BASE64-STRING>",
+    "stream": false,
+    # Additional parameters per endpoint:
+    # query:   "question": "What is this?" # Question to ask
+    # caption: "length": "short" or "long" # Length of caption
+    # detect:  "object": "object" # Object to detect
+    # point:   "object": "object" # Object to point at
+}'`
+			};
+
 			return (
-				<Tabs items={['Python', 'Node.js']}>
+				<Tabs items={['Python', 'Node.js', 'cURL']}>
 					<Tabs.Tab>
 						<CodeBlock code={Object.values(sections).join('\n\n')} />
 					</Tabs.Tab>
 					<Tabs.Tab>
 						<CodeBlock code={Object.values(nodeSections).join('\n\n')} />
+					</Tabs.Tab>
+					<Tabs.Tab>
+						<CodeBlock code={Object.values(curlSections).join('\n\n')} />
 					</Tabs.Tab>
 				</Tabs>
 			);
