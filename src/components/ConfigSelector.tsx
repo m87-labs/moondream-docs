@@ -353,7 +353,7 @@ curl --location 'https://api.moondream.ai/v1/{endpoint}' \\
     "stream": false,
     # Additional parameters per endpoint:
     # query:   "question": "What is this?" # Question to ask
-    # caption: "length": "short" or "long" # Length of caption
+    # caption: "length": "normal" or "long" # Length of caption
     # detect:  "object": "object" # Object to detect
     # point:   "object": "object" # Object to point at
 }'`
