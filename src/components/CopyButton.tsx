@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 export function CopyButton() {
   const [copied, setCopied] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const isDark = true; // Assuming you have a way to determine if it's dark mode
 
   const copy = async () => {
     try {
@@ -31,7 +32,11 @@ export function CopyButton() {
     <button
       ref={buttonRef}
       onClick={copy}
-      className="rounded-lg bg-[#F0EDEE] text-[#585652] hover:text-[#0D0D0D] transition-colors"
+      className={`rounded-lg ${
+        isDark 
+          ? 'bg-[#1A1A1A] text-gray-300 hover:text-white' 
+          : 'bg-[#F0EDEE] text-[#585652] hover:text-[#0D0D0D]'
+      } transition-colors`}
     >
       <svg
         viewBox="0 0 24 24"
@@ -53,4 +58,4 @@ export function CopyButton() {
       </svg>
     </button>
   );
-} 
+}

@@ -37,18 +37,6 @@ const config: DocsThemeConfig = {
 			<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 			<meta property='og:title' content='Moondream Documentation' />
 			<meta property='og:description' content='Documentation for the Moondream vision-language model' />
-			<meta name='color-scheme' content='light' />
-			<script
-				dangerouslySetInnerHTML={{
-					__html: `
-						window.localStorage.setItem("theme", "light");
-						window.localStorage.setItem("theme_default", "light");
-						document.documentElement.classList.add("light");
-						document.documentElement.classList.remove("dark");
-					`,
-				}}
-				key='force-light-mode'
-			/>
 		</>
 	),
 
@@ -70,10 +58,9 @@ const config: DocsThemeConfig = {
 	},
 
 	// Theme configuration
-	darkMode: false,
+	darkMode: true,
 	nextThemes: {
-		defaultTheme: 'light',
-		forcedTheme: 'light',
+		defaultTheme: 'system', // Changed from 'light' to 'system'
 		storageKey: 'theme',
 	},
 

@@ -1,44 +1,62 @@
-import EndpointCard from '../components/EndpointCard';
-import { Callout } from 'nextra/components';
-import Head from 'next/head'
+import EndpointCard from "../components/EndpointCard";
+import { Callout } from "nextra/components";
+import Head from "next/head";
 
 <Head>
   <title>Overview - Moondream Documentation</title>
-  <meta name="description" content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning." />
+  <meta
+    name="description"
+    content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning."
+  />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="Parsa Khazaeepoul" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="canonical" href="https://docs.moondream.ai" />
-  
-  {/* Open Graph */}
-  <meta property="og:title" content="Moondream - Open Source Vision AI for Image Understanding" />
-  <meta property="og:description" content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://docs.moondream.ai" />
-  
-  
-  {/* Twitter */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Moondream - Open Source Vision AI for Image Understanding" />
-  <meta name="twitter:description" content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning." />
-  
-  
-  {/* Schema.org for Google */}
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Moondream",
-      "description": "Open source vision AI model for image understanding and analysis",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    })}
-  </script>
+
+{/* Open Graph */}
+
+{" "}
+<meta
+  property="og:title"
+  content="Moondream - Open Source Vision AI for Image Understanding"
+/>
+<meta
+  property="og:description"
+  content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning."
+/>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.moondream.ai" />
+
+{/* Twitter */}
+
+{" "}
+<meta name="twitter:card" content="summary_large_image" />
+<meta
+  name="twitter:title"
+  content="Moondream - Open Source Vision AI for Image Understanding"
+/>
+<meta name="twitter:description" content="Moondream is a lightweight, open-source vision AI model that brings powerful image understanding capabilities to your applications. Perfect for image analysis, object detection, and visual reasoning." />
+
+{/* Schema.org for Google */}
+
+{" "}
+<script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Moondream",
+    description:
+      "Open source vision AI model for image understanding and analysis",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  })}
+</script>
+
 </Head>
 
 # Build with Moondream
@@ -55,19 +73,23 @@ Want to see Moondream in action? Try our [Interactive Playground](https://moondr
     href="/discover"
   />
 
-  <EndpointCard
-    icon="🚀"
-    title="Quickstart"
-    description="Ready to start building? Follow our step-by-step guides to get up and running with Moondream in minutes, whether locally or in the cloud."
-    href="/quick-start"
-  />
+{" "}
 
-  <EndpointCard
-    icon="📚"
-    title="Recipes"
-    description="Learn best practices, optimization tips, and get inspired by real-world examples and implementations using Moondream."
-    href="/recipes"
-  />
+<EndpointCard
+  icon="🚀"
+  title="Quickstart"
+  description="Ready to start building? Follow our step-by-step guides to get up and running with Moondream in minutes, whether locally or in the cloud."
+  href="/quick-start"
+/>
+
+{" "}
+
+<EndpointCard
+  icon="📚"
+  title="Recipes"
+  description="Learn best practices, optimization tips, and get inspired by real-world examples and implementations using Moondream."
+  href="/recipes"
+/>
 
   <EndpointCard
     icon="📊"
@@ -76,4 +98,3 @@ Want to see Moondream in action? Try our [Interactive Playground](https://moondr
     href="/specifications"
   />
 </div>
-
