@@ -34,8 +34,94 @@ import Recipe from '../components/Recipe';
 
 # Recipes
 
-Explore real-world examples and implementation patterns using Moondream.
+Explore real-world examples and implementation patterns using Moondream...
 
+  <Recipe
+    title="Gaze Detection Video Processor"
+    description="A video processing application that uses Moondream 2 to detect faces and track gaze directions in videos, with real-time visualization of face detections and gaze directions using dynamic visual effects."
+    github="https://github.com/parsakhaz/gaze-detection-video"
+    tags={['Video Intelligence', 'Face Detection', 'Gaze Detection', 'Moondream2-2025-01-09']}
+  >
+    <Recipe.CodePreview 
+      filename="gaze-detection-video.py"
+      sourceUrl="https://github.com/parsakhaz/gaze-detection-video"
+    >
+      {`"""
+Gaze Detection Video Processor using Moondream 2
+------------------------------------------------
+Read the README.md file for more information on how to use this script.
+"""
+
+import torch
+import cv2
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from typing import Tuple, Optional
+from contextlib import contextmanager
+
+def initialize_model() -> Tuple[Optional[AutoModelForCausalLM], Optional[AutoTokenizer]]:
+    """Initialize the Moondream 2 model with error handling."""
+    try:
+        print("Initializing Moondream 2 model...")
+        model_id = "vikhyatk/moondream2"
+        revision = "2025-01-09"  # Specify revision for stability
+        
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            revision=revision,
+            trust_remote_code=True,
+            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+            device_map={"": device} if device == "cuda" else None
+        )
+        
+        model = model.to(device).eval()
+        tokenizer = AutoTokenizer.from_pretrained(model_id, revision=revision)
+        return model, tokenizer
+    except Exception as e:
+        print(f"Error initializing model: {e}")
+        return None, None
+
+@contextmanager
+def video_handler(input_path: str, output_path: str) -> Tuple[cv2.VideoCapture, cv2.VideoWriter]:
+    """Context manager for handling video capture and writer."""
+    cap = cv2.VideoCapture(input_path)
+    if not cap.isOpened():
+        raise ValueError(f"Could not open video file: {input_path}")
+
+    # Set up video writer with source properties
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height))
+    
+    try:
+        yield cap, out
+    finally:
+        cap.release()
+        out.release()
+        cv2.destroyAllWindows()`}
+    </Recipe.CodePreview>
+
+    <Recipe.Feature icon="👁️" title="Multi-Face Gaze Tracking">
+      Detect and track gaze directions for multiple faces simultaneously in video frames.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🎨" title="Dynamic Visualization">
+      Real-time visualization with colored bounding boxes, gradient lines for gaze direction, and gaze target points.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🎥" title="Video Processing">
+      Support for common video formats (.mp4, .avi, .mov, .mkv) with progress tracking and batch processing capabilities.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="⚡" title="GPU Acceleration">
+      Optimized for GPU processing with automatic fallback to CPU when needed.
+    </Recipe.Feature>
+
+  </Recipe>
+
+  ---
 
   <Recipe
     title="Interactive Image Analysis Demo"
