@@ -367,14 +367,14 @@ import { Callout } from 'nextra/components';
 						<thead>
 							<tr className='border-b-0 border-gray-200'>
 								<th className='text-left py-2 px-4 font-semibold text-gray-700'>Release</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>ChartQA (overall)</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA_VAL</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>DOCVQA_VAL</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>ChartQA</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>DocVQA</th>
 								<th className='text-right py-2 px-4 font-semibold text-gray-700'>RealWorldQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>Countbenchqa</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>tallyqa</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>overall pope</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>Seedbench2_Plus</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>CountBench</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
+								<th className='text-right py-2 px-4 font-semibold text-gray-700'>SeedBench2+</th>
 							</tr>
 							<tr className='border-b border-gray-200'>
 								<th className='text-left py-1 px-4'></th>
@@ -499,22 +499,28 @@ import { Callout } from 'nextra/components';
 				<h4 className='font-medium mb-2'>Benchmark Details:</h4>
 				<ul className='space-y-1 list-disc pl-4'>
 					<li>
-						<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
+						<span className='font-medium'>ChartQA</span>: Chart understanding and question answering
 					</li>
 					<li>
-						<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
+						<span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images
 					</li>
 					<li>
-						<span className='font-medium'>TextVQA</span>: Text Visual Question Answering - Reading text in images
+						<span className='font-medium'>DocVQA</span>: Document understanding and question answering
 					</li>
 					<li>
-						<span className='font-medium'>DocVQA</span>: Document Visual Question Answering - Understanding documents
+						<span className='font-medium'>RealWorldQA</span>: Question answering on real-world images
 					</li>
 					<li>
-						<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
+						<span className='font-medium'>CountBench</span>: Specialized counting questions benchmark
 					</li>
 					<li>
-						<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
+						<span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)
+					</li>
+					<li>
+						<span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)
+					</li>
+					<li>
+						<span className='font-medium'>SeedBench2+</span>: Extended vision-language understanding benchmark
 					</li>
 				</ul>
 			</div>
@@ -527,11 +533,11 @@ import { Callout } from 'nextra/components';
 					<thead>
 						<tr className='border-b-0 border-gray-200'>
 							<th className='text-left py-2 px-4 font-semibold text-gray-700'>Model</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>VQAv2</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>GQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>DocVQA</th>
 							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
 							<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>Natural Bench</th>
+							<th className='text-right py-2 px-4 font-semibold text-gray-700'>NaturalBench</th>
 						</tr>
 						<tr className='border-b border-gray-200'>
 							<th className='text-left py-1 px-4'></th>
@@ -562,19 +568,19 @@ import { Callout } from 'nextra/components';
     		<h4 className='font-medium mb-2'>Benchmark Details:</h4>
     			<ul className='space-y-1 list-disc pl-4'>
     				<li>
-    					<span className='font-medium'>VQAv2</span>: Visual Question Answering v2 dataset - General visual reasoning
+    					<span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images
     				</li>
     				<li>
-    					<span className='font-medium'>GQA</span>: Grounded Question Answering - Compositional visual reasoning
+    					<span className='font-medium'>DocVQA</span>: Document understanding and question answering
     				</li>
     				<li>
-    					<span className='font-medium'>TallyQA</span>: Counting questions (simple vs. full complexity) - Object counting
+    					<span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)
     				</li>
     				<li>
-    					<span className='font-medium'>POPE</span>: Popular Objects in Common Environment - Object presence verification (random/popular/adversarial)
+    					<span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)
     				</li>
     				<li>
-    					<span className='font-medium'>Natural Bench</span>: Evaluation on natural adversarial samples requiring diverse visio-linguistic skills like attribute binding, relationships, logic and counting
+    					<span className='font-medium'>NaturalBench</span>: Natural adversarial evaluation for visual reasoning
     				</li>
     			</ul>
     		</div>
