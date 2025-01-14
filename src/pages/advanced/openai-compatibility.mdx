@@ -1,0 +1,315 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import Head from 'next/head'
+
+# OpenAI Compatibility
+
+<Head>
+  <title>OpenAI Compatibility - Moondream Documentation</title>
+  <meta name="description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content="OpenAI Compatibility - Moondream Documentation" />
+  <meta property="og:description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://docs.moondream.ai/advanced/openai-compatibility" />
+  
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OpenAI Compatibility - Moondream Documentation" />
+  <meta name="twitter:description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  
+  {/* Schema.org for Google */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Moondream OpenAI Compatibility Guide",
+      "description": "Technical guide for using Moondream with OpenAI-compatible clients",
+      "articleSection": "Advanced Documentation",
+      "keywords": "openai, compatibility, api, integration, vision-language model"
+    })}
+  </script>
+</Head>
+
+Moondream's API is compatible with OpenAI's client libraries, allowing you to seamlessly integrate Moondream into existing OpenAI-based applications. 
+
+Under the hood, OpenAI-compatible requests are routed to Moondream's [query](/cloud/query) endpoint.
+
+## Quick Start
+
+First, install the OpenAI client library:
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```bash
+pip install openai pillow
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```bash
+npm install openai
+```
+  </Tabs.Tab>
+</Tabs>
+
+## API Configuration
+
+Configure the OpenAI client to use Moondream's API endpoint:
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```python
+from openai import OpenAI
+import base64
+
+client = OpenAI(
+    base_url="https://api.moondream.ai/v1", 
+    api_key="your-api-key"
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```typescript
+const OpenAI = require('openai');
+
+const client = new OpenAI({
+    baseURL: "https://api.moondream.ai/v1",
+    apiKey: "your-api-key"
+});
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Making API Calls
+
+Here's how to query images with both regular and streaming responses:
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```python
+# Load and encode image
+with open("path/to/image.jpg", "rb") as image_file:
+    image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+
+# Create the messages payload
+messages = [{
+    "role": "user",
+    "content": [
+        {
+            "type": "image_url",
+            "image_url": {
+                "url": f"data:image/jpeg;base64,{image_base64}"
+            },
+        },
+        {
+            "type": "text",
+            "text": "What's in this image?",
+        },
+    ],
+}]
+
+# Regular response
+response = client.chat.completions.create(
+    model="moondream-2B",
+    messages=messages
+)
+print(f"Answer: {response.choices[0].message.content}")
+
+# For streaming responses, add stream=True and handle chunks
+# response = client.chat.completions.create(
+#     model="moondream-2B",
+#     messages=messages,
+#     stream=True
+# )
+
+# print("Answer: ", end="", flush=True)
+# for chunk in response:
+#     if chunk.choices[0].delta.content:
+#         print(chunk.choices[0].delta.content, end="", flush=True)
+# print()
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```typescript
+const fs = require('fs');
+
+async function query() {
+    // Load and encode image
+    const image_base64 = fs.readFileSync("path/to/image.jpg").toString('base64');
+
+    // Create the messages payload
+    const messages = [{
+        role: "user",
+        content: [
+            {
+                type: "image_url",
+                image_url: {
+                    url: `data:image/jpeg;base64,${image_base64}`
+                }
+            },
+            {
+                type: "text",
+                text: "What's in this image?"
+            }
+        ]
+    }];
+
+    // Regular response
+    const response = await client.chat.completions.create({
+        model: "moondream-2B",
+        messages: messages
+    });
+    console.log(`Answer: ${response.choices[0].message.content}`);
+
+    // For streaming responses, add stream: true and handle chunks
+    /*
+    const stream = await client.chat.completions.create({
+        model: "moondream-2B",
+        messages: messages,
+        stream: true
+    });
+
+    process.stdout.write("Answer: ");
+    for await (const chunk of stream) {
+        if (chunk.choices[0].delta.content) {
+            process.stdout.write(chunk.choices[0].delta.content);
+        }
+    }
+    console.log();
+    */
+}
+
+query();
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Response Format
+
+<Tabs items={['Response Structure', 'Python Example', 'Node.js Example']}>
+  <Tabs.Tab>
+```typescript
+{
+  id: string;          // Format: "vqa-{uuid}"
+  object: string;      // Always "chat.completion"
+  created: number;     // Unix timestamp
+  model: string;       // Always "moondream-2B"
+  system_fingerprint: null,
+  service_tier: null,  // Python only
+  choices: [{
+    index: number;
+    message: {
+      role: string;    // "assistant"
+      content: string; // The answer to your question
+      // Python-specific fields start
+      refusal: null,
+      audio: null,
+      function_call: null,
+      tool_calls: null
+      // Python-specific fields end
+    };
+    logprobs: null,    // Python only
+    delta: null;
+    finish_reason: string; // "stop"
+  }];
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+    // Python-specific fields start
+    completion_tokens_details: null,
+    prompt_tokens_details: null
+    // Python-specific fields end
+  };
+}
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```json
+{
+  "id": "vqa-6d8a8dcb-1d1c-459f-bbd1-f117e505bc33",
+  "object": "chat.completion",
+  "created": 1736896310,
+  "model": "moondream-2B",
+  "service_tier": null,
+  "system_fingerprint": null,
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "content": " The image depicts a serene park scene with a long, narrow, tree-lined path that stretches through the center of the park. The path is surrounded by lush green grass and trees, creating a tranquil atmosphere. The trees are adorned with leaves in various shades of green and orange, indicating that it might be autumn. The park is also home to a house visible in the background, adding to the peaceful ambiance of the scene.",
+        "refusal": null,
+        "role": "assistant",
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null
+      },
+      "delta": null
+    }
+  ],
+  "usage": {
+    "completion_tokens": 74,
+    "prompt_tokens": 4,
+    "total_tokens": 78,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  }
+}
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```json
+{
+  "id": "vqa-d94db3b9-60c7-43da-ad39-f468edd3d2b9",
+  "object": "chat.completion",
+  "created": 1736895960,
+  "model": "moondream-2B",
+  "system_fingerprint": null,
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": " The image depicts a serene park scene with a long, narrow, tree-lined path that stretches through the center of the park. The path is surrounded by lush green grass and trees, creating a tranquil atmosphere. The trees are adorned with leaves in various shades of green and orange, indicating that it might be autumn. The park is also home to a house visible in the background, adding to the peaceful ambiance of the scene."
+      },
+      "delta": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 4,
+    "completion_tokens": 74,
+    "total_tokens": 78
+  }
+}
+```
+  </Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+  Usage statistics are only available for non-streaming responses.
+</Callout>
+
+## Error Handling
+
+The API uses standard HTTP status codes and returns errors in the OpenAI format:
+
+```typescript
+{
+  error: {
+    message: string;
+    type: string;
+    code: string;
+    param?: string;
+  }
+}
+```
+
+Common error codes:
+- `401`: Invalid API key
+- `429`: Rate limit exceeded
+- `500`: Internal server error

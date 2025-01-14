@@ -42,7 +42,7 @@ Ask questions about images and get natural language answers.
 
 First, install the package:
 
-<Tabs items={['Python', 'Node.js', 'Python (OpenAI)', 'Node.js (OpenAI)']}>
+<Tabs items={['Python', 'Node.js']}>
   <Tabs.Tab>
 ~~~bash
 pip install moondream pillow
@@ -53,21 +53,11 @@ pip install moondream pillow
 npm install moondream
 ~~~
   </Tabs.Tab>
-  <Tabs.Tab>
-~~~bash
-pip install openai pillow
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~bash
-npm install openai
-~~~
-  </Tabs.Tab>
 </Tabs>
 
 Place an image file in your working directory, then:
 
-<Tabs items={['Python', 'Node.js', 'Python OpenAI Compatible', 'Node.js OpenAI Compatible', 'cURL']}>
+<Tabs items={['Python', 'Node.js', 'cURL']}>
   <Tabs.Tab>
 ~~~python
 import moondream as md
@@ -117,151 +107,6 @@ main();
 ~~~
   </Tabs.Tab>
   <Tabs.Tab>
-~~~python
-from openai import OpenAI
-import base64
-
-# Load and encode image
-image_path = "path/to/image.jpg"
-with open(image_path, "rb") as image_file:
-    image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
-
-client = OpenAI(
-    base_url="https://api.moondream.ai/v1", 
-    api_key="your-api-key"
-)
-
-# For non-streaming response:
-response = client.chat.completions.create(
-    model="moondream-2B",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{image_base64}"
-                    },
-                },
-                {
-                    "type": "text",
-                    "text": "What's in this image?",
-                },
-            ],
-        }
-    ],
-    # stream=True  # Uncomment for streaming response
-)
-
-# For non-streaming response:
-print(f"ID: {response.id}")
-print(f"Created: {response.created}")
-print(f"Model: {response.model}")
-print(f"Answer: {response.choices[0].message.content}")
-print(f"Usage - Prompt tokens: {response.usage.prompt_tokens}")
-print(f"Usage - Completion tokens: {response.usage.completion_tokens}")
-print(f"Usage - Total tokens: {response.usage.total_tokens}")
-
-# For streaming response:
-"""
-# Get first chunk to access metadata
-first_chunk = next(response)
-print(f"ID: {first_chunk.id}")
-print(f"Created: {first_chunk.created}")
-print(f"Model: {first_chunk.model}")
-
-print("Answer: ", end="", flush=True)
-print(first_chunk.choices[0].delta.content or "", end="", flush=True)
-for chunk in response:
-    if chunk.choices[0].delta.content is not None:
-        print(chunk.choices[0].delta.content, end="", flush=True)
-print()
-
-# Note: Usage statistics are not available in streaming mode
-"""
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
-~~~typescript
-const OpenAI = require('openai');
-const fs = require('fs');
-
-// Load and encode image
-const image_path = "path/to/image.jpg";
-const image_base64 = fs.readFileSync(image_path).toString('base64');
-
-const client = new OpenAI({
-    baseURL: "https://api.moondream.ai/v1",
-    apiKey: "your-api-key"
-});
-
-async function main() {
-    try {
-        // For non-streaming response:
-        const response = await client.chat.completions.create({
-            model: "moondream-2B",
-            messages: [
-                {
-                    role: "user",
-                    content: [
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: `data:image/jpeg;base64,${image_base64}`
-                            }
-                        },
-                        {
-                            type: "text",
-                            text: "What's in this image?"
-                        }
-                    ]
-                }
-            ],
-            // stream: true  // Uncomment for streaming response
-        });
-
-        // For non-streaming response:
-        console.log(`ID: ${response.id}`);
-        console.log(`Created: ${response.created}`);
-        console.log(`Model: ${response.model}`);
-        console.log(`Answer: ${response.choices[0].message.content}`);
-        console.log(`Usage - Prompt tokens: ${response.usage.prompt_tokens}`);
-        console.log(`Usage - Completion tokens: ${response.usage.completion_tokens}`);
-        console.log(`Usage - Total tokens: ${response.usage.total_tokens}`);
-
-        // For streaming response:
-        /*
-        let isFirst = true;
-        process.stdout.write("Answer: ");
-
-        for await (const chunk of response) {
-            if (isFirst) {
-                console.log(`ID: ${chunk.id}`);
-                console.log(`Created: ${chunk.created}`);
-                console.log(`Model: ${chunk.model}`);
-                process.stdout.write("Answer: ");
-                isFirst = false;
-            }
-            
-            if (chunk.choices[0].delta.content) {
-                process.stdout.write(chunk.choices[0].delta.content);
-            }
-        }
-        console.log();
-
-        // Note: Usage statistics are not available in streaming mode
-        */
-
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
-
-main();
-~~~
-  </Tabs.Tab>
-  <Tabs.Tab>
 ~~~bash
 curl --location 'https://api.moondream.ai/v1/query' \
 --header 'X-Moondream-Auth: <API KEY FROM console.moondream.ai>' \
@@ -277,4 +122,8 @@ curl --location 'https://api.moondream.ai/v1/query' \
 
 <Callout type="info">
   The client libraries provide the simplest integration for working with the Moondream API.
+</Callout>
+
+<Callout>
+  Looking to use Moondream with OpenAI's client libraries? Check out our [OpenAI Compatibility Guide](/advanced/openai-compatibility).
 </Callout>

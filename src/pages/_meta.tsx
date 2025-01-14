@@ -27,6 +27,10 @@ const meta: Meta = {
     title: 'Specifications',
     description: 'Explore detailed technical specifications, memory requirements, and performance benchmarks'
   },
+  advanced: {
+    title: 'Advanced',
+    description: 'Advanced integration guides, OpenAI compatibility, and expert features'
+  },
   cloud: {
     title: 'Cloud',
     description: 'Access Moondream\'s capabilities through our cloud API with ready-to-use endpoints',
