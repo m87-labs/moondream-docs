@@ -1,9 +1,10 @@
 import type { Meta } from 'nextra'
 
 const meta: Meta = {
-  'openai-compatibility': {
-    title: 'OpenAI Compatibility',
-    description: 'Learn how to use Moondream with OpenAI-compatible clients'
+  'prompting-guide': {
+    title: 'Prompting Guide',
+    description: 'Techniques for crafting effective prompts and getting structured responses',
+    display: 'hidden'
   }
 }
 

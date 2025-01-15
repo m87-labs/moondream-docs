@@ -1,0 +1,228 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import { Steps } from '../components/Steps.tsx'
+import Head from 'next/head'
+
+# OpenAI Compatibility
+
+<Head>
+  <title>OpenAI Compatibility - Moondream Documentation</title>
+  <meta name="description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content="OpenAI Compatibility - Moondream Documentation" />
+  <meta property="og:description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://docs.moondream.ai/advanced/openai-compatibility" />
+  
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OpenAI Compatibility - Moondream Documentation" />
+  <meta name="twitter:description" content="Learn how to use Moondream's API with OpenAI-compatible clients. Complete guide with Python and Node.js examples for seamless integration." />
+  
+  {/* Schema.org for Google */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Moondream OpenAI Compatibility Guide",
+      "description": "Technical guide for using Moondream with OpenAI-compatible clients",
+      "articleSection": "Advanced Documentation",
+      "keywords": "openai, compatibility, api, integration, vision-language model"
+    })}
+  </script>
+</Head>
+
+
+If you're already using OpenAI's Vision API in your applications, you can easily switch to Moondream. Our API is designed to be compatible with OpenAI's client libraries, which means you can keep using the same code structure, just change a few configuration settings.
+
+<div className="pt-8">
+<div className="mb-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
+  <h3 className="text-lg font-semibold mb-2">What is Moondream?</h3>
+  <div className="text-gray-700 mb-3">
+    Moondream-2B is a lightweight vision-language model optimized for visual understanding tasks. It excels at answering questions about images, describing scenes, identifying objects and attributes, and basic text recognition. While more compact than larger models, it provides efficient and accurate responses for straightforward visual question-answering.
+  </div>
+  <div className="text-gray-700">
+    As a 2B parameter model, it has some limitations to keep in mind: descriptions may be less detailed than larger models, complex multi-step reasoning can be challenging, and it may struggle with edge cases like very low quality images or advanced spatial understanding. For best results, focus on direct questions about image content rather than complex reasoning chains.
+  </div>
+</div>
+</div>
+
+The transition to Moondream takes less than 5 minutes.
+
+<div className="mt-8 border rounded-lg overflow-hidden">
+  <div className="bg-gray-50 pl-6 pt-6 pb-4 text-lg font-semibold">Changes Needed</div>
+  <div className="pl-6 pb-6 pr-6 space-y-3">
+    <div className="flex items-start gap-2">
+      <div className="flex-none w-5 h-5 rounded-full bg-green-100 text-green-700 flex items-center justify-center mt-0.5">✓</div>
+      <div>
+        <div className="font-medium">Update Base URL</div>
+        <div className="text-gray-600 text-sm">Change <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">https://api.openai.com/v1</code> to <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">https://api.moondream.ai/v1</code></div>
+      </div>
+    </div>
+    <div className="flex items-start gap-2">
+      <div className="flex-none w-5 h-5 rounded-full bg-green-100 text-green-700 flex items-center justify-center mt-0.5">✓</div>
+      <div>
+        <div className="font-medium">Replace API Key</div>
+        <div className="text-gray-600 text-sm">Use your Moondream API key instead of OpenAI's. Get your key from <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">https://console.moondream.ai/</code></div>
+      </div>
+    </div>
+    <div className="flex items-start gap-2">
+      <div className="flex-none w-5 h-5 rounded-full bg-green-100 text-green-700 flex items-center justify-center mt-0.5">✓</div>
+      <div>
+        <div className="font-medium">Update Model Name</div>
+        <div className="text-gray-600 text-sm">Use <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">moondream-2B</code> instead of <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">gpt-4-vision-preview</code></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```diff
+from openai import OpenAI
+import base64
+
+client = OpenAI(
+-     base_url="https://api.openai.com/v1",
++     base_url="https://api.moondream.ai/v1",
+-    api_key="your-openai-key"
++    api_key="your-moondream-key"
+)
+
+response = client.chat.completions.create(
+-    model="gpt-4o",
++    model="moondream-2B",
+    messages=[...]
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```diff
+const OpenAI = require('openai');
+
+const client = new OpenAI({
+-    baseURL: "https://api.openai.com/v1",
++    baseURL: "https://api.moondream.ai/v1",
+-    apiKey: "your-openai-key"
++    apiKey: "your-moondream-key"
+});
+
+const response = await client.chat.completions.create({
+-    model="gpt-4o",
++    model="moondream-2B",
+    messages: [...]
+});
+```
+  </Tabs.Tab>
+</Tabs>
+
+<Callout>
+  If you get stuck, our [Discord community](https://discord.com/invite/tRUdpjDQfH) is here to help.
+</Callout>
+
+<Callout type="warning">
+  Keep your API key secure and never expose it in client-side code. By default, your account gets 60 requests per minute and 5,000 requests per day. [Contact us](mailto:contact@m87.ai) to increase your limits.
+</Callout>
+
+## Working with Local Images
+
+When you want to analyze an image from your computer, you need to convert it into a format that can be sent over the internet. This is where Base64 encoding comes in - it's a way to represent binary data as a string of text.
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```python
+import base64
+
+# Convert image to base64 string
+with open("image.jpg", "rb") as f:
+    base64_image = base64.b64encode(f.read()).decode('utf-8')
+
+# Use in API request
+response = client.chat.completions.create(
+    model="moondream-2B",
+    messages=[{
+        "role": "user",
+        "content": [
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}
+            },
+            {"type": "text", "text": "Describe this image"}
+        ]
+    }]
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```javascript
+const fs = require('fs');
+
+// Convert image to base64 string
+const base64_image = fs.readFileSync('image.jpg', {encoding: 'base64'});
+
+// Use in API request
+const response = await client.chat.completions.create({
+    model: "moondream-2B",
+    messages: [{
+        role: "user",
+        content: [
+            {
+                type: "image_url",
+                image_url: {url: `data:image/jpeg;base64,${base64_image}`}
+            },
+            {type: "text", text: "Describe this image"}
+        ]
+    }]
+});
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Using Streaming Responses
+
+Streaming lets you receive the model's response word by word, creating a more interactive experience.
+
+<Tabs items={['Python', 'Node.js']}>
+  <Tabs.Tab>
+```python
+# Enable streaming
+response = client.chat.completions.create(
+    model="moondream-2B",
+    messages=[...],
+    stream=True  # Get word-by-word responses
+)
+
+# Process the stream
+for chunk in response:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="", flush=True)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```javascript
+// Enable streaming
+const stream = await client.chat.completions.create({
+    model: "moondream-2B",
+    messages=[...],
+    stream: true  // Get word-by-word responses
+});
+
+// Process the stream
+for await (const chunk of stream) {
+    if (chunk.choices[0].delta.content) {
+        process.stdout.write(chunk.choices[0].delta.content);
+    }
+}
+```
+  </Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+  Usage statistics are only available for non-streaming responses.
+</Callout>
+
+## Error Handling
+
+Since we follow OpenAI's error format, you can use the same error handling code you already have. For detailed information about error types and handling strategies, refer to [OpenAI's error documentation](https://platform.openai.com/docs/guides/error-codes). If you're already handling OpenAI API errors, no changes are needed for Moondream.

@@ -13,11 +13,6 @@ const meta: Meta = {
       typesetting: 'article'
     }
   },
-  'getting-started': {
-    title: 'Getting Started',
-    description: 'Quick guide to getting started with Moondream Cloud APIs, including Node.js library, authentication setup and basic usage examples',
-    type: 'article'
-  },
   'api-reference': {
     title: 'API Reference', 
     description: 'Detailed API reference for Moondream Cloud APIs and Node.js client library, including request and response formats',

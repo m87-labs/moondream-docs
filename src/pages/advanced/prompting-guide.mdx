@@ -1,0 +1,153 @@
+import { Tabs } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import Head from 'next/head'
+
+# Prompting Guide
+
+<Head>
+  <title>Prompting Guide - Moondream Documentation</title>
+  <meta name="description" content="Learn advanced prompting techniques for Moondream to get better, more structured responses while working within memory constraints." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content="Prompting Guide - Moondream Documentation" />
+  <meta property="og:description" content="Advanced prompting techniques for Moondream vision model" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://docs.moondream.ai/advanced/prompting-guide" />
+</Head>
+
+This guide covers advanced prompting techniques to get the best results from Moondream while working within memory constraints.
+
+## Core Principles
+
+1. **Use Plural Nouns**: When asking about multiple objects, use plural nouns for better accuracy
+   ```diff
+   - "What is the object in this image?"
+   + "What are the objects in this image?"
+   ```
+
+2. **Structured Output**: Request specific output formats to get more organized responses
+   ```diff
+   - "Describe this image"
+   + "Provide two parts: 1. A brief caption 2. A comma-separated list of objects"
+   ```
+
+## Memory-Efficient Prompting
+
+<Callout type="warning">
+  Moondream operates in a memory-constrained environment. Each word in your prompt and the response counts towards token limits.
+</Callout>
+
+### Optimizing Token Usage
+
+1. **Split Complex Queries**: Break down complex queries into simpler ones
+   ```diff
+   - "Give me a detailed description of the image, list all objects, and analyze the lighting"
+   + Query 1: "Give me a brief description of this image"
+   + Query 2: "List the main objects visible in this image"
+   ```
+
+2. **Use Semicolons for Multiple Outputs**
+   ```python
+   # Example prompt
+   "Provide two concise answers separated by a semicolon: 1. A short caption describing this image; 2. A detailed comma-separated list of unique objects visible in the image, no general terms."
+   
+   # Example response
+   "A Japan Airlines Boeing 747-400 with a red tail and blue and white logo; luggage carts, baggage trolleys, and a white van."
+   ```
+
+### Structured JSON Output
+
+For programmatic use, request JSON-formatted responses:
+
+```python
+# Example prompt
+"Give me a brief description of this image, and a detailed comma-separated list of unique objects visible in this image, no general terms. Output JSON with keys 'description' (string) and 'tags' (comma-separated string)."
+
+# Example response
+{
+  "description": "Two Japan Air Boeing 747-400 aircraft are parked at an airport gate.",
+  "tags": "airport, airplane, terminal, building, vehicle, luggage, ground crew"
+}
+```
+
+## Best Practices
+
+1. **Be Specific**: Request exactly what you need
+   ```diff
+   - "What do you see?"
+   + "List the visible objects in this image, separated by commas"
+   ```
+
+2. **Avoid Complex Instructions**: Keep prompts simple and direct
+   ```diff
+   - "Analyze this image in detail, considering the composition, lighting, objects present, and potential symbolism while also noting any interesting patterns"
+   + "List the main objects and their colors in this image"
+   ```
+
+3. **Use the `.encode_image()` Method**: For multiple queries on the same image
+   ```python
+   # Encode once, query multiple times
+   encoded_image = model.encode_image(image)  # Caches preprocessing
+   result1 = model.query(encoded_image, "What objects are visible?")
+   result2 = model.query(encoded_image, "Describe the colors")
+   ```
+
+## Common Patterns
+
+### Object Detection
+```python
+"List all unique objects visible in this image as a comma-separated list, no general terms."
+```
+
+### Scene Description
+```python
+"Provide a brief, one-sentence description of this scene."
+```
+
+### Detailed Analysis
+```python
+"Provide two parts: 1. A brief overview of the scene; 2. A detailed list of visible objects with their colors and positions."
+```
+
+<Callout>
+  Remember that Moondream is optimized for concise, focused queries. If you need complex analysis, break it down into multiple simple queries.
+</Callout>
+
+## Examples
+
+<Tabs items={['Basic Query', 'Structured Output', 'Multiple Queries']}>
+  <Tabs.Tab>
+```python
+# Simple object detection
+response = model.query(image, "What objects are visible in this image?")
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python
+# JSON structured output
+response = model.query(image, """
+Give me a brief description and object list. 
+Output as JSON with keys 'description' and 'objects'.
+""")
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```python
+# Multiple efficient queries
+encoded = model.encode_image(image)
+objects = model.query(encoded, "List visible objects")
+colors = model.query(encoded, "Describe main colors")
+```
+  </Tabs.Tab>
+</Tabs>
+
+## Troubleshooting
+
+If you're getting unexpected results:
+
+1. **Simplify Your Prompt**: Break down complex queries
+2. **Be More Specific**: Use clear, direct language
+3. **Check Token Usage**: Monitor response lengths
+4. **Use Structured Formats**: Request specific output formats
+5. **Cache Encoded Images**: Use `.encode_image()` for multiple queries 

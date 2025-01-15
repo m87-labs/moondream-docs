@@ -27,9 +27,14 @@ const meta: Meta = {
     title: 'Specifications',
     description: 'Explore detailed technical specifications, memory requirements, and performance benchmarks'
   },
+  'openai-compatibility': {
+    title: 'OpenAI Compatibility',
+    description: 'Learn how to use Moondream with OpenAI-compatible clients. Moondream\'s Query endpoint is compatible with OpenAI\'s client libraries.'
+  },
   advanced: {
     title: 'Advanced',
-    description: 'Advanced integration guides, OpenAI compatibility, and expert features'
+    description: 'Advanced integration guides, OpenAI compatibility, and expert features',
+    display: 'hidden'
   },
   cloud: {
     title: 'Cloud',
