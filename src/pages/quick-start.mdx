@@ -51,9 +51,21 @@ import { Callout } from 'nextra/components';
 </Head>
 
 <Callout type="warning">
-  <Callout type="info" emoji="🚀">
+ <Callout type="info" emoji="🚀">
     The latest model release (moondream2-2025-01-09) is currently only available via [Hugging Face](https://huggingface.co/vikhyatk/moondream2) and can be used with the Hugging Face Transformers library. We are actively working on integrating it into our client libraries.
   </Callout>
+
+  ## Installing Pyvips (required for local hf installation)
+
+  For Linux/Mac users, simply run:
+  ```bash
+  pip install pyvips-binary pyvips
+  ```
+
+  For Windows users:
+  1. Download 'vips-dev-w64-all-8.16.0.zip' (64-bit) or 'vips-dev-w32-all-8.16.0.zip' (32-bit) from [libvips Windows Releases](https://github.com/libvips/build-win64-mxe/releases)
+  2. Extract and copy DLLs from vips-dev-8.16\bin to your project root directory (easier) or System32 (requires admin privileges)
+  3. If you choose to add the bin directory to your system PATH, you will need to restart your terminal session
 
   ## Using Latest Moondream2 via Hugging Face
 
