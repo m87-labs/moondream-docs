@@ -44,6 +44,11 @@ const meta: Meta = {
   '---': {
     type: 'separator'
   },
+  console_link: {
+    title: '→ Console (Get a API Key)',
+    href: 'https://console.moondream.ai',
+    newWindow: true
+  },
   playground_link: {
     title: '→ Interactive Playground',
     href: 'https://moondream.ai/playground',
