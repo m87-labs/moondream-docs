@@ -36,6 +36,82 @@ import Recipe from '../components/Recipe';
 
 Explore real-world examples and implementation patterns using Moondream...
 
+
+  <Recipe
+    title="Promptable Video Redaction"
+    description="A tool that uses Moondream 2B to detect and redact objects from videos with multiple visualization styles, including censoring, bounding boxes, and hitmarkers."
+    github="https://github.com/vikhyat/moondream/blob/main/recipes/promptable-video-redaction"
+    tags={['Video Processing', 'Object Detection', 'Redaction', 'Moondream2']}
+  >
+    <Recipe.CodePreview 
+
+      filename="promptable-video-redaction.py"
+      sourceUrl="https://github.com/vikhyat/moondream/blob/main/recipes/promptable-video-redaction"
+    >
+
+      {`import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import cv2
+import numpy as np
+from PIL import Image
+import argparse
+
+def process_video(input_path, detect_prompt, box_style='censor', grid_size=(1,1)):
+    """Process video with Moondream2 for object detection and redaction."""
+    # Initialize Moondream model
+    model_id = "vikhyatk/moondream2"
+    model = AutoModelForCausalLM.from_pretrained(
+        model_id,
+        torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+        device_map="auto"
+    )
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    
+    # Open video
+    cap = cv2.VideoCapture(input_path)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    
+    # Process frames
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+            
+        # Convert frame to PIL Image for Moondream
+        pil_image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        
+        # Process with grid-based detection if enabled
+        for row in range(grid_size[0]):
+            for col in range(grid_size[1]):
+                # Process region and apply visualization
+                process_region(frame, pil_image, model, tokenizer, 
+                             detect_prompt, box_style, row, col, grid_size)
+                
+    cap.release()`}
+    </Recipe.CodePreview>
+
+    <Recipe.Feature icon="🎥" title="Multiple Visualization Styles">
+      Choose between censoring (black boxes), traditional bounding boxes, or Call of Duty style hitmarkers for detected objects.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🔍" title="Grid-based Detection">
+      Split frames into customizable grids for improved detection accuracy on complex scenes.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="💬" title="Natural Language Detection">
+      Specify objects to detect using natural language descriptions, leveraging Moondream's vision-language capabilities.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🌐" title="Web Interface">
+      User-friendly web interface built with Gradio for easy video processing and configuration.
+    </Recipe.Feature>
+
+  </Recipe>
+
+---
+
   <Recipe
     title="Gaze Detection Video Processor"
     description="A video processing application that uses Moondream 2 to detect faces and track gaze directions in videos, with real-time visualization of face detections and gaze directions using dynamic visual effects."
@@ -223,3 +299,5 @@ print(answer["answer"])`}
     </Recipe.Feature>
 
   </Recipe>
+
+  ---
