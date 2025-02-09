@@ -1,0 +1,132 @@
+import { Steps } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import CodeBlock from '../../components/CodeBlock'
+import FeatureCard from '../../components/FeatureCard'
+import FaqDropdown from '../../components/FaqDropdown'
+
+# Using Moondream with Transformers
+Use this guide to run the latest model with transformers from [Hugging Face](https://huggingface.co/vikhyatk/moondream2).
+
+
+<FaqDropdown question="Dependencies">
+
+First, install the core dependencies:
+```bash
+pip install transformers torch pillow einops
+```
+<FaqDropdown question="Linux/Mac Installation">
+Install pyvips using pip:
+```bash
+pip install pyvips-binary pyvips
+```
+
+</FaqDropdown>
+
+<FaqDropdown question="Windows Installation">
+1. Download the appropriate package:
+   - [vips-dev-w64-all-8.16.0.zip](https://github.com/libvips/build-win64-mxe/releases) (64-bit)
+   - [vips-dev-w32-all-8.16.0.zip](https://github.com/libvips/build-win64-mxe/releases) (32-bit)
+2. Extract and copy DLLs from 'vips-dev-8.16\bin' to either:
+   - Your project root directory (easier)
+   - System32 (requires admin privileges)
+3. Optional: Add bin directory to system PATH (requires terminal restart)
+
+</FaqDropdown>
+</FaqDropdown>
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from PIL import Image
+
+# Initialize the model
+model = AutoModelForCausalLM.from_pretrained(
+    "vikhyatk/moondream2",
+    revision="2025-01-09",
+    trust_remote_code=True,
+    # Uncomment for GPU acceleration & pip install accelerate
+    # device_map={"": "cuda"}
+)
+
+# Load your image
+image = Image.open("<PATH_TO_YOUR_IMAGE>")
+
+# 1. Image Captioning
+print("Short caption:")
+print(model.caption(image, length="short")["caption"])
+
+print("\nDetailed caption:")
+for t in model.caption(image, length="normal", stream=True)["caption"]:
+    print(t, end="", flush=True)
+
+# 2. Visual Question Answering
+print("\nAsking questions about the image:")
+print(model.query(image, "How many people are in the image?")["answer"])
+
+# 3. Object Detection
+print("\nDetecting objects:")
+objects = model.detect(image, "face")["objects"]
+print(f"Found {len(objects)} face(s)")
+
+# 4. Visual Pointing
+print("\nLocating objects:")
+points = model.point(image, "person")["points"]
+print(f"Found {len(points)} person(s)")
+```
+
+## Additional Features
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+  <FeatureCard
+    icon="🎯"
+    title="Direct Integration"
+    description="Use Moondream directly with Hugging Face Transformers library for maximum flexibility"
+    features={[
+      "Import and use like any HF model",
+      "Full control over model parameters",
+      "Native PyTorch integration",
+      "Support for custom pipelines"
+    ]}
+  />
+  <FeatureCard
+    icon="⚡"
+    title="GPU Acceleration"
+    description="Optional CUDA support for faster inference on GPU devices"
+    features={[
+      "Enable GPU acceleration with one line",
+      "Automatic mixed precision support",
+      "Batch processing for efficiency",
+      "Memory-efficient inference"
+    ]}
+  />
+  <FeatureCard
+    icon="🔄"
+    title="Streaming Support"
+    description="Stream outputs for real-time responses in caption and detect modes"
+    features={[
+      "Real-time caption generation",
+      "Progressive object detection",
+      "Low-latency responses",
+      "Memory-efficient streaming"
+    ]}
+  />
+  <FeatureCard
+    icon="🛠️"
+    title="Full API Access"
+    description="Access to all core features: captioning, querying, detection, and pointing"
+    features={[
+      "Generate image captions",
+      "Answer visual questions",
+      "Detect objects and faces",
+      "Point to specific objects"
+    ]}
+  />
+</div>
+
+## Advanced Tips
+
+<Callout type="warning">
+- For GPU support: Install CUDA and uncomment `device_map` line
+- Supported formats: JPEG, PNG, WebP
+- Use streaming for real-time responses
+- Consider batch processing for multiple images
+</Callout> 

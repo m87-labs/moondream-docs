@@ -1,4 +1,4 @@
-import type { DocsThemeConfig } from 'nextra-theme-docs';
+import { DocsThemeConfig } from 'nextra-theme-docs';
 import Image from 'next/image';
 import { CopyButton } from './src/components/CopyButton';
 
@@ -60,7 +60,7 @@ const config: DocsThemeConfig = {
 
 	// Sidebar configuration
 	sidebar: {
-		defaultMenuCollapseLevel: 2,
+		defaultMenuCollapseLevel: 1,
 		autoCollapse: true,
 	},
 
@@ -102,9 +102,9 @@ const config: DocsThemeConfig = {
 		// @ts-expect-error - Component works but has type mismatch with nextra's expectations
 		code: ({ children, className, ...props }: { children: React.ReactNode, className?: string }) => {
 			return (
-				<div className="pt-4 px-6">
+				<div className="pt-2 px-6">
 					<div className="group relative flex items-start">
-						<pre className={`${className || ''}  break-words flex-1`} {...props}>
+						<pre className={`${className || ''} break-words flex-1`} {...props}>
 							{children}
 						</pre>
 						<div>

@@ -129,21 +129,21 @@ const CodeBlock: FC<{ code: string }> = ({ code }) => {
 };
 
 // Update the GuidanceNote component to hide on mobile
-const GuidanceNote: FC<{show: boolean}> = ({show}) => (
-	<div className={`
-		hidden md:flex absolute -top-8 left-1/2 -translate-x-1/2 
-		bg-blue-50 text-blue-600 px-4 py-2 rounded-full shadow-sm
-		border border-blue-100 text-sm font-medium
-		items-center gap-2
-		transition-all duration-500
-		${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
-	`}>
-		<svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
-		</svg>
-		Select your deployment environment
-	</div>
-);
+// const GuidanceNote: FC<{show: boolean}> = ({show}) => (
+// 	<div className={`
+// 		hidden md:flex absolute -top-8 left-1/2 -translate-x-1/2 
+// 		bg-blue-50 text-blue-600 px-4 py-2 rounded-full shadow-sm
+// 		border border-blue-100 text-sm font-medium
+// 		items-center gap-2
+// 		transition-all duration-500
+// 		${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+// 	`}>
+// 		<svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+// 			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+// 		</svg>
+// 		Select your deployment environment
+// 	</div>
+// );
 
 // Update the ConsoleCard component to use conditional rendering
 const ConsoleCard: FC<ConsoleCardProps> = ({ show }) => {
@@ -221,7 +221,7 @@ const getScriptVariables = (config: SelectedConfig): ScriptVariables => {
 
 const ConfigSelector: FC = () => {
 	// Add state for guidance
-	const [showGuidance, setShowGuidance] = useState(true);
+	// const [showGuidance, setShowGuidance] = useState(true);
 	
 	// Existing state
 	const [selectedConfig, setSelectedConfig] = useState<SelectedConfig>({
@@ -232,7 +232,7 @@ const ConfigSelector: FC = () => {
 	});
 
 	const handleSelection = (category: keyof SelectedConfig, value: string) => {
-		setShowGuidance(false);
+		// setShowGuidance(false);
 		if (category === 'environment') {
 			// Reset other options when switching environment
 			setSelectedConfig({
@@ -493,9 +493,9 @@ main().catch(console.error);`;
 
 	return (
 		<div className='w-full mt-8 relative'>
-			<div className='py-4'>
+			{/* <div className='py-4'>
 				<GuidanceNote show={showGuidance} />
-			</div>
+			</div> */}
 			
 			<div className='rounded-xl overflow-hidden border border-gray-200 bg-gradient-to-b from-white to-[#FCFCFD] relative'>
 				<div className="absolute inset-0 bg-grid-pattern opacity-5" />

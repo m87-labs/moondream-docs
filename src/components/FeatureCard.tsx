@@ -40,14 +40,20 @@ export default function FeatureCard({ icon, title, description, features, href }
         duration: 0.15,
         ease: "easeOut"
       }}
-      className={`flex flex-col p-6 bg-[#FAFAF9] border border-black/40 rounded-lg hover:border-black/90 transition-all duration-150 sm:min-h-[460px] md:min-h-[360px] ${
-        href ? 'cursor-pointer' : ''
-      }`}
+      className={`
+        flex flex-col h-full
+        p-4 md:p-8 
+        bg-[#FAFAF9] 
+        border border-black/40 
+        hover:border-black/90 
+        transition-all duration-150 
+        ${href ? 'cursor-pointer' : ''}
+      `}
     >
-      <div className="text-3xl sm:text-2xl mb-2">{icon}</div>
-      <h3 className="text-2xl sm:text-xl font-semibold mb-2 text-[#0D0D0D]">{title}</h3>
-      <p className="text-lg sm:text-base text-[#585652] mb-4">{description}</p>
-      <ul className="text-base sm:text-sm text-[#585652] list-disc list-inside space-y-2 sm:space-y-1">
+      <div className="text-3xl md:text-4xl mb-3 md:mb-4">{icon}</div>
+      <h3 className="text-xl md:text-2xl font-semibold mb-2 md:mb-3 text-[#0D0D0D]">{title}</h3>
+      <p className="text-base md:text-lg text-[#585652] mb-4">{description}</p>
+      <ul className="text-sm md:text-base text-[#585652] list-disc list-inside space-y-1.5 md:space-y-2">
         {features.map((feature, index) => (
           <li key={index}>
             <HighlightedText text={feature} />
@@ -66,4 +72,4 @@ export default function FeatureCard({ icon, title, description, features, href }
   }
 
   return Card;
-} 
+}

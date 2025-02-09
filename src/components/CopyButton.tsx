@@ -31,7 +31,7 @@ export function CopyButton() {
     <button
       ref={buttonRef}
       onClick={copy}
-      className="rounded-lg bg-[#F0EDEE] text-[#585652] hover:text-[#0D0D0D] transition-colors"
+      className="rounded-lg text-[#585652] hover:text-[#0D0D0D] transition-colors px-2"
     >
       <svg
         viewBox="0 0 24 24"

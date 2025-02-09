@@ -5,6 +5,10 @@ const meta: Meta = {
     title: 'Prompting Guide',
     description: 'Techniques for crafting effective prompts and getting structured responses',
     display: 'hidden'
+  },
+  'transformers': {
+    title: 'Transformers Integration',
+    description: 'Using Moondream with Hugging Face Transformers'
   }
 }
 

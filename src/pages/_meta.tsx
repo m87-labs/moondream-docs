@@ -34,7 +34,7 @@ const meta: Meta = {
   advanced: {
     title: 'Advanced',
     description: 'Advanced integration guides, OpenAI compatibility, and expert features',
-    display: 'hidden'
+    // display: 'hidden'
   },
   cloud: {
     title: 'Cloud',
@@ -55,7 +55,7 @@ const meta: Meta = {
     newWindow: true
   },
   discord_link: {
-    title: '→ Join the Moondream Community',
+    title: '→ Join our Community',
     href: 'https://discord.com/invite/tRUdpjDQfH',
     newWindow: true
   },

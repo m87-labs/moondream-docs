@@ -50,71 +50,16 @@ import { Callout } from 'nextra/components';
   </script>
 </Head>
 
-<Callout type="warning">
- <Callout type="info" emoji="🚀">
-    The latest model release (moondream2-2025-01-09) is currently only available via [Hugging Face](https://huggingface.co/vikhyatk/moondream2) and can be used with the Hugging Face Transformers library. We are actively working on integrating it into our client libraries.
-  </Callout>
-
-  ## Installing Pyvips (required for local hf installation)
-
-  For Linux/Mac users, simply run:
-  ```bash
-  pip install pyvips-binary pyvips
-  ```
-
-  For Windows users:
-  1. Download 'vips-dev-w64-all-8.16.0.zip' (64-bit) or 'vips-dev-w32-all-8.16.0.zip' (32-bit) from [libvips Windows Releases](https://github.com/libvips/build-win64-mxe/releases)
-  2. Extract and copy DLLs from vips-dev-8.16\bin to your project root directory (easier) or System32 (requires admin privileges)
-  3. If you choose to add the bin directory to your system PATH, you will need to restart your terminal session
-
-  ## Using Latest Moondream2 via Hugging Face
-
-  The latest version of Moondream2 can be used directly with Hugging Face Transformers:
-
-  ```python
-  from transformers import AutoModelForCausalLM, AutoTokenizer
-  from PIL import Image
-
-  model = AutoModelForCausalLM.from_pretrained(
-      "vikhyatk/moondream2",
-      revision="2025-01-09",
-      trust_remote_code=True,
-      # Uncomment to run on GPU.
-      # device_map={"": "cuda"}
-  )
-
-  # Captioning
-  print("Short caption:")
-  print(model.caption(image, length="short")["caption"])
-
-  print("\nNormal caption:")
-  for t in model.caption(image, length="normal", stream=True)["caption"]:
-      # Streaming generation example, supported for caption() and detect()
-      print(t, end="", flush=True)
-
-  # Visual Querying
-  print("\nVisual query: 'How many people are in the image?'")
-  print(model.query(image, "How many people are in the image?")["answer"])
-
-  # Object Detection
-  print("\nObject detection: 'face'")
-  objects = model.detect(image, "face")["objects"]
-  print(f"Found {len(objects)} face(s)")
-
-  # Pointing
-  print("\nPointing: 'person'")
-  points = model.point(image, "person")["points"]
-  print(f"Found {len(points)} person(s)")
-  ```
-</Callout>
-
 # Quick Start
+
+To use our latest model, visit our [Transformers Integration Guide](/advanced/transformers). Updated python and node clients will be released soon.
 
 <ConfigSelector />
 
 ## Explore Our Cloud Endpoints
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+
   <EndpointCard
     icon="💬"
     title="/query"
