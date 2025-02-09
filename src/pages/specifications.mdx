@@ -360,233 +360,200 @@ import { Callout } from 'nextra/components';
 
 <Tabs items={['2B Models', '0.5B Models']}>
 	<Tabs.Tab>
-		<div className='bg-white rounded-lg border border-gray-200 p-6 mt-6'>
-			<div className='overflow-x-auto -mx-6 px-6' style={{ WebkitOverflowScrolling: 'touch' }}>
-				<div className='min-w-[800px]'>
-					<table className='w-full'>
-						<thead>
-							<tr className='border-b-0 border-gray-200'>
-								<th className='text-left py-2 px-4 font-semibold text-gray-700'>Release</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>ChartQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>DocVQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>RealWorldQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>CountBench</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
-								<th className='text-right py-2 px-4 font-semibold text-gray-700'>SeedBench2+</th>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<th className='text-left py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-								<th className='text-right py-1 px-4'></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr className='border-b border-gray-200 bg-green-50'>
-								<td className='py-3 px-4'>
-									<div className='font-medium'>2025-01-09</div>
-									<div className='text-xs text-gray-500'>latest</div>
-								</td>
-								<td className='text-right py-3 px-4 font-mono'>72.2</td>
-								<td className='text-right py-3 px-4 font-mono'>73.4</td>
-								<td className='text-right py-3 px-4 font-mono'>75.9</td>
-								<td className='text-right py-3 px-4 font-mono'>0.6</td>
-								<td className='text-right py-3 px-4 font-mono'>0.8</td>
-								<td className='text-right py-3 px-4 font-mono'>0.8</td>
-								<td className='text-right py-3 px-4 font-mono'>89.8</td>
-								<td className='text-right py-3 px-4 font-mono'>55.7</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-08-26</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>64.3</td>
-								<td className='text-right py-3 px-4 font-mono'>65.2</td>
-								<td className='text-right py-3 px-4 font-mono'>70.5</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>82.6 / 77.6</td>
-								<td className='text-right py-3 px-4 font-mono'>89.6 / 88.8 / 87.2</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-07-23</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>64.9</td>
-								<td className='text-right py-3 px-4 font-mono'>60.2</td>
-								<td className='text-right py-3 px-4 font-mono'>61.9</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>82.0 / 76.8</td>
-								<td className='text-right py-3 px-4 font-mono'>91.3 / 89.7 / 86.9</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-05-20</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>63.1</td>
-								<td className='text-right py-3 px-4 font-mono'>57.2</td>
-								<td className='text-right py-3 px-4 font-mono'>30.5</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>82.1 / 76.6</td>
-								<td className='text-right py-3 px-4 font-mono'>91.5 / 89.6 / 86.2</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-05-08</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>62.7</td>
-								<td className='text-right py-3 px-4 font-mono'>53.1</td>
-								<td className='text-right py-3 px-4 font-mono'>30.5</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>81.6 / 76.1</td>
-								<td className='text-right py-3 px-4 font-mono'>90.6 / 88.3 / 85.0</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-04-02</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>61.7</td>
-								<td className='text-right py-3 px-4 font-mono'>49.7</td>
-								<td className='text-right py-3 px-4 font-mono'>24.3</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>80.1 / 74.2</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-03-13</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>60.6</td>
-								<td className='text-right py-3 px-4 font-mono'>46.4</td>
-								<td className='text-right py-3 px-4 font-mono'>22.2</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>79.6 / 73.3</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-03-06</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>59.8</td>
-								<td className='text-right py-3 px-4 font-mono'>43.1</td>
-								<td className='text-right py-3 px-4 font-mono'>20.9</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>79.5 / 73.2</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-							<tr className='border-b border-gray-200'>
-								<td className='py-3 px-4'>2024-03-04</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono'>58.5</td>
-								<td className='text-right py-3 px-4 font-mono'>36.4</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-								<td className='text-right py-3 px-4 font-mono text-gray-400'>-</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div className='mt-4 text-sm text-gray-600'>
-				<h4 className='font-medium mb-2'>Benchmark Details:</h4>
-				<ul className='space-y-1 list-disc pl-4'>
-					<li>
-						<span className='font-medium'>ChartQA</span>: Chart understanding and question answering
-					</li>
-					<li>
-						<span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images
-					</li>
-					<li>
-						<span className='font-medium'>DocVQA</span>: Document understanding and question answering
-					</li>
-					<li>
-						<span className='font-medium'>RealWorldQA</span>: Question answering on real-world images
-					</li>
-					<li>
-						<span className='font-medium'>CountBench</span>: Specialized counting questions benchmark
-					</li>
-					<li>
-						<span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)
-					</li>
-					<li>
-						<span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)
-					</li>
-					<li>
-						<span className='font-medium'>SeedBench2+</span>: Extended vision-language understanding benchmark
-					</li>
-				</ul>
-			</div>
-		</div>
-	</Tabs.Tab>
-	<Tabs.Tab>
-		<div className='bg-white rounded-lg border border-gray-200 p-6 mt-6'>
+		<div className='bg-white border border-gray-200 mt-6'>
 			<div className='overflow-x-auto'>
-				<table className='min-w-full'>
+				<table className='w-full text-sm'>
 					<thead>
-						<tr className='border-b-0 border-gray-200'>
-							<th className='text-left py-2 px-4 font-semibold text-gray-700'>Model</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TextVQA</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>DocVQA</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>TallyQA</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>POPE</th>
-							<th className='text-right py-2 px-4 font-semibold text-gray-700'>NaturalBench</th>
-						</tr>
 						<tr className='border-b border-gray-200'>
-							<th className='text-left py-1 px-4'></th>
-							<th className='text-right py-1 px-4'></th>
-							<th className='text-right py-1 px-4'></th>
-							<th className='text-right py-1 px-4 text-xs text-gray-600'>(simple/full)</th>
-							<th className='text-right py-1 px-4 text-xs text-gray-600'>(rand/pop/adv)</th>
-							<th className='text-right py-1 px-4'></th>
+							<th className='text-left p-3 font-semibold text-gray-700'>Release</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>ChartQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>TextVQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>DocVQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>RealWorldQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>CountBench</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>TallyQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>POPE</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>SeedBench2+</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr className='border-b border-gray-200'>
-							<td className='py-3 px-4'>
-								<div className='font-medium'>Moondream 0.5B</div>
-								<div className='text-xs text-gray-500'>latest (12-04-24)</div>
+						<tr className='border-b border-gray-200 bg-green-50'>
+							<td className='p-3'>
+								<div className='font-medium'>2025-01-09</div>
+								<div className='text-xs text-gray-500'>latest</div>
 							</td>
-							<td className='text-right py-3 px-4 font-mono'>68.92</td>
-							<td className='text-right py-3 px-4 font-mono'>57.24</td>
-							<td className='text-right py-3 px-4 font-mono'>71.82 / 67.91</td>
-							<td className='text-right py-3 px-4 font-mono'>85.1 / 79.43 / 77.53</td>
-							<td className='text-right py-3 px-4 font-mono'>44.9</td>
+							<td className='text-right p-3 font-mono'>72.2</td>
+							<td className='text-right p-3 font-mono'>73.4</td>
+							<td className='text-right p-3 font-mono'>75.9</td>
+							<td className='text-right p-3 font-mono'>0.6</td>
+							<td className='text-right p-3 font-mono'>0.8</td>
+							<td className='text-right p-3 font-mono'>0.8</td>
+							<td className='text-right p-3 font-mono'>89.8</td>
+							<td className='text-right p-3 font-mono'>55.7</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-08-26</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>64.3</td>
+							<td className='text-right p-3 font-mono'>65.2</td>
+							<td className='text-right p-3 font-mono'>70.5</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>82.6 / 77.6</td>
+							<td className='text-right p-3 font-mono'>89.6 / 88.8 / 87.2</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-07-23</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>64.9</td>
+							<td className='text-right p-3 font-mono'>60.2</td>
+							<td className='text-right p-3 font-mono'>61.9</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>82.0 / 76.8</td>
+							<td className='text-right p-3 font-mono'>91.3 / 89.7 / 86.9</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-05-20</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>63.1</td>
+							<td className='text-right p-3 font-mono'>57.2</td>
+							<td className='text-right p-3 font-mono'>30.5</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>82.1 / 76.6</td>
+							<td className='text-right p-3 font-mono'>91.5 / 89.6 / 86.2</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-05-08</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>62.7</td>
+							<td className='text-right p-3 font-mono'>53.1</td>
+							<td className='text-right p-3 font-mono'>30.5</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>81.6 / 76.1</td>
+							<td className='text-right p-3 font-mono'>90.6 / 88.3 / 85.0</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-04-02</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>61.7</td>
+							<td className='text-right p-3 font-mono'>49.7</td>
+							<td className='text-right p-3 font-mono'>24.3</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>80.1 / 74.2</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-03-13</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>60.6</td>
+							<td className='text-right p-3 font-mono'>46.4</td>
+							<td className='text-right p-3 font-mono'>22.2</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>79.6 / 73.3</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-03-06</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>59.8</td>
+							<td className='text-right p-3 font-mono'>43.1</td>
+							<td className='text-right p-3 font-mono'>20.9</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>79.5 / 73.2</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+						</tr>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>2024-03-04</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono'>58.5</td>
+							<td className='text-right p-3 font-mono'>36.4</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
+							<td className='text-right p-3 font-mono text-gray-400'>-</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-
-    		<div className='mt-4 text-sm text-gray-600'>
-    		<h4 className='font-medium mb-2'>Benchmark Details:</h4>
-    			<ul className='space-y-1 list-disc pl-4'>
-    				<li>
-    					<span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images
-    				</li>
-    				<li>
-    					<span className='font-medium'>DocVQA</span>: Document understanding and question answering
-    				</li>
-    				<li>
-    					<span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)
-    				</li>
-    				<li>
-    					<span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)
-    				</li>
-    				<li>
-    					<span className='font-medium'>NaturalBench</span>: Natural adversarial evaluation for visual reasoning
-    				</li>
-    			</ul>
-    		</div>
-    	</div>
-    </Tabs.Tab>
-
+			<div className='p-4 text-sm text-gray-600 border-t border-gray-200'>
+				<h4 className='font-medium mb-2'>Benchmark Details:</h4>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+					<ul className='space-y-1'>
+						<li><span className='font-medium'>ChartQA</span>: Chart understanding and question answering</li>
+						<li><span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images</li>
+						<li><span className='font-medium'>DocVQA</span>: Document understanding and question answering</li>
+						<li><span className='font-medium'>RealWorldQA</span>: Question answering on real-world images</li>
+					</ul>
+					<ul className='space-y-1'>
+						<li><span className='font-medium'>CountBench</span>: Specialized counting questions benchmark</li>
+						<li><span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)</li>
+						<li><span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)</li>
+						<li><span className='font-medium'>SeedBench2+</span>: Extended vision-language understanding benchmark</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</Tabs.Tab>
+	<Tabs.Tab>
+		<div className='bg-white border border-gray-200 mt-6'>
+			<div className='overflow-x-auto'>
+				<table className='w-full text-sm'>
+					<thead>
+						<tr className='border-b border-gray-200'>
+							<th className='text-left p-3 font-semibold text-gray-700'>Model</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>TextVQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>DocVQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>TallyQA</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>POPE</th>
+							<th className='text-right p-3 font-semibold text-gray-700'>NaturalBench</th>
+						</tr>
+						<tr className='border-b border-gray-200 text-xs text-gray-600'>
+							<th className='text-left p-2'></th>
+							<th className='text-right p-2'></th>
+							<th className='text-right p-2'></th>
+							<th className='text-right p-2'>(simple/full)</th>
+							<th className='text-right p-2'>(rand/pop/adv)</th>
+							<th className='text-right p-2'></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr className='border-b border-gray-200'>
+							<td className='p-3'>
+								<div className='font-medium'>Moondream 0.5B</div>
+								<div className='text-xs text-gray-500'>latest (12-04-24)</div>
+							</td>
+							<td className='text-right p-3 font-mono'>68.92</td>
+							<td className='text-right p-3 font-mono'>57.24</td>
+							<td className='text-right p-3 font-mono'>71.82 / 67.91</td>
+							<td className='text-right p-3 font-mono'>85.1 / 79.43 / 77.53</td>
+							<td className='text-right p-3 font-mono'>44.9</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div className='p-4 text-sm text-gray-600 border-t border-gray-200'>
+				<h4 className='font-medium mb-2'>Benchmark Details:</h4>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+					<ul className='space-y-1'>
+						<li><span className='font-medium'>TextVQA</span>: Reading and understanding text in natural images</li>
+						<li><span className='font-medium'>DocVQA</span>: Document understanding and question answering</li>
+						<li><span className='font-medium'>TallyQA</span>: Object counting (simple vs. complex questions)</li>
+					</ul>
+					<ul className='space-y-1'>
+						<li><span className='font-medium'>POPE</span>: Object presence verification (random/popular/adversarial)</li>
+						<li><span className='font-medium'>NaturalBench</span>: Natural adversarial evaluation for visual reasoning</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</Tabs.Tab>
 </Tabs>
 
 ## Feature Support
