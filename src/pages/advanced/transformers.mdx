@@ -122,11 +122,33 @@ print(f"Found {len(points)} person(s)")
   />
 </div>
 
-## Advanced Tips
+## Tips
 
-<Callout type="warning">
-- For GPU support: Install CUDA and uncomment `device_map` line
-- Supported formats: JPEG, PNG, WebP
-- Use streaming for real-time responses
-- Consider batch processing for multiple images
-</Callout> 
+You can load multiple instances of the model on a single device if it has enough VRAM. Moondream itself uses 4-5GB of VRAM per instance. This way, you can run many inferences at the same time. To do this, initialize the model multiple times.
+
+```python
+model = AutoModelForCausalLM.from_pretrained(
+    "vikhyatk/moondream2",
+    revision="2025-01-09",
+    trust_remote_code=True,
+    device_map={"": "cuda"},
+)
+
+model2 = AutoModelForCausalLM.from_pretrained(
+    "vikhyatk/moondream2",
+    revision="2025-01-09",
+    trust_remote_code=True,
+    device_map={"": "cuda"},
+)
+```
+
+Upon each call to the model, it will automatically encode your image. If you plan to use the same image for multiple inferences, it is best to encode the image once and reuse it for each inference.
+
+```python
+image = Image.open("<PATH_TO_YOUR_IMAGE>")
+encoded_image = model.encode_image(image)
+
+# Reuse the encoded image for each inference
+print(model.caption(encoded_image, length="short")["caption"])
+print(model.query(encoded_image, "How many people are in the image?")["answer"])
+```
