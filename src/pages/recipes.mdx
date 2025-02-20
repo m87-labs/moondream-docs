@@ -36,12 +36,77 @@ import Recipe from '../components/Recipe';
 
 Explore real-world examples and implementation patterns using Moondream...
 
+  <Recipe
+    title="Promptable Content Moderation"
+    description="A powerful content moderation tool that uses Moondream 2B to detect and moderate content in videos using natural language prompts."
+    github="https://github.com/vikhyat/moondream/tree/main/recipes/promptable-content-moderation"
+    tags={['Content Moderation', 'Object Tracking', 'DeepSORT', "Moondream2-2025-01-09"]}
+  >
+    <Recipe.CodePreview 
+      filename="promptable-content-moderation.py"
+      sourceUrl="https://github.com/vikhyat/moondream/tree/main/recipes/promptable-content-moderation"
+    >
+      {`#!/usr/bin/env python3
+import cv2, os, subprocess, argparse
+from PIL import Image
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, SamModel, SamProcessor
+from tqdm import tqdm
+import numpy as np
+from datetime import datetime
+import colorsys
+import random
+from deep_sort_integration import DeepSORTTracker
+from scenedetect import detect, ContentDetector
+from functools import lru_cache
+
+# Constants
+DEFAULT_TEST_MODE_DURATION = 3  # Process only first 3 seconds in test mode by default
+
+def load_moondream():
+    """Load Moondream model and tokenizer."""
+    model = AutoModelForCausalLM.from_pretrained(
+        "vikhyatk/moondream2", trust_remote_code=True, device_map={"": "cuda"}
+    )
+    tokenizer = AutoTokenizer.from_pretrained("vikhyatk/moondream2")
+    return model, tokenizer
+
+def get_video_properties(video_path):
+    """Get basic video properties."""
+    video = cv2.VideoCapture(video_path)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+    width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    video.release()
+    return {"fps": fps, "frame_count": frame_count, "width": width, "height": height}`}
+    </Recipe.CodePreview>
+
+    <Recipe.Feature icon="🎯" title="Natural Language Prompts">
+      Define content to moderate using natural language descriptions, leveraging Moondream's vision-language capabilities for flexible content detection.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🔍" title="Intelligent Scene Detection">
+      Advanced scene detection with DeepSORT tracking and automatic tracker reset at scene boundaries for improved accuracy.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="🎨" title="Multiple Visualization Styles">
+      Choose between different redaction styles including obfuscated-pixel, bounding boxes, and hitmarkers for detected content.
+    </Recipe.Feature>
+
+    <Recipe.Feature icon="⚡" title="Optimized Processing">
+      Grid-based detection for complex scenes, frame-by-frame processing with IoU-based merging, and GPU acceleration support.
+    </Recipe.Feature>
+
+  </Recipe>
+
+  ---
 
   <Recipe
     title="Promptable Video Redaction"
     description="A tool that uses Moondream 2B to detect and redact objects from videos with multiple visualization styles, including censoring, bounding boxes, and hitmarkers."
     github="https://github.com/vikhyat/moondream/blob/main/recipes/promptable-video-redaction"
-    tags={['Video Processing', 'Object Detection', 'Redaction', 'Moondream2']}
+    tags={['Video Processing', 'Object Detection', 'Redaction', 'Moondream2-2025-01-09']}
   >
     <Recipe.CodePreview 
 
