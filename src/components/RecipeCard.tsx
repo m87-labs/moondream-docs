@@ -43,7 +43,7 @@ export default function RecipeCard({ title, description, tags, demoUrl, sourceUr
               href={demoUrl}
               className="inline-flex items-center gap-2 text-[#4363CC] hover:text-[#9FB6EB]"
             >
-              Try Demo →
+              Try now →
             </Link>
           )}
         </div>

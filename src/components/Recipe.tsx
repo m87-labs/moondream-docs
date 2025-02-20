@@ -1,4 +1,4 @@
-import { FC, ReactNode, Children, isValidElement, useState } from 'react'
+import { FC, ReactNode, Children, isValidElement, useState, cloneElement } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import RecipeCard from './RecipeCard'
 
@@ -79,14 +79,27 @@ const Recipe: FC<RecipeProps> & {
   CodePreview: typeof CodePreview;
 } = ({ title, description, github, demo, tags = [], children }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  const codePreview = Children.toArray(children).find(
-    child => isValidElement(child) && child.type === CodePreview
-  );
+  const [imageLoadFailed, setImageLoadFailed] = useState(false);
   
   const features = Children.toArray(children).filter(
     child => isValidElement(child) && child.type === Feature
   );
+
+  const codePreview = Children.toArray(children).find(
+    child => isValidElement(child) && child.type === CodePreview
+  );
+
+  const imagePreview = Children.toArray(children).find(
+    child => isValidElement(child) && child.type === 'img'
+  );
+
+  // Clone the image element with onError handler if it exists
+  const imageWithErrorHandler = imagePreview && isValidElement(imagePreview) ? 
+    cloneElement(imagePreview as React.ReactElement, {
+      onError: () => setImageLoadFailed(true)
+    }) : null;
+
+  const previewContent = imageLoadFailed ? codePreview : imageWithErrorHandler;
 
   return (
     <AnimatePresence mode="wait">
@@ -145,7 +158,7 @@ const Recipe: FC<RecipeProps> & {
                     target="_blank"
                     className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#4363CC] text-white hover:bg-[#9FB6EB] hover:scale-105 transition-all duration-200"
                   >
-                    Try Demo →
+                    Try now →
                   </a>
                 )}
               </div>
@@ -168,17 +181,18 @@ const Recipe: FC<RecipeProps> & {
           </div>
 
           <motion.div 
-            className="p-4 sm:p-8"
+            className="px-4 sm:px-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            <div>
-              <h3 className="font-medium text-[#565872] mb-4">Demo</h3>
-              {codePreview}
-            </div>
+            {previewContent && (
+              <div>
+                {previewContent}
+              </div>
+            )}
 
-            <div className="mt-8 pt-8 border-t border-gray-200">
+            <div className={`${previewContent ? 'mt-8 pt-8 border-t' : ''} border-gray-200`}>
               <h3 className="font-medium text-[#565872] mb-6">Features</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {features}

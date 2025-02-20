@@ -40,8 +40,15 @@ Explore real-world examples and implementation patterns using Moondream...
     title="Promptable Content Moderation"
     description="A powerful content moderation tool that uses Moondream 2B to detect and moderate content in videos using natural language prompts."
     github="https://github.com/vikhyat/moondream/tree/main/recipes/promptable-content-moderation"
+    demo="https://huggingface.co/spaces/moondream/content-moderation"
     tags={['Content Moderation', 'Object Tracking', 'DeepSORT', "Moondream2-2025-01-09"]}
   >
+    <img 
+      src="/recipe-images/content-moderation.jpg" 
+      alt="Content Moderation Demo" 
+      className="w-full rounded-lg shadow-lg" 
+    />
+
     <Recipe.CodePreview 
       filename="promptable-content-moderation.py"
       sourceUrl="https://github.com/vikhyat/moondream/tree/main/recipes/promptable-content-moderation"
@@ -100,20 +107,25 @@ def get_video_properties(video_path):
 
   </Recipe>
 
-  ---
+  --- 
 
   <Recipe
     title="Promptable Video Redaction"
     description="A tool that uses Moondream 2B to detect and redact objects from videos with multiple visualization styles, including censoring, bounding boxes, and hitmarkers."
     github="https://github.com/vikhyat/moondream/blob/main/recipes/promptable-video-redaction"
+    demo="https://huggingface.co/spaces/moondream/video-redaction"
     tags={['Video Processing', 'Object Detection', 'Redaction', 'Moondream2-2025-01-09']}
   >
-    <Recipe.CodePreview 
+    <img 
+      src="/recipe-images/video-redaction.jpg" 
+      alt="Video Redaction Demo" 
+      className="w-full rounded-lg shadow-lg" 
+    />
 
+    <Recipe.CodePreview 
       filename="promptable-video-redaction.py"
       sourceUrl="https://github.com/vikhyat/moondream/blob/main/recipes/promptable-video-redaction"
     >
-
       {`import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import cv2
@@ -181,8 +193,15 @@ def process_video(input_path, detect_prompt, box_style='censor', grid_size=(1,1)
     title="Gaze Detection Video Processor"
     description="A video processing application that uses Moondream 2 to detect faces and track gaze directions in videos, with real-time visualization of face detections and gaze directions using dynamic visual effects."
     github="https://github.com/vikhyat/moondream/tree/main/recipes/gaze-detection-video"
+    demo="https://huggingface.co/spaces/moondream/gaze-demo"
     tags={['Video Intelligence', 'Face Detection', 'Gaze Detection', 'Moondream2-2025-01-09']}
   >
+    <img 
+      src="/recipe-images/gaze-detection.jpg" 
+      alt="Gaze Detection Demo" 
+      className="w-full rounded-lg shadow-lg" 
+    />
+
     <Recipe.CodePreview 
       filename="gaze-detection-video.py"
       sourceUrl="https://github.com/vikhyat/moondream/tree/main/recipes/gaze-detection-video"
