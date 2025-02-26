@@ -14,6 +14,7 @@ First, install the core dependencies:
 ```bash
 pip install transformers torch pillow einops
 ```
+
 <FaqDropdown question="Linux/Mac Installation">
 Install pyvips using pip:
 ```bash
@@ -23,6 +24,18 @@ pip install pyvips-binary pyvips
 </FaqDropdown>
 
 <FaqDropdown question="Windows Installation">
+For GPU acceleration on Windows, install CUDA-enabled PyTorch:
+```bash
+pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+```
+
+Install pyvips using pip:
+```bash
+pip install pyvips-binary pyvips
+```
+
+Try to run the quickstart. If you get a pyvips related error, try the following:
+<FaqDropdown question="Troubleshooting Pyvips">
 1. Download the appropriate package:
    - [vips-dev-w64-all-8.16.0.zip](https://github.com/libvips/build-win64-mxe/releases) (64-bit)
    - [vips-dev-w32-all-8.16.0.zip](https://github.com/libvips/build-win64-mxe/releases) (32-bit)
@@ -30,10 +43,9 @@ pip install pyvips-binary pyvips
    - Your project root directory (easier)
    - System32 (requires admin privileges)
 3. Optional: Add bin directory to system PATH (requires terminal restart)
-
 </FaqDropdown>
 </FaqDropdown>
-
+</FaqDropdown>
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from PIL import Image
