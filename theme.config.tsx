@@ -34,6 +34,11 @@ const config: DocsThemeConfig = {
 	// Head tags and SEO
 	head: (
 		<>
+			<meta
+			  httpEquiv="refresh"
+      			  content="0;url=https://moondream.ai/c/docs/quickstart"
+    			/>
+
 			<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 			<meta property='og:title' content='Moondream Documentation' />
 			<meta property='og:description' content='Documentation for the Moondream vision-language model' />
